@@ -15,9 +15,9 @@ export default function RootLayout({children,}: {
   const Conv =useQuery({
     queryFn: async () => {
       const  data  = await axios.get('/api/conversation');
-      const {Conv}= data.data ;
-
-      return Conv as Conversation[]
+      const dated= data.data ;
+      console.log(dated)
+      return dated as Conversation[]
     },
     queryKey: [`conversation`]
     })
@@ -55,7 +55,7 @@ export default function RootLayout({children,}: {
 
               {Conv.data?.map((c,index)=>{
                 return (
-                  <CardSideProfile key={index}  inbox={true} name='main' subname='main' url={c.recipient?.profilePictureUrl ? c.recipient.profilePictureUrl : ""} username={c.recipient?.username ? c.recipient.username :""} />
+                  <CardSideProfile chatId={c.id} key={index}  inbox={true} name='main' subname='main' url={c.recipient?.profilePictureUrl ? c.recipient.profilePictureUrl : ""} username={c.recipient?.username ? c.recipient.username :""} />
 
                 )
               })}

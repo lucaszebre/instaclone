@@ -5,7 +5,7 @@ import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from 'next/link'
 
-const CardSideProfile = (props:{url:string,username:string,inbox?:boolean,share?:boolean,commentText?:string,CommentDate?:string,comment?:boolean,liked?:boolean,suggestion?:boolean,followYou?:boolean,name:string,subname?:string}) => {
+const CardSideProfile = (props:{url:string,chatId?:string,username:string,inbox?:boolean,share?:boolean,commentText?:string,CommentDate?:string,comment?:boolean,liked?:boolean,suggestion?:boolean,followYou?:boolean,name:string,subname?:string}) => {
     if(props.suggestion){
         return (
             <div className='flex flex-row h-[50px] justify-center'>
@@ -109,31 +109,32 @@ const CardSideProfile = (props:{url:string,username:string,inbox?:boolean,share?
     }if(props.share){
         return (
           
-           <div className='flex flex-row  w-full justify-between content-center items-center'>
-           <div className='flex flex-row gap-4 content-center items-center'>
-               <Avatar className='w-[44px] h-[44px]'>
-                        <AvatarImage src={props.url} />
-                        <AvatarFallback>{props.username}</AvatarFallback>
-               </Avatar>
-               <div className='flex flex-col justify-between h-full'>
-               <a className='font-mediun' href="">
-               {props.username}
-               </a>
-               <span className='text-[#a8a29e]'>
-               {props.subname}
-               </span>
-           </div>
-           </div>
-           
-           <div className='flex flex-col h-full text-center justify-center'>
-           <input type="radio" className='w-[24px] h-[24px]' />
-
-           </div>
-     </div>
+               <div className='flex flex-row  w-full justify-between content-center items-center'>
+               <div className='flex flex-row gap-4 content-center items-center'>
+                   <Avatar className='w-[44px] h-[44px]'>
+                            <AvatarImage src={props.url} />
+                            <AvatarFallback>{props.username}</AvatarFallback>
+                   </Avatar>
+                   <div className='flex flex-col justify-between h-full'>
+                   <a className='font-mediun' href="">
+                   {props.username}
+                   </a>
+                   <span className='text-[#a8a29e]'>
+                   {props.subname}
+                   </span>
+               </div>
+               </div>
+               
+               <div className='flex flex-col h-full text-center justify-center'>
+               <input type="radio" className='w-[24px] h-[24px]' />
+               </div>
+                    </div>
+          
         )
     }if(props.inbox){
         return (
-          
+            <Link href={`/direct/t/${props.chatId}`}>
+
            <div className='flex flex-row px-5 py-2 hover:bg-slate-100 cursor-pointer  w-full justify-between content-center items-center'>
            <div className='flex flex-row gap-4 content-center items-center'>
                <Avatar className='w-[56px] h-[56px]'>
@@ -154,6 +155,7 @@ const CardSideProfile = (props:{url:string,username:string,inbox?:boolean,share?
 
            </div>
      </div>
+      </Link>
         )
     }
     return (

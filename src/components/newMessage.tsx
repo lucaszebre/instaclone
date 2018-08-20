@@ -17,7 +17,7 @@ import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { toast } from './ui/use-toast';
 import { useRouter } from 'next/navigation';
-import { Usered } from '@/lib/validator/currentUser';
+import { Search } from '@/lib/validator/search';
 
 interface NewMessageProps {
     children: ReactNode;
@@ -39,7 +39,7 @@ interface NewMessageProps {
       queryFn: async () => {
         if (!searchTerm) return []
         const  {data}  = await axios.get(`/api/search?q=${searchTerm}`)    
-        return data as (User[]);
+        return data as (Search[]);
       },
       queryKey: ['search'],
       enabled:false
@@ -66,7 +66,7 @@ interface NewMessageProps {
     const [user,setUser]=useState("");
     const newChat = useMutation({
       mutationFn: async (id:string) => {
-      await axios.post(`/api/conversation?=${id}`)
+      await axios.post(`/api/conversation?id=${id}`)
       },
       onError: () => {
         // reset current vote
@@ -104,9 +104,9 @@ interface NewMessageProps {
         
         {data && data.length > 0  ? (
         <ul className="flex flex-col gap-5 mt-5 w-full h-full">
-          {data.map((user:User,index) => (
-            <div onClick={()=>{setUser(user.username)}} key={index}>
-                <CardSideProfile   share={true} key={index} url={user.profilePictureUrl||''} username={user.username} subname={user.fullName||''}  />
+          {data.map((user:Search,index) => (
+            <div onClick={()=>{setUser(user.id)}} key={index}>
+                <CardSideProfile  name='' share={true} key={index} url={user.profilePictureUrl||''} username={user.username} subname={user.fullName||''}  />
             </div>
           ))}
         </ul>
