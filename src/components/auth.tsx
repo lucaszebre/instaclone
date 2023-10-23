@@ -19,10 +19,11 @@ function Auth() {
       <div className="relative w-full bg-white  h-full flex-col bg-muted p-10 text-white dark:border-r  ">
        
       <div className="relative z-20 hidden items-center text-lg font-medium md:flex">
-          <Link href='/'><Image
-                    src={'/assets/logo-dark.svg' }                    alt=""
-                    width={152}
-                    height={26}
+          <Link href='/'>
+            <Image
+                    src={'logoInsta.svg' }                    alt=""
+                    width={50}
+                    height={50}
                     /></Link>
           
         </div>

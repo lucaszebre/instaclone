@@ -19,7 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Icons } from "./icons"
-import { useRegister } from "@/utils/useRegister"
+import { authregister } from "@/utils/register"
 import React, { SetStateAction, useState } from "react"
 
 
@@ -36,14 +36,21 @@ export function Register() {
 
 
       
-      function onSubmit(values: z.infer<typeof SchemaRegister>) {
+      async function onSubmit(values: z.infer<typeof SchemaRegister>) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
-    const {isLoading}=    useRegister(values.email,
-            values.password,
-            values.name,
-        )
-        setIsLoading(isLoading)
-        console.log(values)
+        try {
+            setIsLoading(true)
+            await    authregister(values.email,
+                values.password,
+                values.name,
+            )
+            setIsLoading(false)
+            console.log(values)
+        } catch (error) {
+            
+        }
+    
+       
       }
   return (
         
@@ -76,7 +83,7 @@ export function Register() {
                 <FormItem className="flex-col items-start content-start w-full">
                 <FormLabel className="text-start w-full" >Email</FormLabel>
                 <FormControl>
-                    <Input type="password" placeholder="lucas1@gmail.com" {...field} />
+                    <Input  placeholder="lucas1@gmail.com" {...field} />
                 </FormControl>
                 
                 <FormMessage />
@@ -90,7 +97,7 @@ export function Register() {
                 <FormItem className="w-full">
                 <FormLabel className="text-start items-start w-full" >Password</FormLabel>
                 <FormControl>
-                    <Input placeholder="shadcn@dd11" {...field} />
+                    <Input type="password" placeholder="shadcn@dd11" {...field} />
                 </FormControl>
                 
                 <FormMessage />
