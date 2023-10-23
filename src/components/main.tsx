@@ -1,10 +1,11 @@
 import React from 'react'
+import { Sidebar } from './sidebar'
 
 const Main = () => {
   return (
-    <div>
-      <p>login</p>
-    </div>
+    
+      <Sidebar />
+    
   )
 }
 
