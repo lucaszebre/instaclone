@@ -12,15 +12,15 @@ const CardSideProfile = (props:{suggestion?:boolean,followYou?:boolean,name:stri
                     </Avatar>
                 </div>
                 <div className='flex flex-col justify-between h-full'>
-                    <a href="">
+                    <a className='font-mediun' href="">
                     {props.name}
                     </a>
-                    <span>
+                    <span className='text-[#a8a29e]'>
                         Suggestion
                     </span>
                 </div>
                 <div className='flex flex-col h-[100%] justify-center text-center items-center'>
-                    <span>
+                    <span className='text-[#0ea5e9]'>
                         Suivre
                     </span>
                 </div>
@@ -37,15 +37,15 @@ const CardSideProfile = (props:{suggestion?:boolean,followYou?:boolean,name:stri
                     </Avatar>
                 </div>
                 <div className='flex flex-col justify-between h-full'>
-                    <a href="">
+                    <a className='font-mediun' href="">
                     {props.name}
                     </a>
-                    <span>
+                    <span className='text-[#a8a29e]'>
                         Vous suit
                     </span>
                 </div>
                 <div className='flex flex-col h-full justify-between'>
-                    <span>
+                    <span className='text-[#0ea5e9]'>
                         Suivre
                     </span>
                 </div>
@@ -60,17 +60,17 @@ const CardSideProfile = (props:{suggestion?:boolean,followYou?:boolean,name:stri
                     <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 <div className='flex flex-col justify-between h-full'>
-                <a href="">
+                <a className='font-mediun' href="">
                 {props.name}
                 </a>
-                <span>
+                <span className='text-[#a8a29e]'>
                 {props.subname}
                 </span>
             </div>
             </div>
             
-            <div className='flex flex-col h-full text-center justify-between'>
-                <span>
+            <div className='flex flex-col h-full text-center justify-center'>
+                <span className='text-[#0ea5e9]'>
                     Basculer
                 </span>
             </div>
