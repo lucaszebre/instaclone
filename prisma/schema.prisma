@@ -1,0 +1,147 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+model User {
+  id                String          @id @default(uuid())
+  username          String        @unique
+  password          String
+  email             String        @unique
+  fullName          String?
+  bio               String?
+  profilePictureUrl String?
+  isPrivate         Boolean       @default(false)
+  joinedAt          DateTime      @default(now())
+  isEmailVerified Boolean @default(false)
+  posts             Post[]
+  following         Follower[] @relation("UserFollows") // Users that this user follows
+  followers         Follower[] @relation("UserFollowed") // Users that follow this user
+  comments          Comment[]
+  likes             Like[]
+  initiatedConversations Conversation[] @relation("initiatedConversations")
+  receivedConversations  Conversation[] @relation("receivedConversations")
+  notifications     Notification[]
+  stories           Story[]
+  taggedPosts       UserTag[]
+}
+
+model session {
+  userId  String @id
+  sessionToken String
+  expires DateTime
+}
+
+model Post {
+  id                String           @id @default(uuid())
+  userId            String
+  user              User          @relation(fields: [userId], references: [id])
+  imageUrl          String
+  caption           String?
+  location          String?
+  postedAt          DateTime      @default(now())
+  comments          Comment[]
+  likes             Like[]
+  tags  PostTag[]
+  taggedUsers       UserTag[]
+}
+
+model PostTag {
+  postId String  @unique
+  post   Post @relation(fields: [postId], references: [id])
+  
+  tagId  String @unique
+  tag    Tag  @relation(fields: [tagId], references: [id])
+
+  @@id([postId, tagId])
+}
+
+model Comment {
+  id      String      @id @default(uuid())
+  postId  String
+  post    Post     @relation(fields: [postId], references: [id])
+  userId  String
+  user    User     @relation(fields: [userId], references: [id])
+  content String
+  repliedToCommentId String?
+  repliedToComment   Comment? @relation("CommentToComment", fields: [repliedToCommentId], references: [id])
+  replies            Comment[] @relation("CommentToComment")
+  commentedAt        DateTime  @default(now())
+}
+
+model Like {
+  postId String
+  post   Post @relation(fields: [postId], references: [id])
+  userId String
+  user   User @relation(fields: [userId], references: [id])
+  likedAt DateTime @default(now())
+
+  @@id([postId, userId])
+}
+
+model Follower {
+  id           String      @id @default(uuid())
+  followingId  String      // The ID of the user being followed
+  following    User     @relation("UserFollowed", fields: [followingId], references: [id])
+  followerId   String      // The ID of the user who follows
+  follower     User     @relation("UserFollows", fields: [followerId], references: [id])
+  followedAt   DateTime @default(now())
+}
+
+
+model Tag {
+  id    String      @id @default(uuid())
+  name  String   @unique
+  posts PostTag[]
+}
+
+model Conversation {
+  id       String    @id @default(uuid())
+  redisKey String
+  
+  initiatorId String
+  initiator   User   @relation("initiatedConversations", fields: [initiatorId], references: [id])
+  
+  recipientId String
+  recipient   User   @relation("receivedConversations", fields: [recipientId], references: [id])
+}
+
+
+
+model Notification {
+  id           String      @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  type         String
+  referenceId  Int
+  isRead       Boolean  @default(false)
+  createdAt    DateTime @default(now())
+}
+
+model Story {
+  id        String      @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  imageUrl  String
+  caption   String?
+  createdAt DateTime @default(now())
+  expiresAt DateTime @default(now())
+}
+
+model UserTag {
+  postId String
+  post   Post @relation(fields: [postId], references: [id])
+  userId String
+  user   User @relation(fields: [userId], references: [id])
+
+  @@id([postId, userId])
+}

@@ -22,6 +22,7 @@ import { z } from "zod"
 import { Icons } from "./icons"
 import React, { useContext, useState } from "react"
 import { DataContext } from '@/store/datacontext';
+import { signIn } from "next-auth/react";
 
 export function Login() {
   const [isLoading,setIsLoading] = useState(false)
@@ -37,9 +38,10 @@ export function Login() {
   })
 
   async function  onSubmit(values: z.infer<typeof SchemaLogin>) {
-        await login(values.email, values.password,setIsLoading);
+        setIsLoading(true)
+        await signIn("credentials", { email:values.email, password:values.password });
+        setIsLoading(false)
         setIsLoggedIn(true)
-        setIsLoading(isLoading)
 
   }
 

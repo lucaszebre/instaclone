@@ -13,6 +13,7 @@ export const SchemaLogin = z.object({
     password: string;
     username: string;
   }
+
   
   
   
@@ -32,8 +33,11 @@ password: z.string().min(8, { message: 'at least 8 characters long' })
 .regex(/[!@#$%^&*(),.?":{}|<>]/, { message: '  at least one special character' }),
 });
 
+
+
 export const AddTask = z.object({
 title: z.string().min(1,{ message: 'need a email' }),
 description: z.string().min(1,{ message: 'need a email' }),
 subtaskArray: z.array(z.string()),
 });
+

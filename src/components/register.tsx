@@ -19,13 +19,15 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Icons } from "./icons"
-import { authregister } from "@/utils/register"
 import React, { SetStateAction, useState } from "react"
+import axios from "axios"
+import { useToast } from "./ui/use-toast"
 
 
 
 export function Register() {
     const [isLoading,setIsLoading] = useState(false)
+    const {toast} = useToast()
     const form = useForm<z.infer<typeof SchemaRegister>>({
         resolver: zodResolver(SchemaRegister),
         defaultValues: {
@@ -40,10 +42,28 @@ export function Register() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         try {
             setIsLoading(true)
-            await    authregister(values.email,
-                values.password,
-                values.name,
-            )
+            try {
+                const response = await axios.post('/api/register', {
+                    email:values.email,
+                    password:values.password,
+                    name:values.name,
+                });
+                if(response.status==200){
+                    toast({
+                        title: 'Register sucessfully .',
+                        description: 'Please Login now.',
+                        
+                      })
+                }
+            } catch (error) {
+                toast({
+                    title: 'Fail to register',
+                    description: 'Please try again.',
+                    variant: 'destructive',
+                  })
+            }
+            
+            
             setIsLoading(false)
             console.log(values)
         } catch (error) {
