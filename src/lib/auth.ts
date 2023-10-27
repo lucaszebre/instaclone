@@ -7,10 +7,9 @@ export const comparePasswords = (password: string, hash: string) => {
 export const hashPassword = (password:string) => {
   return bcrypt.hash(password, 5)
 }
-
 import prisma from '@/lib/db';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { AuthOptions } from 'next-auth';
+import { AuthOptions, getServerSession } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { env } from 'process';
 import { v4 as uuidv4 } from 'uuid';
@@ -20,10 +19,7 @@ const tokenName =
     ? 'next-auth.session-token'
     : '__Secure-next-auth.session-token';
 
-export const authOptions: (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => AuthOptions = (req, res) => ({
+export const authOptions: AuthOptions =  ({
   
   jwt: {
     secret: 'YOUR_SECRET_KEY', // Replace with your secret key
@@ -100,9 +96,6 @@ export const authOptions: (
           });
         }
     
-        // Set the cookie on the server side
-        res.setHeader('Set-Cookie', `${tokenName}=${uuid}; Expires=${expireAt.toUTCString()}; Path=/; SameSite=Lax; ${env.NODE_ENV === 'production' ? 'Secure;' : ''}`);
-        console.log("Cookie set successfully");
     
         return true;  // Let NextAuth handle the rest of the sign-in process
     
@@ -110,6 +103,10 @@ export const authOptions: (
         console.error("Error in signIn callback:", error);
         return false;  // Deny access if there's an error
       }
-    }
+    },
+    
   },
 });
+
+
+export const getAuthSession = () => getServerSession(authOptions)
