@@ -9,7 +9,10 @@ import {
     DialogTitle,
     DialogTrigger,
   } from "@/components/ui/dialog"
-  
+import Gallery from './gallery'
+import { Separator } from "@/components/ui/separator"
+import ProfileStats from './profileStat'
+
 const Profile = (props:{
     username:string,
     publications:string,
@@ -17,16 +20,23 @@ const Profile = (props:{
     following:string,
     bio:string,
     subname:string}) => {
+        const photosData = [
+            { image: 'https://github.com/shadcn.png', like: '100', comment: '20', imgdescription: 'Description 1' },
+            { image: 'https://github.com/shadcn.png', like: '150', comment: '25', imgdescription: 'Description 2' },
+            { image: 'https://github.com/shadcn.png', like: '150', comment: '25', imgdescription: 'Description 2' },
+            // { image: 'https://github.com/shadcn.png', like: '150', comment: '25', imgdescription: 'Description 2' },
+            // ... add more photos as needed
+          ];
     return (
-        <div className='max-w-[975px] w-full'>
+        <div className='max-w-[975px] w-screen md:w-full'>
             <div className='w-full justify-between flex flex-row h-[190px]'>
-                <div className='w-[290px] h-full flex justify-center content-center items-center mr-7'>
+                <div className='w-[290px] h-full flex justify-center content-center items-center md:mr-7'>
                    
                     <Dialog>
                         <DialogTrigger> 
-                            <Avatar className='w-[150px] h-[150px]'>
-                                                <AvatarImage  className='w-[150px] h-[150px]' src="https://github.com/shadcn.png" />
-                                                <AvatarFallback className='w-[150px] h-[150px]'>CN</AvatarFallback>
+                            <Avatar className='md:w-[150px] md:h-[150px] w-[77px] h-[77px]'>
+                                                <AvatarImage  className='md:w-[150px] md:h-[150px] w-[77px] h-[77px]' src="https://github.com/shadcn.png" />
+                                                <AvatarFallback className='md:w-[150px] md:h-[150px] w-[77px] h-[77px]'>CN</AvatarFallback>
                                             </Avatar>
                                             </DialogTrigger>
                         <DialogContent>
@@ -94,7 +104,11 @@ const Profile = (props:{
                 </div>
 
             </div>
+
+            <Separator className='mt-10 mb-10' />
+            {/* <ProfileStats publications={props.publications} followers={props.followers} following={props.following}  /> */}
             
+            <Gallery photos={photosData} />
         </div>
     )
 }

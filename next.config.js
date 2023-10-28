@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  features: {
-    serverComponents: true,
+ 
+  images: {
+    domains: ['github.com'],
   },
 }
 
