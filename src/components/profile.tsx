@@ -28,8 +28,8 @@ const Profile = (props:{
             // ... add more photos as needed
           ];
     return (
-        <div className='max-w-[975px] w-screen md:w-full'>
-            <div className='w-full justify-between flex flex-row h-[190px]'>
+        <div className='  max-w-[975px] w-screen md:w-full'>
+            <div className=' w-full justify-between flex flex-row h-[190px]'>
                 <div className='w-[290px] h-full flex justify-center content-center items-center md:mr-7'>
                    
                     <Dialog>
