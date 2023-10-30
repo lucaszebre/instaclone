@@ -26,13 +26,13 @@ const Feed = () => {
         }
     ];
   return (
-    <div className='max-w-[630px] h-screen relative flex flex-col gap-4 mb-4 w-full'>
+    <div className='max-w-[630px] h-screen relative flex flex-col gap-8 mb-[50px] w-full'>
         <div className='h-[48px]  w-full justify-start flex flex-row'>
             <span>
                 For you
             </span>
         </div>
-        <div className='flex  flex-col w-full h-full justify-center items-center content-center gap-10'>
+        <div className='flex  flex-col w-full h-screen justify-start items-center content-center gap-10'>
             {posts.map((post, index) => (
                 <FeedPost 
                     key={index}

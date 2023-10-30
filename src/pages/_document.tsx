@@ -3,7 +3,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 
 export default function Document() {
   return (
-    <Html lang="en">
+    <Html style={{'width':'100vw'}} lang="en">
       <Head />
       <body>
         <Main />
