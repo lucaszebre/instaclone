@@ -1,7 +1,7 @@
 import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
-const CardSideProfile = (props:{commentText?:string,CommentDate?:string,comment?:boolean,liked?:boolean,suggestion?:boolean,followYou?:boolean,name:string,subname?:string}) => {
+const CardSideProfile = (props:{share?:boolean,commentText?:string,CommentDate?:string,comment?:boolean,liked?:boolean,suggestion?:boolean,followYou?:boolean,name:string,subname?:string}) => {
     if(props.suggestion){
         return (
             <div className='flex flex-row h-[50px] justify-center'>
@@ -101,6 +101,31 @@ const CardSideProfile = (props:{commentText?:string,CommentDate?:string,comment?
                 <span>{props.commentText}</span>
                 </div>
           </div>
+        )
+    }if(props.share){
+        return (
+          
+           <div className='flex flex-row  w-full justify-between content-center items-center'>
+           <div className='flex flex-row gap-4 content-center items-center'>
+               <Avatar className='w-[44px] h-[44px]'>
+                   <AvatarImage src="https://github.com/shadcn.png" />
+                   <AvatarFallback>CN</AvatarFallback>
+               </Avatar>
+               <div className='flex flex-col justify-between h-full'>
+               <a className='font-mediun' href="">
+               {props.name}
+               </a>
+               <span className='text-[#a8a29e]'>
+               {props.subname}
+               </span>
+           </div>
+           </div>
+           
+           <div className='flex flex-col h-full text-center justify-center'>
+           <input type="radio" className='w-[24px] h-[24px]' />
+
+           </div>
+     </div>
         )
     }
     return (
