@@ -143,3 +143,4 @@ model UserTag {
 
   @@id([postId, userId])
 }
+

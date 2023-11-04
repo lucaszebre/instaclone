@@ -1,3 +1,5 @@
+"use client"
+
 /* eslint-disable react/no-unescaped-entities */
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
