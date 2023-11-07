@@ -1,3 +1,6 @@
+'use client'
+
+
 import React from 'react';
 import PhotoCard from './photoCard'; // Assuming PhotoCard is in the same directory
 

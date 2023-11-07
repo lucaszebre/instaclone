@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { ScrollArea } from './ui/scroll-area'
 import InboxCard from './inboxCard'

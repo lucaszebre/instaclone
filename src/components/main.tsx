@@ -1,3 +1,6 @@
+'use client'
+
+
 import React from 'react'
 import { Sidebar } from './sidebar'
 import SideProfile from './sideProfile'
