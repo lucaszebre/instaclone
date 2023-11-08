@@ -1,14 +1,9 @@
 'use client'
 
 
-// import { useState } from 'react'
-import React, { useState } from 'react';
+import React from 'react';
 import { Login } from './login'
-import { Button, buttonVariants } from './ui/button'
-import { cn } from '../lib/utils'
 import { Register } from './register';
-import Link from 'next/link';
-import Image from 'next/image';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 function Auth() {
