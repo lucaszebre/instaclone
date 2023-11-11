@@ -11,9 +11,8 @@ datasource db {
 }
 
 model User {
-  id                     String         @id @default(uuid())
+  id                     String     @unique    @id @default(uuid())
   username               String         @unique
-  password               String
   email                  String         @unique
   fullName               String?
   bio                    String?
@@ -31,16 +30,9 @@ model User {
   notifications          Notification[]
   stories                Story[]
   taggedPosts            UserTag[]
-  Session                Session[]
 }
 
-model Session {
-  id           String   @id @default(uuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
+
 
 model Post {
   id          String    @id @default(uuid())

@@ -17,19 +17,17 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { SchemaLogin } from "@/types"
-import { login } from "@/utils/login"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Icons } from "./icons"
 import React, { useContext, useState } from "react"
 import { DataContext } from '@/store/datacontext';
-import { signIn } from "next-auth/react";
+import supabase from "@/lib/supabase"
 
 export function Login() {
   const [isLoading,setIsLoading] = useState(false)
-  const { setIsLoggedIn, isLoggedIn,  } =
-  useContext(DataContext);
+  
   const form = useForm<z.infer<typeof SchemaLogin>>({
     resolver: zodResolver(SchemaLogin),
     defaultValues: {
@@ -41,9 +39,11 @@ export function Login() {
 
   async function  onSubmit(values: z.infer<typeof SchemaLogin>) {
         setIsLoading(true)
-        await signIn("credentials", { email:values.email, password:values.password });
-        setIsLoading(false)
-        setIsLoggedIn(true)
+        const data = await supabase.auth.signUp({
+          email:values.email,
+          password:values.password,})  
+        console.log(data)
+          setIsLoading(false)
 
   }
 

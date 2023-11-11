@@ -24,7 +24,8 @@ import { Icons } from "./icons"
 import React, { SetStateAction, useState } from "react"
 import axios from "axios"
 import { useToast } from "./ui/use-toast"
-
+import { register } from "@/actions/register"
+import supabase from "@/lib/supabase"
 
 
 export function Register() {
@@ -45,24 +46,21 @@ export function Register() {
         try {
             setIsLoading(true)
             try {
-                const response = await axios.post('/api/register', {
-                    email:values.email,
-                    password:values.password,
-                    name:values.name,
-                });
-                if(response.status==200){
+                const response = await register(values.name,values.email,values.password)
+                if(response=='Registration successful'){
                     toast({
                         title: 'Register sucessfully .',
                         description: 'Please Login now.',
                         
-                      })
+                        })
                 }
             } catch (error) {
+                console.log(error)
                 toast({
                     title: 'Fail to register',
                     description: 'Please try again.',
                     variant: 'destructive',
-                  })
+                    })
             }
             
             
