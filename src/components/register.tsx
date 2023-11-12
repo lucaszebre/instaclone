@@ -25,7 +25,6 @@ import React, { SetStateAction, useState } from "react"
 import axios from "axios"
 import { useToast } from "./ui/use-toast"
 import { register } from "@/actions/register"
-import supabase from "@/lib/supabase"
 
 
 export function Register() {
@@ -42,36 +41,42 @@ export function Register() {
 
       
       async function onSubmit(values: z.infer<typeof SchemaRegister>) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
         try {
-            setIsLoading(true)
-            try {
-                const response = await register(values.name,values.email,values.password)
-                if(response=='Registration successful'){
-                    toast({
-                        title: 'Register sucessfully .',
-                        description: 'Please Login now.',
-                        
-                        })
-                }
-            } catch (error) {
-                console.log(error)
-                toast({
-                    title: 'Fail to register',
-                    description: 'Please try again.',
-                    variant: 'destructive',
-                    })
-            }
-            
-            
-            setIsLoading(false)
-            console.log(values)
-        } catch (error) {
-            
-        }
+            setIsLoading(true);
     
-       
-      }
+            // Attempt to register the user
+            const response = await register(values.name, values.email, values.password);
+    
+            // If registration is successful
+            if (response === 'Registration successful') {
+                toast({
+                    title: 'Register successfully.',
+                    description: 'Please Login now.',
+                    // Other properties for the toast can be added here
+                });
+            }
+    
+        } catch (error) {
+            if (error instanceof Error) {
+                toast({
+                    title:error.message ,
+                    description:'Registration failed' , // Now error.message is safely accessed
+                    variant: 'destructive',
+                    // Other properties for the toast can be added here
+                });
+            } else {
+                // Handle non-Error objects
+                toast({
+                    title: 'Registration failed',
+                    description: 'An unknown error occurred',
+                    variant: 'destructive',
+                    // Other properties for the toast can be added here
+                });
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    }
   return (
         
             <Card className="p-5">

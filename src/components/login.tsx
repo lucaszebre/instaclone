@@ -21,13 +21,18 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Icons } from "./icons"
-import React, { useContext, useState } from "react"
-import { DataContext } from '@/store/datacontext';
-import supabase from "@/lib/supabase"
+import React, {  useState } from "react"
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import type { Database } from '@/lib/database.type'
+import { useToast } from "./ui/use-toast"
+import { useRouter } from 'next/navigation'
 
 export function Login() {
   const [isLoading,setIsLoading] = useState(false)
-  
+  const supabase = createClientComponentClient<Database>()
+  const {toast} = useToast()
+  const router = useRouter()
+
   const form = useForm<z.infer<typeof SchemaLogin>>({
     resolver: zodResolver(SchemaLogin),
     defaultValues: {
@@ -39,10 +44,19 @@ export function Login() {
 
   async function  onSubmit(values: z.infer<typeof SchemaLogin>) {
         setIsLoading(true)
-        const data = await supabase.auth.signUp({
+        
+        const data = await supabase.auth.signInWithPassword({
           email:values.email,
           password:values.password,})  
-        console.log(data)
+        if(data.error){
+          toast({
+            title: data.error.message,
+            description: 'Error to login',
+            variant:'destructive'
+            // Other properties for the toast can be added here
+        });
+        }
+        router.refresh()
           setIsLoading(false)
 
   }

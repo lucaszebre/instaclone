@@ -1,8 +1,10 @@
 'use server'
 import prisma from '@/lib/db';
-import supabase from '@/lib/supabase';
 import { SchemaRegister } from '@/types';
 import { z } from 'zod';
+import { cookies } from 'next/headers'
+import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
+import { Database } from '@/lib/database.type';
 
 export async function register(name: string, email: string, password: string) {
     try {
@@ -14,6 +16,9 @@ export async function register(name: string, email: string, password: string) {
         if (existingUser) {
             throw new Error("User already exists");
         }
+        const cookieStore = cookies()
+
+        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
 
         const { data, error } = await supabase.auth.signUp({
             email: validatedData.email,
@@ -31,11 +36,9 @@ export async function register(name: string, email: string, password: string) {
 
         return 'Registration successful';
     } catch (error) {
-        if (error instanceof z.ZodError) {
+        if (error instanceof Error) {
             throw new Error(error.message);
         }
-        console.error(error);
-        throw new Error('Could not register at this time. Please try later');
     }
 }
 
