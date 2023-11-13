@@ -1,6 +1,5 @@
 import React from 'react'
 import Profile from '../profile'
-import Feed from '../feed'
 import Gallery from '../gallery'
 
 const ProfileMain = () => {

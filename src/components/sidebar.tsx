@@ -24,10 +24,9 @@ export function Sidebar() {
     }
 };
 
-console.log(short)
 
   return (
-<div className={`  ${short  && 'w-[96px]' || ' xl:max-w-[250px] md:max-w-[96px] w-full'} transition-width duration-500  absolute z-10 bg-white bottom-0  md:fixed h-[48px] flex md:flex-col flex-row   md:h-screen md:border-black-400 md:border-r-2`}>
+<div className={`  ${short  && 'w-[96px]' || ' xl:max-w-[250px] md:max-w-[96px] w-full'} transition-width duration-500  absolute z-10 bottom-0  md:fixed h-[48px] flex md:flex-col flex-row   md:h-screen md:border-black-400 md:border-r-2`}>
     <div className={` ${short && 'w-[96px]' || ' xl:max-w-[250px] md:max-w-[96px] w-full'} flex md:flex-col flex-row md:py-4 h-full `} >
         <div className="md:px-3   md:py-2 flex md:flex-col flex-row  justify-between h-full max-md:w-full">
             
