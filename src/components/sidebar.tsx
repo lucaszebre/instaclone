@@ -8,14 +8,20 @@ import Plus from "./plus"
 import Search from "./search"
 import AddFile from "./addFile"
 import Tool from "./tool"
+import { useState } from "react"
 
 export function Sidebar() {
   const { setSide, side,short,setShort } = useStore()
-
+  const [search,setSearch]=useState(false)
   // Function to handle sidebar toggle
   const handleSidebarToggle = (newSide:string) => {
-    setSide(newSide);
-    setShort(newSide === 'search' || newSide === 'messages'); // Set short to true if 'search' or 'messages'
+    if(newSide==='search'){
+      setSearch(true)
+    }else{
+      setSide(newSide);
+      setSearch(false)
+      setShort( newSide === 'messages'); // Set short to true if 'search' or 'messages'
+    }
 };
 
 console.log(short)
@@ -31,23 +37,23 @@ console.log(short)
             </Button>
             </div>
 
-            <div className={`${short && 'flex'||'xl:hidden'} mb-[20px]  md:flex justify-center hidden  `}>
+            <div className={`${short  && 'flex'||'xl:hidden'} mb-[20px]  md:flex justify-center hidden  `}>
             <svg aria-label="Instagram" className="x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Instagram</title><path d="M12 2.982c2.937 0 3.285.011 4.445.064a6.087 6.087 0 0 1 2.042.379 3.408 3.408 0 0 1 1.265.823 3.408 3.408 0 0 1 .823 1.265 6.087 6.087 0 0 1 .379 2.042c.053 1.16.064 1.508.064 4.445s-.011 3.285-.064 4.445a6.087 6.087 0 0 1-.379 2.042 3.643 3.643 0 0 1-2.088 2.088 6.087 6.087 0 0 1-2.042.379c-1.16.053-1.508.064-4.445.064s-3.285-.011-4.445-.064a6.087 6.087 0 0 1-2.043-.379 3.408 3.408 0 0 1-1.264-.823 3.408 3.408 0 0 1-.823-1.265 6.087 6.087 0 0 1-.379-2.042c-.053-1.16-.064-1.508-.064-4.445s.011-3.285.064-4.445a6.087 6.087 0 0 1 .379-2.042 3.408 3.408 0 0 1 .823-1.265 3.408 3.408 0 0 1 1.265-.823 6.087 6.087 0 0 1 2.042-.379c1.16-.053 1.508-.064 4.445-.064M12 1c-2.987 0-3.362.013-4.535.066a8.074 8.074 0 0 0-2.67.511 5.392 5.392 0 0 0-1.949 1.27 5.392 5.392 0 0 0-1.269 1.948 8.074 8.074 0 0 0-.51 2.67C1.012 8.638 1 9.013 1 12s.013 3.362.066 4.535a8.074 8.074 0 0 0 .511 2.67 5.392 5.392 0 0 0 1.27 1.949 5.392 5.392 0 0 0 1.948 1.269 8.074 8.074 0 0 0 2.67.51C8.638 22.988 9.013 23 12 23s3.362-.013 4.535-.066a8.074 8.074 0 0 0 2.67-.511 5.625 5.625 0 0 0 3.218-3.218 8.074 8.074 0 0 0 .51-2.67C22.988 15.362 23 14.987 23 12s-.013-3.362-.066-4.535a8.074 8.074 0 0 0-.511-2.67 5.392 5.392 0 0 0-1.27-1.949 5.392 5.392 0 0 0-1.948-1.269 8.074 8.074 0 0 0-2.67-.51C15.362 1.012 14.987 1 12 1Zm0 5.351A5.649 5.649 0 1 0 17.649 12 5.649 5.649 0 0 0 12 6.351Zm0 9.316A3.667 3.667 0 1 1 15.667 12 3.667 3.667 0 0 1 12 15.667Zm5.872-10.859a1.32 1.32 0 1 0 1.32 1.32 1.32 1.32 0 0 0-1.32-1.32Z"></path></svg>            </div>
             <div className="md:space-y-1 md:flex md:flex-col flex-row md:w-full w-screen  grid grid-cols-5 grid-rows-1 md:justify-center">
                 <Button onClick={() => handleSidebarToggle('home')} variant="ghost" className="h-full md:h-[50px]   justify-center md:justify-start gap-5 ">
                     <Tool name="Home">
-                      {side==='home' ? <svg aria-label="Accueil" className="hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Accueil</title><path d="M22 23h-6.001a1 1 0 0 1-1-1v-5.455a2.997 2.997 0 1 0-5.993 0V22a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V11.543a1.002 1.002 0 0 1 .31-.724l10-9.543a1.001 1.001 0 0 1 1.38 0l10 9.543a1.002 1.002 0 0 1 .31.724V22a1 1 0 0 1-1 1Z"></path></svg>: <svg aria-label="Accueil" className=" hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Accueil</title><path d="M9.005 16.545a2.997 2.997 0 0 1 2.997-2.997A2.997 2.997 0 0 1 15 16.545V22h7V11.543L12 2 2 11.543V22h7.005Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg>}
+                      {side==='home'  ? <svg aria-label="Accueil" className="hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Accueil</title><path d="M22 23h-6.001a1 1 0 0 1-1-1v-5.455a2.997 2.997 0 1 0-5.993 0V22a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V11.543a1.002 1.002 0 0 1 .31-.724l10-9.543a1.001 1.001 0 0 1 1.38 0l10 9.543a1.002 1.002 0 0 1 .31.724V22a1 1 0 0 1-1 1Z"></path></svg>: <svg aria-label="Accueil" className=" hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Accueil</title><path d="M9.005 16.545a2.997 2.997 0 0 1 2.997-2.997A2.997 2.997 0 0 1 15 16.545V22h7V11.543L12 2 2 11.543V22h7.005Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg>}
                     </Tool>
-                    <p className={`${side=='home'?'font-bold':''} ${short? 'hidden' : 'xl:flex  hidden'} `}>Home</p>
+                    <p className={`${side=='home'  ?'font-bold':''} ${short? 'hidden' : 'xl:flex  hidden'} `}>Home</p>
                 </Button>
                 <Search 
                 // onClick={()=>{setShort(true)}}
                 >
                   <Button onClick={() => handleSidebarToggle('search')} variant="ghost" className="w-full h-full md:h-[50px]  justify-center md:justify-start gap-5">
                     <Tool name="search">
-                        {side==='search'? <svg aria-label="Découvrir" className="hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Découvrir</title><path d="M18.5 10.5a8 8 0 1 1-8-8 8 8 0 0 1 8 8Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" x1="16.511" x2="21.643" y1="16.511" y2="21.643"></line></svg> : <svg aria-label="Découvrir" className="hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Découvrir</title><path d="M19 10.5A8.5 8.5 0 1 1 10.5 2a8.5 8.5 0 0 1 8.5 8.5Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="16.511" x2="22" y1="16.511" y2="22"></line></svg>   }   
+                        {search? <svg aria-label="Découvrir" className="hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Découvrir</title><path d="M18.5 10.5a8 8 0 1 1-8-8 8 8 0 0 1 8 8Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" x1="16.511" x2="21.643" y1="16.511" y2="21.643"></line></svg> : <svg aria-label="Découvrir" className="hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Découvrir</title><path d="M19 10.5A8.5 8.5 0 1 1 10.5 2a8.5 8.5 0 0 1 8.5 8.5Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="16.511" x2="22" y1="16.511" y2="22"></line></svg>   }   
                     </Tool>
-                    <p className={`${side=='search'?'font-bold':''} ${short &&  'xl:hidden' || 'xl:flex  hidden'} `}>Search</p>
+                    <p className={`${search?'font-bold':''} ${short &&  'xl:hidden' || 'xl:flex  hidden'} `}>Search</p>
                   </Button>
                 </Search>
                 <AddFile>
@@ -63,10 +69,10 @@ console.log(short)
                 
                     <Button onClick={() => handleSidebarToggle('messages')} variant="ghost" className="h-full md:h-[50px]  justify-center md:justify-start gap-5">
                       <Tool name="messages">
-                        {side=='messages'?<svg aria-label="Direct" className="hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Direct</title><path d="M22.91 2.388a.69.69 0 0 0-.597-.347l-20.625.002a.687.687 0 0 0-.482 1.178L7.26 9.16a.686.686 0 0 0 .778.128l7.612-3.657a.723.723 0 0 1 .937.248.688.688 0 0 1-.225.932l-7.144 4.52a.69.69 0 0 0-.3.743l2.102 8.692a.687.687 0 0 0 .566.518.655.655 0 0 0 .103.008.686.686 0 0 0 .59-.337L22.903 3.08a.688.688 0 0 0 .007-.692" fill-rule="evenodd"></path></svg>:                <svg aria-label="Direct" className="hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Direct</title><line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></polygon></svg>              
+                        {side=='messages'   ?<svg aria-label="Direct" className="hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Direct</title><path d="M22.91 2.388a.69.69 0 0 0-.597-.347l-20.625.002a.687.687 0 0 0-.482 1.178L7.26 9.16a.686.686 0 0 0 .778.128l7.612-3.657a.723.723 0 0 1 .937.248.688.688 0 0 1-.225.932l-7.144 4.52a.69.69 0 0 0-.3.743l2.102 8.692a.687.687 0 0 0 .566.518.655.655 0 0 0 .103.008.686.686 0 0 0 .59-.337L22.903 3.08a.688.688 0 0 0 .007-.692" fill-rule="evenodd"></path></svg>:                <svg aria-label="Direct" className="hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Direct</title><line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></polygon></svg>              
   }
                       </Tool>
-                    <p className={`${side=='messages'?'font-bold':''} ${short? 'hidden' : 'xl:flex  hidden'}`}>Messages</p>
+                    <p className={`${side=='messages'   ?'font-bold':''} ${short? 'hidden' : 'xl:flex  hidden'}`}>Messages</p>
                     </Button>
 
               
