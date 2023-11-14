@@ -16,32 +16,60 @@ import { Separator } from "@/components/ui/separator"
 import ProfileStats from './profileStat'
 import MenuMobile from './menuMobile'
 
+type Post = {
+    id: string;
+    userId: string;
+    imageUrl: string;
+    caption: string | null;
+    location: string | null;
+    postedAt: Date;
+};
+
+type User = {
+    id: string;
+    username: string;
+    email: string;
+    fullName: string | null;
+    bio: string | null;
+    profilePictureUrl: string | null;
+    isPrivate: boolean;
+    joinedAt: Date;
+    isEmailVerified: boolean;
+    posts: Post[];
+    following: following[]
+    followers:followers[]
+};
+
+ type following= {
+    id: string;
+    followingId: string;
+    followerId: string;
+    followedAt: Date;
+};
+type followers= {
+    id: string;
+    followingId: string;
+    followerId: string;
+    followedAt: Date;
+};
+
 const Profile = (props:{
-    username:string,
-    publications:string,
-    followers:string,
-    following:string,
-    bio:string,
-    subname:string}) => {
-        const photosData = [
-            { image: 'https://github.com/shadcn.png', like: '100', comment: '20', imgdescription: 'Description 1' },
-            { image: 'https://github.com/shadcn.png', like: '150', comment: '25', imgdescription: 'Description 2' },
-            { image: 'https://github.com/shadcn.png', like: '150', comment: '25', imgdescription: 'Description 2' },
-            // { image: 'https://github.com/shadcn.png', like: '150', comment: '25', imgdescription: 'Description 2' },
-            // ... add more photos as needed
-          ];
+   profile:User}) => 
+   
+    {
+       
     return (
         <>
         <MenuMobile profile={true} />
-        <div className='  max-w-[975px] pt-[60px] md:pt-[0px] w-screen md:w-full'>
+        <div className='  max-w-[975px] pt-[60px] md:pt-[0px] h-full w-screen md:w-full'>
             <div className=' w-full justify-between flex flex-row h-[190px]'>
                 <div className='w-[290px] h-full flex justify-center content-center items-center md:mr-7'>
                    
                     <Dialog>
                         <DialogTrigger> 
                             <Avatar className='md:w-[150px] md:h-[150px] w-[77px] h-[77px]'>
-                                                <AvatarImage  className='md:w-[150px] md:h-[150px] w-[77px] h-[77px]' src="https://github.com/shadcn.png" />
-                                                <AvatarFallback className='md:w-[150px] md:h-[150px] w-[77px] h-[77px]'>CN</AvatarFallback>
+                                                <AvatarImage  className='md:w-[150px] md:h-[150px] w-[77px] h-[77px]' src={props.profile.profilePictureUrl||''} />
+                                                <AvatarFallback className='md:w-[150px] md:h-[150px] w-[77px] h-[77px]'>{props.profile.username}</AvatarFallback>
                                             </Avatar>
                                             </DialogTrigger>
                         <DialogContent>
@@ -63,7 +91,7 @@ const Profile = (props:{
                 </div>
                 <div className=' h-full flex flex-col justify-center gap-4 content-center w-full'>
                     <div className='flex flex-row justify-start content-center text-center items-center gap-8 w-full'>
-                        <h2 className='text-[20px]'>{props.username}</h2>
+                        <h2 className='text-[20px]'>{props.profile.username}</h2>
                         <Button>Modifier le profil</Button>
                         <Dialog>
                         <DialogTrigger> 
@@ -89,21 +117,21 @@ const Profile = (props:{
                     </div>
                     <div className='flex flex-row justify-start content-center text-center items-cente gap-8 w-full'>
                         <span>
-                            {props.publications} publications
+                            {props.profile.posts.length} publications
                         </span>
                         <span>
-                            {props.followers} followers
+                            {props.profile.followers.length} followers
                         </span>
                         <span>
-                            {props.following} Suivies
+                            {props.profile.following.length} Suivies
                         </span>
                     </div>
                     <div className='flex flex-col  content-center text-start items-cente justify-start gap-3 w-full'>
                         <div>
-                            {props.subname}
+                            {props.profile.fullName}
                         </div>
                         <div>
-                            {props.bio}
+                            {props.profile.bio}
                         </div>
                     </div>
                 </div>
@@ -113,7 +141,7 @@ const Profile = (props:{
             <Separator className='mt-10 mb-10' />
             {/* <ProfileStats publications={props.publications} followers={props.followers} following={props.following}  /> */}
             
-            <Gallery photos={photosData} />
+            <Gallery photos={props.profile.posts} />
         </div>
         </>
         

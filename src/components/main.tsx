@@ -13,22 +13,11 @@ const clasds='flex overflow-x-hidden mb-[50px]  flex-row xl:ml-[250px] md:ml-[96
 const Main = () => {
   const {short,side} = useStore()
   return (
-    <div className='flex bg-background flex-row h-screen justify-center md:justify-between w-full'>
-    <Sidebar />
-    <div className={`flex overflow-x-hidden z-0 mb-[50px]
-    
-    ${short && 'md:ml-[96px]' || 
-    '  flex-row  xl:ml-[250px] md:ml-[96px] ml-[0px]'}
-     h-screen w-full  justify-start`}>
-      
-    {side==='messages'  && <Inbox username={'lucas'} />}
-    {side==='profile'   && <ProfileMain />}
-    {side==='home'    && <Home />} 
-    
-    </div>
-    </div>
-      
-    
+    <>
+      {side==='messages'  && <Inbox username={'lucas'} />}
+      {side==='profile'   && <ProfileMain />}
+      {side==='home'    && <Home />} 
+    </>
   )
 }
 
