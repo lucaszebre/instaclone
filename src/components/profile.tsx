@@ -14,6 +14,7 @@ import {
 import Gallery from './gallery'
 import { Separator } from "@/components/ui/separator"
 import ProfileStats from './profileStat'
+import MenuMobile from './menuMobile'
 
 const Profile = (props:{
     username:string,
@@ -30,7 +31,9 @@ const Profile = (props:{
             // ... add more photos as needed
           ];
     return (
-        <div className='  max-w-[975px] w-screen md:w-full'>
+        <>
+        <MenuMobile profile={true} />
+        <div className='  max-w-[975px] pt-[60px] md:pt-[0px] w-screen md:w-full'>
             <div className=' w-full justify-between flex flex-row h-[190px]'>
                 <div className='w-[290px] h-full flex justify-center content-center items-center md:mr-7'>
                    
@@ -112,6 +115,8 @@ const Profile = (props:{
             
             <Gallery photos={photosData} />
         </div>
+        </>
+        
     )
 }
 
