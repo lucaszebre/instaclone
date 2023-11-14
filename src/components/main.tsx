@@ -7,6 +7,7 @@ import Inbox from './Inbox'
 import { useStore } from '@/store/zus'
 import ProfileMain from './pages/profile'
 import Home from '@/components/pages/home'
+import MenuMobile from './menuMobile'
 
 const clasds='flex overflow-x-hidden mb-[50px]  flex-row xl:ml-[250px] md:ml-[96px] h-screen w-full  justify-start'
 const Main = () => {
@@ -14,10 +15,10 @@ const Main = () => {
   return (
     <div className='flex bg-background flex-row h-screen justify-center md:justify-between w-full'>
     <Sidebar />
-    <div className={`flex overflow-x-hidden mb-[50px]
+    <div className={`flex overflow-x-hidden z-0 mb-[50px]
     
-    ${short && 'ml-[96px]' || 
-    '  flex-row  xl:ml-[250px] md:ml-[96px]'}
+    ${short && 'md:ml-[96px]' || 
+    '  flex-row  xl:ml-[250px] md:ml-[96px] ml-[0px]'}
      h-screen w-full  justify-start`}>
       
     {side==='messages'  && <Inbox username={'lucas'} />}

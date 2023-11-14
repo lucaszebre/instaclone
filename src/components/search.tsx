@@ -20,7 +20,7 @@ interface Props {
 
   return (
     <Sheet>
-        <SheetTrigger>
+        <SheetTrigger className="flex w-full">
             {children}
         </SheetTrigger>
         <SheetContent>

@@ -23,7 +23,7 @@ const Inbox = (props:{
                         
               </div>
             </div>
-            <div className='flex flex-col gap-2 overflow-y-scroll h-full overflow-x-hidden'>
+            <div className='flex flex-col gap-2 overflow-y-scroll h-full pb-[48px] overflow-x-hidden'>
             <CardSideProfile  inbox={true} name='main' subname='main' />
             <CardSideProfile inbox={true} name='main' subname='main' />
             <CardSideProfile inbox={true} name='main' subname='main' />

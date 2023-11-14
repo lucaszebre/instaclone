@@ -20,7 +20,7 @@ interface Props {
 
   return (
     <Dialog>
-        <DialogTrigger>
+        <DialogTrigger className="flex w-full">
             {children}
         </DialogTrigger>
         <DialogContent className="flex flex-col justify-center items-center content-center text-center">

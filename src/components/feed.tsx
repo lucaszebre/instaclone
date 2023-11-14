@@ -3,6 +3,7 @@
 
 import React from 'react'
 import FeedPost from './feedPost'
+import MenuMobile from './menuMobile';
 
 const Feed = () => {
     const posts = [
@@ -29,7 +30,9 @@ const Feed = () => {
         }
     ];
   return (
-    <div className='max-w-[630px] h-screen relative flex flex-col gap-8 mb-[50px] w-full'>
+    <>
+        <MenuMobile />
+        <div className='max-w-[630px] mt-[60px] md:mt-0 h-screen relative flex flex-col gap-8 mb-[50px] w-full'>
         <div className='h-[48px]  w-full justify-start flex flex-row'>
             <span>
                 For you
@@ -48,6 +51,8 @@ const Feed = () => {
             ))}
         </div>
     </div>
+    </>
+    
   )
 }
 
