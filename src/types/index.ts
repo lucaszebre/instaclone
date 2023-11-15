@@ -41,3 +41,43 @@ description: z.string().min(1,{ message: 'need a email' }),
 subtaskArray: z.array(z.string()),
 });
 
+
+
+
+type Post = {
+  id: string;
+  userId: string;
+  imageUrl: string;
+  caption: string | null;
+  location: string | null;
+  postedAt: Date;
+};
+
+export type User = {
+  id: string;
+  username: string;
+  email: string;
+  fullName: string | null;
+  bio: string | null;
+  profilePictureUrl: string | null;
+  avatarkey: string | null;
+  isPrivate: boolean;
+  joinedAt: Date;
+  isEmailVerified: boolean;
+  posts: Post[];
+  following: following[]
+  followers:followers[]
+};
+
+export type following= {
+  id: string;
+  followingId: string;
+  followerId: string;
+  followedAt: Date;
+};
+export type followers= {
+  id: string;
+  followingId: string;
+  followerId: string;
+  followedAt: Date;
+};

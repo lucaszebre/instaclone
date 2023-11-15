@@ -15,7 +15,6 @@ const Main = () => {
   return (
     <>
       {side==='messages'  && <Inbox username={'lucas'} />}
-      {side==='profile'   && <ProfileMain />}
       {side==='home'    && <Home />} 
     </>
   )

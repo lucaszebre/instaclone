@@ -19,44 +19,8 @@ import { useToast } from './ui/use-toast'
 import { UploadButton } from "@/lib/uploadthing";
 import { NewAvatar } from '@/actions/newAvatar'
 import { DeleteAvatar } from '@/actions/deleteAvatar'
+import { User } from '@/types'
 
-type Post = {
-    id: string;
-    userId: string;
-    imageUrl: string;
-    caption: string | null;
-    location: string | null;
-    postedAt: Date;
-};
-
-type User = {
-    id: string;
-    username: string;
-    email: string;
-    fullName: string | null;
-    bio: string | null;
-    profilePictureUrl: string | null;
-    avatarkey: string | null;
-    isPrivate: boolean;
-    joinedAt: Date;
-    isEmailVerified: boolean;
-    posts: Post[];
-    following: following[]
-    followers:followers[]
-};
-
- type following= {
-    id: string;
-    followingId: string;
-    followerId: string;
-    followedAt: Date;
-};
-type followers= {
-    id: string;
-    followingId: string;
-    followerId: string;
-    followedAt: Date;
-};
 
 const Profile = (props:{
    profile:User}) => {

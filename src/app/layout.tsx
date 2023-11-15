@@ -1,21 +1,19 @@
 'use client'
 
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from 'next-themes';
 import React from 'react'
 import { useStore } from '@/store/zus'
-import Home from '@/components/pages/home'
 import { Sidebar } from '@/components/sidebar';
-import Inbox from '@/components/Inbox';
-const inter = Inter({ subsets: ['latin'] })
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 
-// export const metadata: Metadata = {
-//   title: 'InstaClone',
-//   description: 'Create by kihura',
-// }
 
 
 export default function RootLayout({
@@ -23,11 +21,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const queryClient = new QueryClient()
   const {short,side} = useStore()
 
   return (
     <html lang="en">
     <head />
+    <QueryClientProvider client={queryClient}>
     <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -52,6 +52,7 @@ export default function RootLayout({
       <Toaster />
     </body>
     </ThemeProvider>
+    </QueryClientProvider>
   </html>
   )
 }

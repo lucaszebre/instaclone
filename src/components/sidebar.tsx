@@ -9,6 +9,9 @@ import Search from "./search"
 import AddFile from "./addFile"
 import Tool from "./tool"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { usePathname } from 'next/navigation'
+import { GetCurrentUser } from "@/actions/getUser"
 
 export function Sidebar() {
   const { setSide, side,short,setShort } = useStore()
@@ -23,7 +26,25 @@ export function Sidebar() {
       setShort( newSide === 'messages'); // Set short to true if 'search' or 'messages'
     }
 };
- 
+
+const router = useRouter()
+const pathname = usePathname()
+
+const handleClick = () => {
+  if (pathname !== '/') {
+      router.push('/');
+      router.refresh()
+  } else {
+      handleSidebarToggle('home');
+  }
+};
+const handleClickProfile = async () => {
+      const user = await GetCurrentUser()
+      router.push(`/${user?.username}`);
+      handleSidebarToggle('profile');
+};
+
+
 
   return (
 <div className={`  ${short  && 'md:w-[96px]' || ' xl:max-w-[250px] md:max-w-[96px] w-full'} bg-white dark:bg-black  transition-width duration-500   absolute z-20 bottom-0  md:fixed h-[48px] flex md:flex-col flex-row   md:h-screen md:border-black-400 md:border-r-2`}>
@@ -41,7 +62,7 @@ export function Sidebar() {
             <div className="md:space-y-1 content-start   md:flex md:flex-col flex-row md:w-full w-screen items-center z-10  grid grid-cols-5 grid-rows-1 md:justify-center">
                 
                 
-                <Button onClick={() => handleSidebarToggle('home')} variant="ghost" className="h-full md:h-[50px] md:w-full  justify-center md:justify-start gap-5 ">
+                <Button onClick={() => handleClick()} variant="ghost" className="h-full md:h-[50px] md:w-full  justify-center md:justify-start gap-5 ">
                     <Tool name="Home">
                       {side==='home'  ? <svg aria-label="Accueil" className="hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Accueil</title><path d="M22 23h-6.001a1 1 0 0 1-1-1v-5.455a2.997 2.997 0 1 0-5.993 0V22a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V11.543a1.002 1.002 0 0 1 .31-.724l10-9.543a1.001 1.001 0 0 1 1.38 0l10 9.543a1.002 1.002 0 0 1 .31.724V22a1 1 0 0 1-1 1Z"></path></svg>: <svg aria-label="Accueil" className=" hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Accueil</title><path d="M9.005 16.545a2.997 2.997 0 0 1 2.997-2.997A2.997 2.997 0 0 1 15 16.545V22h7V11.543L12 2 2 11.543V22h7.005Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg>}
                     </Tool>
@@ -84,11 +105,11 @@ export function Sidebar() {
                 <p className="xl:flex  hidden">Notiffication</p>
                 </Button>
                 
-                <Button onClick={() => handleSidebarToggle('profile')} variant="ghost" className="md:w-full h-full md:h-[50px] justify-center md:justify-start gap-5">
+                <Button onClick={() => handleClickProfile()} variant="ghost" className="md:w-full h-full md:h-[50px] justify-center md:justify-start gap-5">
                   <Tool name="Profile blabla">
                     <Avatar className="hover:w-[26px] hover:h-[26px] w-[24px] h-[24px]" >
-                        <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback>CN</AvatarFallback>
+                        <AvatarImage src={user?.profilePictureUrl||''} />
+                        <AvatarFallback>{user?.username}</AvatarFallback>
                     </Avatar>
                   </Tool>
                   <p className={`${side=='profile'?'font-bold':''} ${short?'hidden' : 'xl:flex  hidden'}`}>Profil</p> 
