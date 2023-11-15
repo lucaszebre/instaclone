@@ -81,3 +81,111 @@ export type followers= {
   followerId: string;
   followedAt: Date;
 };
+
+
+const PostSchema = z.object({
+    id: z.string(),
+    userId: z.string(),
+    imageUrl: z.string(),
+    caption: z.string().nullable(),
+    location: z.string().nullable(),
+    postedAt: z.date(),
+    // Consider adding other fields like comments, likes, tags, etc.
+});
+
+const CommentSchema = z.object({
+    id: z.string(),
+    postId: z.string(),
+    userId: z.string(),
+    content: z.string(),
+    repliedToCommentId: z.string().nullable(),
+    commentedAt: z.date(),
+    // Add any nested relations if necessary
+});
+
+const LikeSchema = z.object({
+    postId: z.string(),
+    userId: z.string(),
+    likedAt: z.date(),
+});
+
+const FollowerSchema = z.object({
+    id: z.string(),
+    followingId: z.string(),
+    followerId: z.string(),
+    followedAt: z.date(),
+});
+
+const TagSchema = z.object({
+    id: z.string(),
+    name: z.string(),
+    // Add relation to PostTag if necessary
+});
+
+const ConversationSchema = z.object({
+    id: z.string(),
+    redisKey: z.string(),
+    initiatorId: z.string(),
+    recipientId: z.string(),
+    // Add more fields as needed
+});
+
+const NotificationSchema = z.object({
+    id: z.string(),
+    userId: z.string(),
+    type: z.string(),
+    referenceId: z.number(),
+    isRead: z.boolean(),
+    createdAt: z.date(),
+});
+
+const StorySchema = z.object({
+    id: z.string(),
+    userId: z.string(),
+    imageUrl: z.string(),
+    caption: z.string().nullable(),
+    createdAt: z.date(),
+    expiresAt: z.date(),
+});
+
+const UserTagSchema = z.object({
+    postId: z.string(),
+    userId: z.string(),
+    // Add more fields as needed
+});
+
+export const UserSchema = z.object({
+    id: z.string(),
+    username: z.string(),
+    email: z.string(),
+    fullName: z.string().nullable(),
+    bio: z.string().nullable(),
+    avatarkey: z.string().nullable(),
+    profilePictureUrl: z.string().nullable(),
+    isPrivate: z.boolean(),
+    joinedAt: z.date(),
+    isEmailVerified: z.boolean(),
+    posts: z.array(PostSchema),
+    following: z.array(FollowerSchema),
+    followers: z.array(FollowerSchema),
+    comments: z.array(CommentSchema),
+    likes: z.array(LikeSchema),
+    initiatedConversations: z.array(ConversationSchema),
+    receivedConversations: z.array(ConversationSchema),
+    notifications: z.array(NotificationSchema),
+    stories: z.array(StorySchema),
+    taggedPosts: z.array(UserTagSchema),
+    // Add any additional fields or relations
+});
+
+// Export TypeScript types
+export type Usered = z.infer<typeof UserSchema>;
+export type Posted = z.infer<typeof PostSchema>;
+export type Comment = z.infer<typeof CommentSchema>;
+export type Like = z.infer<typeof LikeSchema>;
+export type Follower = z.infer<typeof FollowerSchema>;
+export type Tag = z.infer<typeof TagSchema>;
+export type Conversation = z.infer<typeof ConversationSchema>;
+export type Notification = z.infer<typeof NotificationSchema>;
+export type Story = z.infer<typeof StorySchema>;
+export type UserTag = z.infer<typeof UserTagSchema>;

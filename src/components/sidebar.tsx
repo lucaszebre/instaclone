@@ -12,11 +12,30 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { usePathname } from 'next/navigation'
 import { GetCurrentUser } from "@/actions/getUser"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 export function Sidebar() {
   const { setSide, side,short,setShort } = useStore()
   const [search,setSearch]=useState(false)
   // Function to handle sidebar toggle
+  const queryClient = useQueryClient()
+
+  // Queries
+
+
+  const {
+    isFetching,
+    data,
+    refetch,
+    isFetched,
+  } = useQuery({
+    queryFn: async () => {
+      const  data  = await GetCurrentUser();
+    return data;
+    },
+    queryKey: ['user'],
+  })
+  
   const handleSidebarToggle = (newSide:string) => {
     if(newSide==='search'){
       setSearch(true)
@@ -44,6 +63,7 @@ const handleClickProfile = async () => {
       handleSidebarToggle('profile');
 };
 
+console.log(data)
 
 
   return (
@@ -108,8 +128,8 @@ const handleClickProfile = async () => {
                 <Button onClick={() => handleClickProfile()} variant="ghost" className="md:w-full h-full md:h-[50px] justify-center md:justify-start gap-5">
                   <Tool name="Profile blabla">
                     <Avatar className="hover:w-[26px] hover:h-[26px] w-[24px] h-[24px]" >
-                        <AvatarImage src={user?.profilePictureUrl||''} />
-                        <AvatarFallback>{user?.username}</AvatarFallback>
+                        <AvatarImage src={data?.profilePictureUrl||''} />
+                        <AvatarFallback>{data?.username}</AvatarFallback>
                     </Avatar>
                   </Tool>
                   <p className={`${side=='profile'?'font-bold':''} ${short?'hidden' : 'xl:flex  hidden'}`}>Profil</p> 

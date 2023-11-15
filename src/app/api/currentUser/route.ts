@@ -9,7 +9,7 @@ export async function GET(req: Request) {
         const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
         
         const data = await supabase.auth.getSession()
-        const User = await prisma.user.findFirst({
+        const User = await prisma.user.findUnique({
             where:{id:data.data.session?.user.id}
         });
         return new Response(

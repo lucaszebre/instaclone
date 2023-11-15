@@ -3,15 +3,16 @@
 
 import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import Link from 'next/link'
 
-const CardSideProfile = (props:{inbox?:boolean,share?:boolean,commentText?:string,CommentDate?:string,comment?:boolean,liked?:boolean,suggestion?:boolean,followYou?:boolean,name:string,subname?:string}) => {
+const CardSideProfile = (props:{url:string,username:string,inbox?:boolean,share?:boolean,commentText?:string,CommentDate?:string,comment?:boolean,liked?:boolean,suggestion?:boolean,followYou?:boolean,name:string,subname?:string}) => {
     if(props.suggestion){
         return (
             <div className='flex flex-row h-[50px] justify-center'>
                 <div>
                     <Avatar>
-                        <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback>CN</AvatarFallback>
+                        <AvatarImage src={props.url} />
+                        <AvatarFallback>{props.username}</AvatarFallback>
                     </Avatar>
                 </div>
                 <div className='flex flex-col justify-between h-full'>
@@ -35,8 +36,8 @@ const CardSideProfile = (props:{inbox?:boolean,share?:boolean,commentText?:strin
             <div className='flex flex-row '>
                 <div>
                     <Avatar>
-                        <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback>CN</AvatarFallback>
+                        <AvatarImage src={props.url} />
+                        <AvatarFallback>{props.username}</AvatarFallback>
                     </Avatar>
                 </div>
                 <div className='flex flex-col justify-between h-full'>
@@ -60,8 +61,8 @@ const CardSideProfile = (props:{inbox?:boolean,share?:boolean,commentText?:strin
             <div className='flex flex-row '>
                 <div>
                     <Avatar className='w-[32px] h-[32px]'>
-                        <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback>CN</AvatarFallback>
+                        <AvatarImage src={props.url} />
+                        <AvatarFallback>{props.username}</AvatarFallback>
                     </Avatar>
                 </div>
                 <div className='flex flex-col justify-between h-full'>
@@ -88,8 +89,8 @@ const CardSideProfile = (props:{inbox?:boolean,share?:boolean,commentText?:strin
             <div className='flex flex-row '>
                 <div>
                     <Avatar className='w-[32px] h-[32px]'>
-                        <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback>CN</AvatarFallback>
+                        <AvatarImage src={props.url} />
+                        <AvatarFallback>{props.username}</AvatarFallback>
                     </Avatar>
                 </div>
                 <div className='flex flex-col justify-between h-full'>
@@ -111,8 +112,8 @@ const CardSideProfile = (props:{inbox?:boolean,share?:boolean,commentText?:strin
            <div className='flex flex-row  w-full justify-between content-center items-center'>
            <div className='flex flex-row gap-4 content-center items-center'>
                <Avatar className='w-[44px] h-[44px]'>
-                   <AvatarImage src="https://github.com/shadcn.png" />
-                   <AvatarFallback>CN</AvatarFallback>
+                        <AvatarImage src={props.url} />
+                        <AvatarFallback>{props.username}</AvatarFallback>
                </Avatar>
                <div className='flex flex-col justify-between h-full'>
                <a className='font-mediun' href="">
@@ -136,8 +137,8 @@ const CardSideProfile = (props:{inbox?:boolean,share?:boolean,commentText?:strin
            <div className='flex flex-row px-5 py-2 hover:bg-slate-100 cursor-pointer  w-full justify-between content-center items-center'>
            <div className='flex flex-row gap-4 content-center items-center'>
                <Avatar className='w-[56px] h-[56px]'>
-                   <AvatarImage src="https://github.com/shadcn.png" />
-                   <AvatarFallback>CN</AvatarFallback>
+                        <AvatarImage src={props.url} />
+                        <AvatarFallback>{props.username}</AvatarFallback>
                </Avatar>
                <div className='flex flex-col justify-between h-full'>
                <a className='font-mediun' href="">
@@ -157,25 +158,28 @@ const CardSideProfile = (props:{inbox?:boolean,share?:boolean,commentText?:strin
     }
     return (
         <div className='flex flex-row  w-full justify-between content-center items-center'>
-            <div className='flex flex-row gap-4 content-center items-center'>
-                <Avatar className='w-[44px] h-[44px]'>
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                <div className='flex flex-col justify-between h-full'>
-                <a className='font-mediun' href="">
-                {props.name}
-                </a>
-                <span className='text-[#a8a29e]'>
-                {props.subname}
-                </span>
-            </div>
-            </div>
+            <Link href={`/${props.username}`}>
+                <div className='flex flex-row gap-4 content-center items-center'>
+                    <Avatar className='w-[44px] h-[44px]'>
+                            <AvatarImage src={props.url} />
+                            <AvatarFallback>{props.username}</AvatarFallback>
+                    </Avatar>
+                    <div className='flex flex-col justify-between h-full'>
+                    <a className='font-mediun' href="">
+                    {props.name}
+                    </a>
+                    <span className='text-[#a8a29e]'>
+                    {props.subname}
+                    </span>
+                </div>
+                </div>
+            </Link>
+            
             
             <div className='flex flex-col h-full text-center justify-center'>
-                <span className='text-[#0ea5e9]'>
+                {/* <span className='text-[#0ea5e9]'>
                     Basculer
-                </span>
+                </span> */}
             </div>
       </div>
     )
