@@ -11,11 +11,12 @@ datasource db {
 }
 
 model User {
-  id                     String     @unique    @id @default(uuid())
+  id                     String         @unique    @id @default(uuid())
   username               String         @unique
   email                  String         @unique
   fullName               String?
   bio                    String?
+  avatarkey              String?
   profilePictureUrl      String?
   isPrivate              Boolean        @default(false)
   joinedAt               DateTime       @default(now())

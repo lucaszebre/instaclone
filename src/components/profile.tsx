@@ -15,6 +15,10 @@ import Gallery from './gallery'
 import { Separator } from "@/components/ui/separator"
 import ProfileStats from './profileStat'
 import MenuMobile from './menuMobile'
+import { useToast } from './ui/use-toast'
+import { UploadButton } from "@/lib/uploadthing";
+import { NewAvatar } from '@/actions/newAvatar'
+import { DeleteAvatar } from '@/actions/deleteAvatar'
 
 type Post = {
     id: string;
@@ -32,6 +36,7 @@ type User = {
     fullName: string | null;
     bio: string | null;
     profilePictureUrl: string | null;
+    avatarkey: string | null;
     isPrivate: boolean;
     joinedAt: Date;
     isEmailVerified: boolean;
@@ -54,9 +59,9 @@ type followers= {
 };
 
 const Profile = (props:{
-   profile:User}) => 
-   
-    {
+   profile:User}) => {
+    const {toast} = useToast()
+
        
     return (
         <>
@@ -77,10 +82,32 @@ const Profile = (props:{
                             <DialogTitle className='text-center'>Modifier la photo de profil</DialogTitle>
                             
                             </DialogHeader>
-                            <Button variant="ghost">
-                                Importe une photo
-                            </Button>
-                            <Button variant="ghost">
+                            <UploadButton
+            className="border-white"
+        endpoint="imageUploader"
+        onClientUploadComplete={async (res) => {
+          // Do something with the response
+          console.log("Files: ", res);
+          if(res){
+            await NewAvatar(res[0].url,res[0].key)
+          toast({
+            title: "Upload of the image completed",
+            // Other properties for the toast can be added here
+        });
+        }}
+          }
+          
+        onUploadError={(error: Error) => {
+          // Do something with the error.
+          toast({
+            title: error.message,
+            description: 'Error to upload the image',
+            variant:'destructive'
+            // Other properties for the toast can be added here
+        });
+        }}
+      />
+                            <Button onClick={async ()=>{await DeleteAvatar(props.profile.avatarkey || "")}} variant="ghost">
                                 Supprimer la photo actuelle
                             </Button>
                             <Button variant="ghost">

@@ -32,16 +32,7 @@ const supabase = createServerComponentClient({ cookies: () => cookieStore })
       console.log("Upload complete for userId:", metadata.userId);
  
       console.log("file url", file.url);
-      try {
-        const newPost = await prisma.post.create({
-            data: {
-                imageUrl: file.url,
-                user: { connect: { id: metadata.userId } },
-            },
-        });
-      } catch (error) {
-        throw new Error('fail to link the file to a user')
-      }
+      
      
  
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback

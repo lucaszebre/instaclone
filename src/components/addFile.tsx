@@ -1,3 +1,4 @@
+'use client'
 /* eslint-disable react/no-unescaped-entities */
 import {
     Dialog,
@@ -12,15 +13,19 @@ import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { UploadButton } from "@/lib/uploadthing";
 import { useToast } from "./ui/use-toast"
-
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import prisma from "@/lib/db";
+import { Database } from "@/lib/database.type";
+import { NewPost } from "@/actions/newPost";
 
 interface Props {
     children: ReactNode;
   }
   
-  const AddFile: React.FC<Props> = ({ children }) => {
+  const AddFile: React.FC<Props> =   ({ children }) => {
     const {toast} = useToast()
-
+    const supabase = createClientComponentClient<Database>()
+    
   return (
     <Dialog>
         <DialogTrigger className="flex w-full">
@@ -37,14 +42,18 @@ interface Props {
             <UploadButton
             className="border-white"
         endpoint="imageUploader"
-        onClientUploadComplete={(res) => {
+        onClientUploadComplete={async (res) => {
           // Do something with the response
           console.log("Files: ", res);
+          if(res){
+            await NewPost(res[0].url)
           toast({
             title: "Upload of the image completed",
             // Other properties for the toast can be added here
         });
         }}
+          }
+          
         onUploadError={(error: Error) => {
           // Do something with the error.
           toast({
