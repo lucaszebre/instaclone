@@ -11,7 +11,7 @@ import { Post } from '@/types';
         console.log(props.photos)
     return (
         
-        <div className="grid ml-3 relative md:ml-0 grid-cols-3 gap-1 w-screen md:w-full max-w-[975px]  mb-12 h-full " >
+        <div className="grid ml-3 relative md:ml-0 grid-cols-3  gap-x-[15px] gap-y-[15px]   w-screen md:w-full max-w-[975px]  mb-12 h-full " >
         {props.photos.map((photo, index) => (
             <PhotoCard key={index} image={photo.imageUrl} like={photo.likes.length.toString()} comment={photo.comments.length.toString()} imgdescription={'dd'} />
         ))}
