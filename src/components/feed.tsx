@@ -4,31 +4,50 @@
 import React from 'react'
 import FeedPost from './feedPost'
 import MenuMobile from './menuMobile';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+import getFeed from '@/actions/getFeed';
+import useFeedQuery from '@/hooks/useFeed';
+import { timeSince } from '@/lib/time';
 
 const Feed = () => {
-    const posts = [
-        {
-            image: "https://github.com/shadcn.png",
-            username: "john_doe",
-            date: "2 hours ago",
-            likes: 123,
-            comment: "This is a great post!"
+    const { ref, inView } = useInView();
+    let POSTS_PER_PAGE = 5
+    const {
+        data,
+        status,
+        error,
+        fetchNextPage,
+        isFetchingNextPage,
+        hasNextPage,
+    } = useInfiniteQuery({
+        queryKey: ['feed'],
+        queryFn: async ({ pageParam = 1 }) => {
+            const posts = await getFeed(pageParam,5);
+            return posts;
         },
-        {
-            image: "https://github.com/shadcn.png",
-            username: "jane_doe",
-            date: "5 hours ago",
-            likes: 456,
-            comment: "Loved this!"
+        getNextPageParam: (lastPage, allPages) => {
+            if (lastPage.length < POSTS_PER_PAGE) {
+                // No more pages left to load
+                return 1;
+            }
+            // Return the next page number
+            return allPages.length + 1;
         },
-        {
-            image: "https://github.com/shadcn.png",
-            username: "random_user",
-            date: "1 day ago",
-            likes: 789,
-            comment: "Amazing content!"
-        }
-    ];
+        initialPageParam: 1 // Initial page parameter
+    });
+
+
+    console.log(data)
+
+
+useEffect(() => {
+    if (inView  ) {
+        fetchNextPage();
+    }
+}, [inView, fetchNextPage]);
+
   return (
     <>
         <MenuMobile />
@@ -39,16 +58,22 @@ const Feed = () => {
             </span>
         </div>
         <div className='flex  flex-col w-full h-screen justify-start items-center content-center gap-10'>
-            {posts.map((post, index) => (
-                <FeedPost 
-                    key={index}
-                    image={post.image}
-                    username={post.username}
-                    date={post.date}
-                    likes={post.likes}
-                    comment={post.comment}
-                />
-            ))}
+        {
+            data?.pages.map((group, i) => (
+                group.map((post, index) => (
+                    <FeedPost 
+                        key={`${i}-${index}`} // Using a combination of group index and item index for key
+                        image={post.imageUrl}
+                        username={post.user.username} // Assuming `user` is a nested object in `post`
+                        date={timeSince(post.postedAt)}
+                        likes={post.likes.length} // Assuming `likes` is an array
+                        comment={post.comments.length.toString()} // Assuming `comments` is an array
+                        avatarurl={post.user.profilePictureUrl||''}
+                    />
+        ))
+    ))
+}
+
         </div>
     </div>
     </>

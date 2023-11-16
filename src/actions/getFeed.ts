@@ -1,56 +1,54 @@
 'use server'
-
 import prisma from '@/lib/db';
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.type';
 import { cookies } from 'next/headers';
 
-// This function fetches posts for the feed
-async function getFeed(cursor = null, limit = 5, includeNonFollowed = false) {
+// Constants
+const POSTS_PER_PAGE = 5; // Adjust as needed
+
+async function getFeed(page :number, limit:number,includeNonFollowed=true) {
     const cookieStore = cookies();
     const supabase = createServerActionClient<Database>({ cookies: () => cookieStore });
 
     const { data: sessionData } = await supabase.auth.getSession();
-
     const currentUserId = sessionData.session?.user.id;
     
     if (!currentUserId) {
         throw new Error("User is not authenticated");
     }
 
-    let posts;
+    // Calculate the number of posts to skip
+
+    let whereClause = {};
 
     if (!includeNonFollowed) {
-        // Fetch posts from followed users
-        posts = await prisma.post.findMany({
-            where: {
-                user: {
-                    followers: {
-                        some: { followerId: currentUserId }
-                    }
-                }
-            },
-            take: limit,
-            cursor: cursor ? { id: cursor } : undefined,
-            orderBy: { postedAt: 'desc' },
-        });
+        whereClause = {
+            user: {
+                followers: { some: { followerId: currentUserId } }
+            }
+        };
     } else {
-        // Fetch posts from non-followed users
-        posts = await prisma.post.findMany({
-            where: {
-                NOT: {
-                    user: {
-                        followers: {
-                            some: { followerId: currentUserId }
-                        }
-                    }
-                }
-            },
-            take: limit,
-            cursor: cursor ? { id: cursor } : undefined,
-            orderBy: { postedAt: 'desc' },
-        });
+        whereClause = {
+            NOT: {
+                user: { followers: { some: { followerId: currentUserId } } }
+            }
+        };
     }
+
+    const posts = await prisma.post.findMany({
+        where: whereClause,
+        include:{
+            comments:true,
+            likes:true,
+            tags:true,
+            user:true,
+            taggedUsers:true
+        },
+        take: limit,
+        skip: (page - 1) * limit,
+        orderBy: { postedAt: 'desc' },
+    });
 
     return posts;
 }

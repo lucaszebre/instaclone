@@ -63,7 +63,6 @@ const handleClickProfile = async () => {
       handleSidebarToggle('profile');
 };
 
-console.log(data)
 
 
   return (

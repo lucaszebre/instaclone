@@ -19,7 +19,7 @@ import { ScrollArea } from '@radix-ui/react-scroll-area'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 import { Input } from './ui/input'
 import CardSideProfile from './cardSideProfile'
-const FeedPost = (props:{image:string,username:string,date:string , likes:number,comment:string}) => {
+const FeedPost = (props:{image:string,username:string,date:string , likes:number,comment:string,avatarurl:string}) => {
     
     const [like,setLike]=useState(false)
     const [save,setSave]=useState(false)
@@ -29,8 +29,8 @@ const FeedPost = (props:{image:string,username:string,date:string , likes:number
         <header className='flex flex-row justify-between content-center h-[32px]'>
             <div className='flex flex-row justify-start content-center gap-2'>
                 <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
+                    <AvatarImage src={props.avatarurl} />
+                    <AvatarFallback>{props.username}</AvatarFallback>
                 </Avatar>
                 <span>
                     {props.username} . {props.date}
@@ -72,8 +72,8 @@ const FeedPost = (props:{image:string,username:string,date:string , likes:number
                                         <header className='flex flex-row justify-between content-center h-[32px]'>
             <div className='flex flex-row justify-start content-center gap-2'>
                 <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
+                    <AvatarImage src={props.avatarurl} />
+                    <AvatarFallback>{props.username}</AvatarFallback>
                 </Avatar>
                 <span>
                     {props.username} . {props.date}

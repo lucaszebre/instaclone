@@ -38,6 +38,7 @@ model User {
 model Post {
   id          String    @id @default(uuid())
   userId      String
+  author      String
   user        User      @relation(fields: [userId], references: [id])
   imageUrl    String
   caption     String?

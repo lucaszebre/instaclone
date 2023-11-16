@@ -1,15 +1,12 @@
 'use client'
 
-import './globals.css'
+import '../globals.css'
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from 'next-themes';
 import React from 'react'
 import { useStore } from '@/store/zus'
 import { Sidebar } from '@/components/sidebar';
 import {
-  useQuery,
-  useMutation,
-  useQueryClient,
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
@@ -56,12 +53,3 @@ export default function RootLayout({
   </html>
   )
 }
-
-
-
-
-
-
-
-
-

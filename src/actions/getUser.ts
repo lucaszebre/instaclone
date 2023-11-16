@@ -13,7 +13,11 @@ export async function GetCurrentUser() {
         
         const data = await supabase.auth.getSession()
         const User = await prisma.user.findFirst({
-            where:{id:data.data.session?.user.id}
+            where:{id:data.data.session?.user.id},
+            include:{
+                followers:true,
+                following:true
+            }
         });
 
         return User;
