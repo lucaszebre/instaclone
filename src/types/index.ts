@@ -1,3 +1,4 @@
+import { PostTag } from '@prisma/client';
 import z from 'zod'
 
 export const SchemaLogin = z.object({
@@ -44,13 +45,17 @@ subtaskArray: z.array(z.string()),
 
 
 
-type Post = {
+export type Post = {
   id: string;
   userId: string;
   imageUrl: string;
   caption: string | null;
   location: string | null;
   postedAt: Date;
+  comments :   Comment[]
+  likes  :     Like[]
+  tags :       PostTag[]
+  taggedUsers :UserTag[]
 };
 
 export type User = {

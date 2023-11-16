@@ -23,7 +23,12 @@ const page = async ({ params }: PageProps) => {
   const profile = await prisma.user.findUnique({
     where: { username: slug },
     include: {
-      posts:true ,
+      posts:{include:{
+        likes:true,
+        comments:true,
+        taggedUsers:true,
+        tags:true
+      }},
       followers:true,
       following:true,
 
@@ -34,9 +39,9 @@ const page = async ({ params }: PageProps) => {
   if (!profile) return notFound()
 
   return (
-    <>
+    <div className='flex flex-row justify-center w-full'>
       <Profile profile={profile}  />
-    </>
+    </div>
   )
 }
 
