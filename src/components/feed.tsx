@@ -1,7 +1,7 @@
 'use client'
 
 
-import React from 'react'
+import React, { useRef } from 'react'
 import FeedPost from './feedPost'
 import MenuMobile from './menuMobile';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -10,15 +10,23 @@ import { useInView } from 'react-intersection-observer';
 import getFeed from '@/actions/getFeed';
 import useFeedQuery from '@/hooks/useFeed';
 import { timeSince } from '@/lib/time';
+import { CardProfileLoader } from './loader/cardProfile';
+import { FeedPostLoader } from './loader/feedPost';
+import { useIntersection } from '@mantine/hooks'
 
 const Feed = () => {
-    const { ref, inView } = useInView();
-    let POSTS_PER_PAGE = 5
+    const lastPostRef = useRef<HTMLElement>(null)
+    const { ref, entry } = useIntersection({
+      root: lastPostRef.current,
+      threshold: 1,
+    })
+        let POSTS_PER_PAGE = 5
     const {
         data,
         status,
         error,
         fetchNextPage,
+        isFetching,
         isFetchingNextPage,
         hasNextPage,
     } = useInfiniteQuery({
@@ -35,15 +43,14 @@ const Feed = () => {
             // Return the next page number
             return allPages.length + 1;
         },
-        initialPageParam: 1 // Initial page parameter
+        initialPageParam: 1, // Initial page parameter
     });
 
-
-useEffect(() => {
-    if (inView  ) {
-        fetchNextPage();
-    }
-}, [inView, fetchNextPage]);
+    useEffect(() => {
+        if (entry?.isIntersecting) {
+          fetchNextPage() // Load more posts when the last post comes into view
+        }
+      }, [entry, fetchNextPage])
 
   return (
     <>
@@ -56,19 +63,42 @@ useEffect(() => {
         </div>
         <div className='flex  flex-col w-full h-screen justify-start items-center content-center gap-10'>
         {
-            data?.pages.map((group, i) => (
-                group.map((post, index) => (
+    isFetching ? (
+        <>
+            <FeedPostLoader />
+            <FeedPostLoader />
+            <FeedPostLoader />
+            <FeedPostLoader />
+        </>
+    ) : (
+        data?.pages.map((group, i) => (
+            group.map((post, index) => {
+                const isLastPost = i === data.pages.length - 1 && index === group.length - 1;
+                return isLastPost ? (
+                    <div ref={ref} key={`${i}-${index}`}>
+                        <FeedPost 
+                            image={post.imageUrl}
+                            username={post.user.username}
+                            date={timeSince(post.postedAt)}
+                            likes={post.likes.length}
+                            comment={post.comments.length.toString()}
+                            avatarurl={post.user.profilePictureUrl || ''}
+                        />
+                    </div>
+                ) : (
                     <FeedPost 
-                        key={`${i}-${index}`} // Using a combination of group index and item index for key
+                        key={`${i}-${index}`} 
                         image={post.imageUrl}
-                        username={post.user.username} // Assuming `user` is a nested object in `post`
+                        username={post.user.username}
                         date={timeSince(post.postedAt)}
-                        likes={post.likes.length} // Assuming `likes` is an array
-                        comment={post.comments.length.toString()} // Assuming `comments` is an array
-                        avatarurl={post.user.profilePictureUrl||''}
+                        likes={post.likes.length}
+                        comment={post.comments.length.toString()}
+                        avatarurl={post.user.profilePictureUrl || ''}
                     />
+                );
+            })
         ))
-    ))
+    )
 }
 
         </div>

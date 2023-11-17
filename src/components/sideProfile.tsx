@@ -4,6 +4,8 @@ import CardSideProfile from './cardSideProfile'
 import { GetCurrentUser } from '@/actions/getUser'
 import { useQuery } from '@tanstack/react-query'
 import { GetCurrentAndSideProfiles } from '@/actions/getSideProfile'
+import { CardProfileLoader } from './loader/cardProfile'
+import { CardProfileFeedLoader } from './loader/cardFeedProfile'
 
 const SideProfile = () => {
   const {
@@ -22,14 +24,26 @@ const SideProfile = () => {
   return (
     <div className='lg:flex hidden max-w-[320px] p-6 w-full gap-2  h-screen justify-center flex-col'>
         <div>
-            <CardSideProfile name={data?.currentUser?.username||''} subname={data?.currentUser?.fullName||''} url={data?.currentUser?.profilePictureUrl||''} username={data?.currentUser?.username||''}  />
+          {isFetching ?    <CardProfileFeedLoader/> :            <CardSideProfile name={data?.currentUser?.username||''} subname={data?.currentUser?.fullName||''} url={data?.currentUser?.profilePictureUrl||''} username={data?.currentUser?.username||''}  />
+
+}
         </div>
       <div className='text-start'>
         <span className='text-gray-500	 font-medium'>Suggested for you</span> 
       </div>
       <div className='flex mt-3 flex-col gap-4'>
       {
-    data?.sideProfiles?.map((side,index) => (
+    isFetching ? (
+        <>
+            <CardProfileFeedLoader />
+            <CardProfileFeedLoader />
+            <CardProfileFeedLoader />
+            <CardProfileFeedLoader />
+            <CardProfileFeedLoader />
+            
+        </>
+    ) : (
+      data?.sideProfiles?.map((side,index) => (
         <CardSideProfile 
             key={index}
             name={side.username || ''} 
@@ -38,7 +52,10 @@ const SideProfile = () => {
             username={side.username || ''}
         />
     ))
+        
+    )
 }
+
         
       </div>
     
