@@ -8,7 +8,6 @@ import { Post } from '@/types';
 
 
     const Gallery = (props:{photos: Post[]} ) => {
-        console.log(props.photos)
     return (
         
         <div className="grid ml-3 relative md:ml-0 grid-cols-3  gap-x-[15px] gap-y-[15px]   w-screen md:w-full max-w-[975px]  mb-12 h-full " >

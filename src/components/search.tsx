@@ -13,6 +13,8 @@ import { Input } from "./ui/input";
 import { Separator } from "./ui/separator";
 import { searchUsers } from "@/actions/searchUser";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { User } from "@prisma/client";
 
 interface Props {
     children: ReactNode;
@@ -26,8 +28,9 @@ interface Props {
     data, isLoading, isError
   } = useQuery({
     queryFn: async () => {
-      const data = await searchUsers('kihu');
-      return data;
+      if (!searchTerm) return []
+      const  {data}  = await axios.get(`/api/search?q=${searchTerm}`)     
+      return data as (User[]);
     },
     queryKey: ['search'],
   })

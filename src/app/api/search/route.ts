@@ -1,36 +1,38 @@
-import prisma from '@/lib/db';
-import { User } from '@prisma/client';
+import prisma from "@/lib/db"
 
-export async function searchUsers(searchTerm: string): Promise<User[]> {
+
+export async function GET(req: Request) {
+  const url = new URL(req.url)
+  const q = url.searchParams.get('q')
+
+  if (!q) return new Response('Invalid query', { status: 400 })
     try {
         const users = await prisma.user.findMany({
             where: {
                 OR: [
                     {
                         username: {
-                            contains: searchTerm, // Search by username
+                            contains: q, // Search by username
                             mode: 'insensitive', // Case-insensitive search
                         },
                     },
                     {
                         fullName: {
-                            contains: searchTerm, // Search by full name
+                            contains: q, // Search by full name
                             mode: 'insensitive', // Case-insensitive search
                         },
                     },
                 ],
             },
+            take: 5,
         });
-
-        if(!users){
-            return []
-        }
-        return users;
+        
+        
+          return new Response(JSON.stringify(users)) 
     } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message);
-        }
-        return []
+          
+      
+          return new Response('Could not search', { status: 500 })
     }
+  
 }
-
