@@ -22,7 +22,7 @@ export default function RootLayout({
   const {short,side} = useStore()
 
   return (
-    <html lang="en">
+  <html lang="en">
     <head />
     <QueryClientProvider client={queryClient}>
     <ThemeProvider
@@ -33,19 +33,17 @@ export default function RootLayout({
         >
     <body>
       <main>
-  <div className='flex bg-background flex-row h-screen justify-center md:justify-between w-full'>
-  <Sidebar />
-  <div className={`flex overflow-x-hidden z-0 mb-[50px]
-  
-  ${short && 'md:ml-[96px]' || 
-  '  flex-row  xl:ml-[250px] md:ml-[96px] ml-[0px]'}
-   h-screen w-full  justify-start`}>
-    {children}
-  
-  
-  </div>
-  </div>
-  </main>
+        <div className='flex bg-background flex-row h-screen justify-center md:justify-between w-full'>
+        <Sidebar />
+        <div className={`flex overflow-x-hidden z-0 mb-[50px]
+        
+        ${short && 'md:ml-[96px]' || 
+        '  flex-row  xl:ml-[250px] md:ml-[96px] ml-[0px]'}
+        h-screen w-full  justify-start`}>
+          {children}
+        </div>
+        </div>
+    </main>
       <Toaster />
     </body>
     </ThemeProvider>

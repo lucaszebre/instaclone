@@ -39,9 +39,6 @@ const Feed = () => {
     });
 
 
-    console.log(data)
-
-
 useEffect(() => {
     if (inView  ) {
         fetchNextPage();

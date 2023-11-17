@@ -24,6 +24,7 @@ const page = async ({ params }: PageProps) => {
     where: { username: slug },
     include: {
       posts:{include:{
+        user:true,
         likes:true,
         comments:true,
         taggedUsers:true,

@@ -56,6 +56,7 @@ export type Post = {
   likes  :     Like[]
   tags :       PostTag[]
   taggedUsers :UserTag[]
+  user:User
 };
 
 export type User = {

@@ -5,10 +5,10 @@ import React from 'react';
 import ModalPost from './modalPost';
 
 
-const PhotoCard = (props: { image: string; like: string; comment: string; imgdescription: string }) => {
+const PhotoCard = (props: { image: string; like: string; comment: string; imgdescription: string ,avatar:string,username:string}) => {
   return (
     <>
-    <ModalPost  uploadDate={''} like={parseInt(props.like)} image={props.image} imgdescription={props.imgdescription} name={'ddd'}   >
+    <ModalPost  uploadDate={''} avatar={props.avatar} username={props.username} like={parseInt(props.like)} image={props.image} imgdescription={props.imgdescription} name={'ddd'}   >
     <div className="cursor-pointer relative w-full h-full">
     <Image src={props.image} alt={props.imgdescription} fill={true} objectFit='contain' placeholder='blur' blurDataURL={'<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">'} />
 

@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -38,7 +39,7 @@ model User {
 model Post {
   id          String    @id @default(uuid())
   userId      String
-  author      String
+  author      String    @default("kihura")
   user        User      @relation(fields: [userId], references: [id])
   imageUrl    String
   caption     String?

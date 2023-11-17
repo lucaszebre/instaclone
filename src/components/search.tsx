@@ -1,3 +1,4 @@
+'use client'
 /* eslint-disable react/no-unescaped-entities */
 import {
     Sheet,
@@ -7,17 +8,35 @@ import {
     SheetTitle,
     SheetTrigger,
   } from "@/components/ui/sheet"
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { Input } from "./ui/input";
 import { Separator } from "./ui/separator";
-
+import { searchUsers } from "@/actions/searchUser";
+import { useQuery } from "@tanstack/react-query";
 
 interface Props {
     children: ReactNode;
   }
   
   const Search: React.FC<Props> = ({ children }) => {
+    const [searchTerm, setSearchTerm] = useState(''); // State to store the search term
 
+ 
+  const {
+    data, isLoading, isError
+  } = useQuery({
+    queryFn: async () => {
+      const data = await searchUsers('kihu');
+      return data;
+    },
+    queryKey: ['search'],
+  })
+
+  console.log(data)
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value); // Update the search term when input changes
+  };
   return (
     <Sheet>
         <SheetTrigger className="flex w-full">
@@ -26,9 +45,19 @@ interface Props {
         <SheetContent>
             <SheetHeader>
                 <SheetTitle>Recherche</SheetTitle>
-                <Input />
+                <Input value={searchTerm} onChange={handleInputChange} /> {/* Bind input value and onChange */}
             </SheetHeader>
             <Separator />
+            {isLoading && <p>Loading...</p>}
+        {isError && <p>Error fetching users</p>}
+
+        {data && (
+          <ul>
+            {data.map((user) => (
+              <li key={user.id}>{user.username}</li>
+            ))}
+          </ul>
+        )}
         </SheetContent>
     </Sheet>
   );
