@@ -15,13 +15,13 @@ export async function GET(req: Request) {
                             contains: q, // Search by username
                             mode: 'insensitive', // Case-insensitive search
                         },
-                    },
-                    {
+                    }, {
                         fullName: {
-                            contains: q, // Search by full name
+                            contains: q, // Search by username
                             mode: 'insensitive', // Case-insensitive search
                         },
                     },
+                     
                 ],
             },
             take: 5,
