@@ -166,7 +166,7 @@ const CardSideProfile = (props:{url:string,username:string,inbox?:boolean,share?
                     </Avatar>
                     <div className='flex flex-col justify-between h-full'>
                     <a className='font-mediun' href="">
-                    {props.name}
+                    {props.username}
                     </a>
                     <span className='text-[#a8a29e]'>
                     {props.subname}

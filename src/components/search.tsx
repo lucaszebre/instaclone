@@ -17,6 +17,9 @@ import axios from "axios";
 import { User } from "@prisma/client";
 import debounce from 'lodash.debounce'
 import { useOnClickOutside } from '@/hooks/useClickOutside'
+import { CardProfileLoader } from "./loader/cardProfile";
+import CardSideProfile from "./cardSideProfile";
+
 
 interface Props {
     children: ReactNode;
@@ -69,16 +72,20 @@ interface Props {
                 <Input value={searchTerm} onChange={handleInputChange} /> {/* Bind input value and onChange */}
             </SheetHeader>
             <Separator />
-            {isFetching && <p>Loading...</p>}
+            {isFetching && <div className="flex flex-col gap-4 mt-2">
+              <CardProfileLoader />
+              <CardProfileLoader />
+              <CardProfileLoader />
+            </div>}
         {isError && <p>Error fetching users</p>}
-
-        {data && (
-          <ul>
-            {data.map((user) => (
-              <li key={user.id}>{user.username}</li>
-            ))}
-          </ul>
-        )}
+        
+        {data && data.length > 0  ? (
+        <ul className="flex flex-col gap-5 mt-5 w-full h-full">
+          {data.map((user,index) => (
+            <CardSideProfile  key={index} url={user.profilePictureUrl||''} username={user.username} name={user.fullName||''}  />
+          ))}
+        </ul>
+      ) : <p className={`${isFetching? 'hidden':'flex'} 'mt-6' `}>No users found</p>}
         </SheetContent>
     </Sheet>
   );
