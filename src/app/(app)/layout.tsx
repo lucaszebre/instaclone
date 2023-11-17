@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   const queryClient = new QueryClient()
   const {short,side} = useStore()
-
+  
   return (
   <html lang="en">
     <head />
