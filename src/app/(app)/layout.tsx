@@ -10,6 +10,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import { Next13ProgressBar } from 'next13-progressbar';
 
 
 
@@ -32,6 +33,15 @@ export default function RootLayout({
           disableTransitionOnChange
         >
     <body>
+    <Next13ProgressBar height="4px" color="linear-gradient(to right, 
+              red, 
+              orange, 
+              yellow, 
+              green, 
+              blue, 
+              indigo, 
+              violet);" options={{ showSpinner: false ,speed:8 }} showOnShallow />
+
       <main>
         <div className='flex bg-background flex-row h-screen justify-center md:justify-between w-full'>
         <Sidebar />

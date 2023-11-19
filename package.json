@@ -44,6 +44,7 @@
     "next": "14.0.1",
     "next-auth": "^4.24.5",
     "next-themes": "^0.2.1",
+    "next13-progressbar": "^1.1.0",
     "prisma": "^5.5.2",
     "react": "^18",
     "react-dom": "^18",

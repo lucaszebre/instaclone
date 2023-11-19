@@ -2,7 +2,7 @@ import React from 'react'
 import Feed from '../feed'
 import SideProfile from '../sideProfile'
 
-const home = () => {
+const Home = () => {
   return (
     <div className='flex flex-row justify-between w-full'>
       <Feed/>
@@ -11,4 +11,4 @@ const home = () => {
   )
 }
 
-export default home
+export default Home
