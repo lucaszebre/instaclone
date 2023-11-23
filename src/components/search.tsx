@@ -11,7 +11,6 @@ import {
 import { ReactNode, useCallback, useRef, useState } from "react";
 import { Input } from "./ui/input";
 import { Separator } from "./ui/separator";
-import { searchUsers } from "@/actions/searchUser";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { User } from "@prisma/client";

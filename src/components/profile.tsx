@@ -24,6 +24,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import type { Database } from '@/lib/database.type'
 import { useQuery } from '@tanstack/react-query'
 import { GetCurrentUser } from '@/actions/getUser'
+import OptionProfile from './optionProfile'
 
 const Profile = (props:{
     profile:User}) => {
@@ -53,52 +54,13 @@ const Profile = (props:{
             <div className='  max-w-[975px] pt-[60px] md:pt-[0px] h-full w-screen md:w-full'>
                 <div className=' w-full justify-between flex flex-row h-[190px]'>
                     <div className='w-[290px] h-full flex justify-center content-center items-center md:mr-7'>
-                       
-                        <Dialog>
-                            <DialogTrigger> 
-                                <Avatar className='md:w-[150px] md:h-[150px] w-[77px] h-[77px]'>
-                                                    <AvatarImage  className='md:w-[150px] md:h-[150px] w-[77px] h-[77px]' src={props.profile.profilePictureUrl||''} />
-                                                    <AvatarFallback className='md:w-[150px] md:h-[150px] w-[77px] h-[77px]'>{props.profile.username}</AvatarFallback>
-                                                </Avatar>
-                                                </DialogTrigger>
-                            <DialogContent>
-                                <DialogHeader className='flex flex-row w-full text-center'>
-                                <DialogTitle className='text-center'>Modifier la photo de profil</DialogTitle>
-                                
-                                </DialogHeader>
-                                <UploadButton
-                className="border-white"
-            endpoint="imageUploader"
-            onClientUploadComplete={async (res) => {
-              // Do something with the response
-              console.log("Files: ", res);
-              if(res){
-                await NewAvatar(res[0].url,res[0].key)
-              toast({
-                title: "Upload of the image completed",
-                // Other properties for the toast can be added here
-            });
-            }}
-              }
-              
-            onUploadError={(error: Error) => {
-              // Do something with the error.
-              toast({
-                title: error.message,
-                description: 'Error to upload the image',
-                variant:'destructive'
-                // Other properties for the toast can be added here
-            });
-            }}
-          />
-                                <Button onClick={async ()=>{await DeleteAvatar(props.profile.avatarkey || "")}} variant="ghost">
-                                    Supprimer la photo actuelle
-                                </Button>
-                                <Button variant="ghost">
-                                    Annuler
-                                </Button>
-                            </DialogContent>
-                        </Dialog>
+                <OptionProfile  url={props.profile.profilePictureUrl} username={props.profile.username} avatarkey={props.profile.avatarkey}>
+                    <Avatar className='md:w-[150px] md:h-[150px] w-[77px] h-[77px]'>
+                        <AvatarImage  className='md:w-[150px] md:h-[150px] w-[77px] h-[77px]' src={props.profile.avatarkey||''} />
+                        <AvatarFallback className='md:w-[150px] md:h-[150px] w-[77px] h-[77px]'>{props.profile.username}</AvatarFallback>
+                    </Avatar>
+                </OptionProfile>
+                    
                     </div>
                     <div className=' h-full flex flex-col justify-center gap-4 content-center w-full'>
                         <div className='flex flex-row justify-start content-center text-center items-center gap-8 w-full'>
