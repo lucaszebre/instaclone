@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { createContext, useContext, useState, useEffect } from 'react';
-
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import type { Database } from '@/lib/database.type'
 
 
 export type DataContextType = {
-    isLoggedIn:boolean, setIsLoggedIn:React.Dispatch<React.SetStateAction<boolean>>;
+    session: string | undefined; 
 };
 
 
@@ -12,19 +13,19 @@ export const DataContext = createContext<DataContextType>({} as DataContextType)
 
 
 
-export const DataProvider = (props: { children: React.ReactNode }) => {
+export const DataProvider = async (props: { children: React.ReactNode }) => {
+
+    const supabase = createClientComponentClient<Database>()
+        
+    const data = await supabase.auth.getSession()
 
         
-        
-        const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-        
-            
+        const session=   data.data.session?.access_token  
             
 
     return (
         <DataContext.Provider value={{
-        isLoggedIn, setIsLoggedIn
+            session 
         }}>{props.children}</DataContext.Provider>
     );
     };

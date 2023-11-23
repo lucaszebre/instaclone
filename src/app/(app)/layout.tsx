@@ -40,7 +40,7 @@ export default function RootLayout({
               green, 
               blue, 
               indigo, 
-              violet);" options={{ showSpinner: false ,speed:8 }} showOnShallow />
+              violet);" options={{ showSpinner: false  }} showOnShallow />
 
       <main>
         <div className='flex bg-background flex-row h-screen justify-center md:justify-between w-full'>

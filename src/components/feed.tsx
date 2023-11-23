@@ -6,11 +6,8 @@ import FeedPost from './feedPost'
 import MenuMobile from './menuMobile';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
 import getFeed from '@/actions/getFeed';
-import useFeedQuery from '@/hooks/useFeed';
 import { timeSince } from '@/lib/time';
-import { CardProfileLoader } from './loader/cardProfile';
 import { FeedPostLoader } from './loader/feedPost';
 import { useIntersection } from '@mantine/hooks'
 
@@ -76,7 +73,8 @@ const Feed = () => {
                 const isLastPost = i === data.pages.length - 1 && index === group.length - 1;
                 return isLastPost ? (
                     <div ref={ref} key={`${i}-${index}`}>
-                        <FeedPost 
+                        <FeedPost
+                            id={post.id}
                             image={post.imageUrl}
                             username={post.user.username}
                             date={timeSince(post.postedAt)}
@@ -87,6 +85,7 @@ const Feed = () => {
                     </div>
                 ) : (
                     <FeedPost 
+                        id={post.id}
                         key={`${i}-${index}`} 
                         image={post.imageUrl}
                         username={post.user.username}

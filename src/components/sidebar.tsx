@@ -47,7 +47,6 @@ export function Sidebar() {
     }
 };
 
-const router = useRouter()
 const pathname = usePathname()
 
 
@@ -76,7 +75,7 @@ const pathname = usePathname()
                 
                 
                 <Button asChild  variant="ghost" className="h-full md:h-[50px] md:w-full  justify-center md:justify-start gap-5 ">
-                    <Link href={'/'}>
+                    <Link href={'/'} onClick={()=>{setShort(false)}}>
                       <Tool name="Home">
                         {pathname==='/'  ? <svg aria-label="Accueil" className="hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Accueil</title><path d="M22 23h-6.001a1 1 0 0 1-1-1v-5.455a2.997 2.997 0 1 0-5.993 0V22a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V11.543a1.002 1.002 0 0 1 .31-.724l10-9.543a1.001 1.001 0 0 1 1.38 0l10 9.543a1.002 1.002 0 0 1 .31.724V22a1 1 0 0 1-1 1Z"></path></svg>: <svg aria-label="Accueil" className=" hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Accueil</title><path d="M9.005 16.545a2.997 2.997 0 0 1 2.997-2.997A2.997 2.997 0 0 1 15 16.545V22h7V11.543L12 2 2 11.543V22h7.005Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg>}
                       </Tool>
@@ -104,12 +103,12 @@ const pathname = usePathname()
                     
 
                 
-                    <Button asChild onClick={() => handleSidebarToggle('messages')} variant="ghost" className="md:w-full h-full md:h-[50px]  justify-center md:justify-start gap-5">
+                    <Button asChild  onClick={() => handleSidebarToggle('messages')} variant="ghost" className="md:w-full h-full md:h-[50px]  justify-center md:justify-start gap-5">
                       <Link href={'/inbox'}>
                       <Tool name="messages">
-                        {side=='messages'   ?<svg aria-label="Direct" className="hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Direct</title><path d="M22.91 2.388a.69.69 0 0 0-.597-.347l-20.625.002a.687.687 0 0 0-.482 1.178L7.26 9.16a.686.686 0 0 0 .778.128l7.612-3.657a.723.723 0 0 1 .937.248.688.688 0 0 1-.225.932l-7.144 4.52a.69.69 0 0 0-.3.743l2.102 8.692a.687.687 0 0 0 .566.518.655.655 0 0 0 .103.008.686.686 0 0 0 .59-.337L22.903 3.08a.688.688 0 0 0 .007-.692" fill-rule="evenodd"></path></svg>:                <svg aria-label="Direct" className="hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Direct</title><line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></polygon></svg>}
+                        {pathname==='/inbox'   ?<svg aria-label="Direct" className="hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Direct</title><path d="M22.91 2.388a.69.69 0 0 0-.597-.347l-20.625.002a.687.687 0 0 0-.482 1.178L7.26 9.16a.686.686 0 0 0 .778.128l7.612-3.657a.723.723 0 0 1 .937.248.688.688 0 0 1-.225.932l-7.144 4.52a.69.69 0 0 0-.3.743l2.102 8.692a.687.687 0 0 0 .566.518.655.655 0 0 0 .103.008.686.686 0 0 0 .59-.337L22.903 3.08a.688.688 0 0 0 .007-.692" fill-rule="evenodd"></path></svg>:                <svg aria-label="Direct" className="hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Direct</title><line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></polygon></svg>}
                       </Tool>
-                    <p className={`${side=='messages'   ?'font-bold':''} ${short? 'hidden' : 'xl:flex  hidden'}`}>Messages</p>
+                    <p className={`${pathname==='/inbox'   ?'font-bold':''} ${short? 'hidden' : 'xl:flex  hidden'}`}>Messages</p>
                       </Link>
                       
                     </Button>
@@ -123,10 +122,10 @@ const pathname = usePathname()
                 <p className="xl:flex  hidden">Notiffication</p>
                 </Button>
                 
-                <Button asChild  variant="ghost" className="md:w-full h-full md:h-[50px] justify-center md:justify-start gap-5">
+                <Button asChild  onClick={()=>{setShort(false)}}  variant="ghost" className="md:w-full h-full md:h-[50px] justify-center md:justify-start gap-5">
                   <Link href={`/${data?.username}`}>
                     <Tool name="Profile blabla">
-                      <Avatar className="hover:w-[26px] hover:h-[26px] w-[24px] h-[24px]" >
+                      <Avatar className={`${pathname===`/${data?.username}`?'border-2 ':''} hover:w-[26px] hover:h-[26px] w-[24px] h-[24px]`} >
                           <AvatarImage src={data?.profilePictureUrl||''} />
                           <AvatarFallback>{data?.username}</AvatarFallback>
                       </Avatar>

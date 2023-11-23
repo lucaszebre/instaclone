@@ -31,7 +31,6 @@ interface Props {
     useOnClickOutside(commandRef, () => {
       setSearchTerm('')
     })
-  console.log(searchTerm,'search')
   const {
     data, isLoading, isError,refetch,isFetching
   } = useQuery({
@@ -54,7 +53,6 @@ interface Props {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   
-  console.log(data)
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value); // Update the search term when input changes
