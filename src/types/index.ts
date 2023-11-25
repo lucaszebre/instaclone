@@ -86,6 +86,7 @@ export type followers= {
   followingId: string;
   followerId: string;
   followedAt: Date;
+  userId:string;
 };
 
 
@@ -117,9 +118,9 @@ const LikeSchema = z.object({
 
 const FollowerSchema = z.object({
     id: z.string(),
-    followingId: z.string(),
     followerId: z.string(),
     followedAt: z.date(),
+    userId:z.string()
 });
 
 const TagSchema = z.object({

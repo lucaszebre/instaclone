@@ -12,7 +12,7 @@ interface Props {
     username:string,
     avatarkey:string
   }
-const OptionProfile: React.FC<Props> = ({children,url,username,avatarkey}) => {
+const AvatarOption: React.FC<Props> = ({children,url,username,avatarkey}) => {
   return (
     <div>
       <Dialog>
@@ -60,4 +60,4 @@ const OptionProfile: React.FC<Props> = ({children,url,username,avatarkey}) => {
   )
 }
 
-export default OptionProfile
+export default AvatarOption
