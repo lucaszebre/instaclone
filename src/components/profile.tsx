@@ -33,7 +33,6 @@ const Profile = (props:{
     const queryClient = useQueryClient();
     const {toast} = useToast();
     const supabase = createClientComponentClient<Database>();
-    
     const {
         isFetching,
         data,
@@ -46,11 +45,14 @@ const Profile = (props:{
         },
         queryKey: ['user'],
       })
+      console.log(data?.following)
+      console.log(props.profile.id)
     function isFollowing( ){
-        return data?.followers.some(follower => follower.userId === props.profile.id);
+        return data?.following.some(following => following.followingId === props.profile.id);
     }
 
-  
+    const [isFollow,setIsFollow]= useState(isFollowing())
+
 
 
   
@@ -58,9 +60,10 @@ const Profile = (props:{
         try {
             const response = await axios.post(`/api/follow?p=${props.profile.id}`);
             if (response.status === 200) {
-            
+                setIsFollow(true)
                 queryClient.refetchQueries({ queryKey: ['user'] })
             } else {
+                
                 console.error('Failed to follow');
             }
         } catch (error) {
@@ -72,7 +75,7 @@ const Profile = (props:{
         try {
             const response = await axios.delete(`/api/follow?p=${props.profile.id}`);
             if (response.status === 200) {
-                
+                setIsFollow(false)
                 queryClient.invalidateQueries({ queryKey: ['user'] })
             } else {
                 console.error('Failed to follow');
@@ -160,7 +163,7 @@ const Profile = (props:{
                 <div className=' h-full flex flex-col justify-center gap-4 content-center w-full'>
                     <div className='flex flex-row justify-start content-center text-center items-center gap-8 w-full'>
                         <h2 className='text-[20px]'>{props.profile.username}</h2>
-                        {isFollowing() ? 
+                        {isFollow ? 
                         <Button onClick={async ()=>{ await handleUnFollow()
                         }}
                         >Unfollow</Button>:
