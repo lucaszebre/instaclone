@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from './ui/button'
 import {
@@ -23,14 +23,17 @@ import { GetCurrentUser } from '@/actions/getUser'
 import OptionProfile from './avatarOption'
 import ProfileOption from './profileOption'
 import AvatarOption from './avatarOption'
-import ModalFollow from './modalFollow'
+import ModalFollow from './modalFollower'
 import axios from 'axios'
+import ModalFollowing from './modalFollowing'
+import ModalFollower from './modalFollower'
 
 const Profile = (props:{
     profile:User}) => {
     const queryClient = useQueryClient();
     const {toast} = useToast();
     const supabase = createClientComponentClient<Database>();
+    
     const {
         isFetching,
         data,
@@ -43,15 +46,20 @@ const Profile = (props:{
         },
         queryKey: ['user'],
       })
-      
-      function isFollowing( visitedProfileId: string, followers: Follower[]): boolean {
-        return followers.some(follower => follower.userId === visitedProfileId );
-      }''
+    function isFollowing( ){
+        return data?.followers.some(follower => follower.userId === props.profile.id);
+    }
+
+  
+
+
+  
       const handleFollow = async () => {
         try {
             const response = await axios.post(`/api/follow?p=${props.profile.id}`);
             if (response.status === 200) {
-                queryClient.invalidateQueries({ queryKey: ['user'] })
+            
+                queryClient.refetchQueries({ queryKey: ['user'] })
             } else {
                 console.error('Failed to follow');
             }
@@ -64,6 +72,7 @@ const Profile = (props:{
         try {
             const response = await axios.delete(`/api/follow?p=${props.profile.id}`);
             if (response.status === 200) {
+                
                 queryClient.invalidateQueries({ queryKey: ['user'] })
             } else {
                 console.error('Failed to follow');
@@ -99,17 +108,17 @@ const Profile = (props:{
                             <span>
                                 {props.profile.posts.length} publications
                             </span>
-                            <ModalFollow following={false} id={props.profile.id}>
+                            <ModalFollower id={props.profile.id}>
                             <span>
                                 {props.profile.followers.length} followers
                             </span>
-                            </ModalFollow>
+                            </ModalFollower>
 
-                            <ModalFollow following={true} id={props.profile.id}>
+                            <ModalFollowing  id={props.profile.id}>
                                 <span className='cursor-pointer'>
                                     {props.profile.following.length} following
                                 </span>
-                            </ModalFollow>
+                            </ModalFollowing>
                             
                         </div>
                         <div className='flex flex-col  content-center text-start items-cente justify-start gap-3 w-full'>
@@ -151,7 +160,7 @@ const Profile = (props:{
                 <div className=' h-full flex flex-col justify-center gap-4 content-center w-full'>
                     <div className='flex flex-row justify-start content-center text-center items-center gap-8 w-full'>
                         <h2 className='text-[20px]'>{props.profile.username}</h2>
-                        {isFollowing(props.profile.id ,data?.followers|| []) ? 
+                        {isFollowing() ? 
                         <Button onClick={async ()=>{ await handleUnFollow()
                         }}
                         >Unfollow</Button>:
@@ -184,12 +193,17 @@ const Profile = (props:{
                         <span>
                             {props.profile.posts.length} publications
                         </span>
-                        <span>
-                            {props.profile.followers.length} followers
-                        </span>
-                        <span>
-                            {props.profile.following.length} following
-                        </span>
+                        <ModalFollower id={props.profile.id}>
+                            <span>
+                                {props.profile.followers.length} followers
+                            </span>
+                            </ModalFollower>
+
+                            <ModalFollowing  id={props.profile.id}>
+                                <span className='cursor-pointer'>
+                                    {props.profile.following.length} following
+                                </span>
+                            </ModalFollowing>
                     </div>
                     <div className='flex flex-col  content-center text-start items-cente justify-start gap-3 w-full'>
                         <div>

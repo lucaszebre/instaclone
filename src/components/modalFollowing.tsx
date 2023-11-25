@@ -1,20 +1,21 @@
 /* eslint-disable react/jsx-no-undef */
 import { Dialog, DialogTrigger, DialogContent } from './ui/dialog'
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useEffect } from 'react'
 import { Input } from './ui/input'
 import { DialogHeader } from './ui/dialog'
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { CardProfileLoader } from './loader/cardProfile';
 import CardSideProfile from './cardSideProfile';
 
 interface ModalFollow {
-    following: boolean;
     children: ReactNode;
     id:string;
 }
 
-const ModalFollow = (props:ModalFollow) => {
+const ModalFollowing = (props:ModalFollow) => {
+    const queryClient = useQueryClient();
+
 
 
     const {
@@ -24,23 +25,20 @@ const ModalFollow = (props:ModalFollow) => {
         isFetched,
         } = useQuery({
         queryFn: async () => {
-        let data;
-            if(props.following){
-                data = await axios.get(`/api/following?q=${props.id}`);
-            }else{
-                data = await axios.get(`/api/followers?q=${props.id}`);
-            }
+            const    data = await axios.get(`/api/following?p=${props.id}`);
+            
             return data;
         },
-        queryKey: ['userlist'],
+        queryKey: ['followinglist'],
+        enabled:true
       })
-
+    
     return (
         <Dialog>
             <DialogTrigger>{props.children}</DialogTrigger>
             <DialogContent className='max-w-[450px] w-full h-[70%] flex flex-col justify-between gap-11' >
             <DialogHeader className='flex flex-row justify-center text-center'>
-                {props.following ? 'following':'followers'}
+                following
             </DialogHeader>
             <Input placeholder='Search'  />
             <div className='flex flex-col h-full w-full overflow-y-scroll'>
@@ -62,4 +60,4 @@ const ModalFollow = (props:ModalFollow) => {
     )
 }
 
-export default ModalFollow
+export default ModalFollowing
