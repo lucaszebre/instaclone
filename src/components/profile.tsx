@@ -18,7 +18,7 @@ import { useToast } from './ui/use-toast'
 import { Follower, User } from '@/types'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import type { Database } from '@/lib/database.type'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { GetCurrentUser } from '@/actions/getUser'
 import OptionProfile from './avatarOption'
 import ProfileOption from './profileOption'
@@ -38,52 +38,85 @@ const Profile = (props:{
         data,
         refetch,
         isFetched,
-      } = useQuery({
-        queryFn: async () => {
-          const  data  = await GetCurrentUser();
-        return data;
+        } = useQuery({
+            queryFn: async () => {
+            const  data  = await GetCurrentUser();
+            return data;
         },
         queryKey: ['user'],
-      })
-      console.log(data?.following)
-      console.log(props.profile.id)
-    function isFollowing( ){
-        return data?.following.some(following => following.followingId === props.profile.id);
-    }
+        })
+        const [isFollow,setIsFollow]= useState(data?.following.some(following => following.followingId === props.profile.id))
+        const [follower,setFollower]=useState(props.profile.followers.length)
+        const [following,setFollowing]=useState(props.profile.following.length)
+        useEffect(()=>{
+        setIsFollow(data?.following.some(following => following.followingId === props.profile.id))
+        },[data?.following.some(following => following.followingId === props.profile.id)])
+        console.log(data?.following.some(following => following.followingId === props.profile.id))
+        console.log(isFollow)
+        console.log(props.profile.id)
+        
+        const {mutate:handleFollow} = useMutation({
+            mutationFn: async (id:string) => {
+            await axios.post(`/api/follow?p=${id}`)
+            },
+            onError: () => {
+            setIsFollow(false)
+              // reset current vote
+            setFollower(prev => prev-1)
+            return toast({
+                title: 'Something went wrong.',
+                description: 'Your follower was not registered. Please try again.',
+                variant: 'destructive',
+            })
+            },
+            onMutate: () => {
+                setIsFollow(true)
+                setFollower(prev=>prev+1)
 
-    const [isFollow,setIsFollow]= useState(isFollowing())
+            },
+            onSuccess:()=>{
+                queryClient.invalidateQueries({ queryKey: ['followerslist',] })
+                queryClient.refetchQueries({queryKey:['followerslist']})
+                return toast({
+                    title: `You now follow ${props.profile.username}`,
+                    description: 'Your follow was  registered. ',
+                })
+            }
+          }) 
+        
+        const {mutate:handleUnFollow} = useMutation({
+            mutationFn: async (id:string) => {
+            await axios.delete(`/api/follow?p=${id}`)
+            },
+            onError: () => {
+            setIsFollow(true)
+            setFollower(prev=>prev+1)
 
+              // reset current vote
+            return toast({
+                title: 'Something went wrong.',
+                description: 'Your follower was not registered. Please try again.',
+                variant: 'destructive',
+            })
+            },
+            onMutate: () => {
+                setIsFollow(false)
+                setFollower(prev => prev-1)
+
+
+            },
+            onSuccess:()=>{
+                return toast({
+                    title: `You dont't follow ${props.profile.username} anymore!`,
+                    description: 'Your unfollow was  registered. ',
+                })
+            }
+          })
 
 
   
-      const handleFollow = async () => {
-        try {
-            const response = await axios.post(`/api/follow?p=${props.profile.id}`);
-            if (response.status === 200) {
-                setIsFollow(true)
-                queryClient.refetchQueries({ queryKey: ['user'] })
-            } else {
-                
-                console.error('Failed to follow');
-            }
-        } catch (error) {
-            console.error('Error to follow:', error);
-        }
-    };
     
-    const handleUnFollow = async () => {
-        try {
-            const response = await axios.delete(`/api/follow?p=${props.profile.id}`);
-            if (response.status === 200) {
-                setIsFollow(false)
-                queryClient.invalidateQueries({ queryKey: ['user'] })
-            } else {
-                console.error('Failed to follow');
-            }
-        } catch (error) {
-            console.error('Error to follow:', error);
-        }
-    };
+ 
     if(props.profile.id === data?.id){
         return (
             <>
@@ -113,13 +146,13 @@ const Profile = (props:{
                             </span>
                             <ModalFollower id={props.profile.id}>
                             <span>
-                                {props.profile.followers.length} followers
+                                {follower} followers
                             </span>
                             </ModalFollower>
 
                             <ModalFollowing  id={props.profile.id}>
                                 <span className='cursor-pointer'>
-                                    {props.profile.following.length} following
+                                    {following} following
                                 </span>
                             </ModalFollowing>
                             
@@ -164,10 +197,10 @@ const Profile = (props:{
                     <div className='flex flex-row justify-start content-center text-center items-center gap-8 w-full'>
                         <h2 className='text-[20px]'>{props.profile.username}</h2>
                         {isFollow ? 
-                        <Button onClick={async ()=>{ await handleUnFollow()
+                        <Button onClick={ ()=>{  handleUnFollow(props.profile.id)
                         }}
                         >Unfollow</Button>:
-                        <Button onClick={async ()=>{ await handleFollow()
+                        <Button onClick={ ()=>{ handleFollow(props.profile.id)
                         }} >Follow</Button>
                         }
                         <Dialog>
@@ -198,13 +231,13 @@ const Profile = (props:{
                         </span>
                         <ModalFollower id={props.profile.id}>
                             <span>
-                                {props.profile.followers.length} followers
+                                {follower} followers
                             </span>
                             </ModalFollower>
 
                             <ModalFollowing  id={props.profile.id}>
                                 <span className='cursor-pointer'>
-                                    {props.profile.following.length} following
+                                    {following} following
                                 </span>
                             </ModalFollowing>
                     </div>
