@@ -32,6 +32,8 @@ model User {
   notifications          Notification[]
   stories                Story[]
   taggedPosts            UserTag[]
+  userBlock              String[]
+  userBLockme         String[]
 }
 
 
@@ -152,4 +154,6 @@ model UserTag {
 
   @@id([postId, userId])
 }
+
+
 
