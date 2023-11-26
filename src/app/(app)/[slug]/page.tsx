@@ -20,6 +20,8 @@ const page = async ({ params }: PageProps) => {
           data: { session },
         } = await supabase.auth.getSession()
 
+  if (slug===undefined||slug.trim()==="") return notFound();
+
   const profile = await prisma.user.findUnique({
     where: { username: slug },
     include: {

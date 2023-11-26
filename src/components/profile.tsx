@@ -27,6 +27,7 @@ import ModalFollow from './modalFollower'
 import axios from 'axios'
 import ModalFollowing from './modalFollowing'
 import ModalFollower from './modalFollower'
+import { ReloadIcon } from '@radix-ui/react-icons'
 
 const Profile = (props:{
     profile:User}) => {
@@ -55,7 +56,7 @@ const Profile = (props:{
         console.log(isFollow)
         console.log(props.profile.id)
         
-        const {mutate:handleFollow} = useMutation({
+        const mutateFollow = useMutation({
             mutationFn: async (id:string) => {
             await axios.post(`/api/follow?p=${id}`)
             },
@@ -84,7 +85,7 @@ const Profile = (props:{
             }
           }) 
         
-        const {mutate:handleUnFollow} = useMutation({
+        const mutateUnfollow = useMutation({
             mutationFn: async (id:string) => {
             await axios.delete(`/api/follow?p=${id}`)
             },
@@ -197,11 +198,31 @@ const Profile = (props:{
                     <div className='flex flex-row justify-start content-center text-center items-center gap-8 w-full'>
                         <h2 className='text-[20px]'>{props.profile.username}</h2>
                         {isFollow ? 
-                        <Button onClick={ ()=>{  handleUnFollow(props.profile.id)
-                        }}
-                        >Unfollow</Button>:
-                        <Button onClick={ ()=>{ handleFollow(props.profile.id)
-                        }} >Follow</Button>
+                        <>
+                        {
+                            mutateFollow.isPending ?
+                            <Button disabled>
+                            <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                            
+                          </Button>:
+                          <Button onClick={ ()=>{  mutateUnfollow.mutate(props.profile.id)
+                          }}
+                          >Unfollow</Button>
+                        }
+                        </>
+                        :
+                        <>
+                          {    mutateUnfollow.isPending ?
+                            <Button disabled>
+                            <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                            
+                          </Button>
+                             :    <Button onClick={ ()=>{ mutateFollow.mutate(props.profile.id)
+                          }} >Follow</Button>
+                        }
+                        </>
+                      
+                    
                         }
                         <Dialog>
                         <DialogTrigger> 
