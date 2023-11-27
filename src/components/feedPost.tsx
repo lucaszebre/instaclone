@@ -1,38 +1,46 @@
 'use client'
 
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Textarea } from './ui/textarea'
 import Link from 'next/link'
 import axios from 'axios'
 import {  useQuery, useMutation } from '@tanstack/react-query'
-import { useToast } from './ui/use-toast'
 import SharePost from './sharePost'
 import FeedOption from './optionFeed'
+import { Like } from '@/types'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import type { Database } from '@/lib/database.type'
 
 const fetchPostLikeStatus = async (postId:string) => {
-    const { data } = await axios.get(`/api/like?p=${postId}`);
+    const { data  } = await axios.get(`/api/like?p=${postId}`);
     return data;
 };
 
-const FeedPost = (props:{id:string,image:string,username:string,date:string , likes:number,comment:string,avatarurl:string}) => {
+const FeedPost = (props:{id:string,image:string,username:string,date:string , likes:number,comment:string,avatarurl:string,like:Like[]}) => {
     const [save,setSave]=useState(false)
+    const supabase = createClientComponentClient<Database>()
     const {
         isFetching,
         data,
         refetch,
         isFetched,
-      } = useQuery({
+        } = useQuery({
         queryFn: async () => {
-          const  data  = await fetchPostLikeStatus(props.id);
-        return data;
+            const    data = await supabase.auth.getSession();
+            
+            return data;
         },
-        queryKey: ['postLikeStatus'],
+        queryKey: ['userId'],
+        enabled:true
       })
-      console.log(data)
-    // const [like, setLike] = useState(data.isLiked);
-    const [like, setLike] = useState(false);
+
+    const [like, setLike] = useState(props.like.some((l)=>{l.userId.includes(data?.data.session?.user.id||"")}));
+
+    useEffect(()=>{
+        setLike(props.like.some((l)=>{l.userId.includes(data?.data.session?.user.id||"")}))
+    },[data?.data.session?.user.id,props.like])
     const [likeCount, setLikeCount] = useState(props.likes);
     const Like = useMutation({
         mutationFn: async (id:string) => {
@@ -64,6 +72,8 @@ const FeedPost = (props:{id:string,image:string,username:string,date:string , li
             setLikeCount(prev=>prev-1)
         }
     })
+
+   
 
     return (
 

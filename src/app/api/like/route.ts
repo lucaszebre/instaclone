@@ -97,7 +97,7 @@ export async function GET(req: Request) {
 
         const isLiked = like !== null;
 
-        return new Response(JSON.stringify({ isLiked }), { status: 200 });
+        return new Response(JSON.stringify(isLiked), { status: 200 });
 
     } catch (error) {
         return new Response('Server error', { status: 500 });

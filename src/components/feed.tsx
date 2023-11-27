@@ -12,6 +12,7 @@ import { FeedPostLoader } from './loader/feedPost';
 import { useIntersection } from '@mantine/hooks'
 
 const Feed = () => {
+    
     const lastPostRef = useRef<HTMLElement>(null)
     const { ref, entry } = useIntersection({
       root: lastPostRef.current,
@@ -81,6 +82,7 @@ const Feed = () => {
                             likes={post.likes.length}
                             comment={post.comments.length.toString()}
                             avatarurl={post.user.profilePictureUrl || ''}
+                            like={post.likes}
                         />
                     </div>
                 ) : (
@@ -93,6 +95,7 @@ const Feed = () => {
                         likes={post.likes.length}
                         comment={post.comments.length.toString()}
                         avatarurl={post.user.profilePictureUrl || ''}
+                        like={post.likes}
                     />
                 );
             })

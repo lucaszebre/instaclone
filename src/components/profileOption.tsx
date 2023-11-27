@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { copyCurrentURL } from '@/lib/copyLink';
 import { useToast } from './ui/use-toast';
 import AlertBlock from './alertBlock';
+import AboutThisAccount from './aboutThisAccount';
 
 interface Props {
     children: ReactNode;
@@ -43,9 +44,12 @@ const ProfileOption: React.FC<Props> = ({    children,current,username
                         }} variant="ghost">
                         Share
                     </Button>
-                    <Button  variant="ghost">
-                        About this account
-                    </Button>
+                    <AboutThisAccount uploadDate={''} like={0} image={''} imgdescription={''} name={''}  avatar={''} username={''}>
+                        <Button  variant="ghost">
+                            About this account
+                        </Button>
+                    </AboutThisAccount>
+                    
                 </DialogContent>
             </Dialog>
         </div>
