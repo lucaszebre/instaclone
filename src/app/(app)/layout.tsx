@@ -25,13 +25,14 @@ export default function RootLayout({
   return (
   <html lang="en">
     <head />
-    <QueryClientProvider client={queryClient}>
     <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
+              <QueryClientProvider  client={queryClient} >
+
     <body>
     <Next13ProgressBar height="4px" color="linear-gradient(to right, 
               red, 
@@ -56,8 +57,8 @@ export default function RootLayout({
     </main>
       <Toaster />
     </body>
-    </ThemeProvider>
     </QueryClientProvider>
+    </ThemeProvider>
   </html>
   )
 }
