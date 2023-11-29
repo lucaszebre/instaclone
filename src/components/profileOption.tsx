@@ -8,6 +8,7 @@ import { copyCurrentURL } from '@/lib/copyLink';
 import { useToast } from './ui/use-toast';
 import AlertBlock from './alertBlock';
 import AboutThisAccount from './aboutThisAccount';
+import QRCodeDialog from './qrcode';
 
 interface Props {
     children: ReactNode;
@@ -63,9 +64,12 @@ const ProfileOption: React.FC<Props> = ({    children,current,username
     
                 </DialogTrigger>
                 <DialogContent>
-                    <Button variant="ghost">
-                        Code qr
-                    </Button>
+                    <QRCodeDialog url='ddd'>
+                        <Button variant="ghost">
+                            Code qr
+                        </Button>
+                    </QRCodeDialog>
+                   
                     <Button variant="ghost">
                         Parametre et confidantialité
                     </Button>

@@ -46,6 +46,7 @@ interface Props {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={async ()=>{
                             await supabase.auth.signOut()
+                            router.push('/auth')
                             router.refresh()
 
                     } }><Button variant="ghost" className="w-full justify-start gap-5" >Déconnexion</Button></DropdownMenuItem>
