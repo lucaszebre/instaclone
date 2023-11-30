@@ -46,7 +46,7 @@ const ProfileOption: React.FC<Props> = ({    children,current,username
                         Share
                     </Button>
                     <AboutThisAccount uploadDate={''} like={0} image={''} imgdescription={''} name={''}  avatar={''} username={''}>
-                        <Button  variant="ghost">
+                        <Button className='w-full'  variant="ghost">
                             About this account
                         </Button>
                     </AboutThisAccount>
@@ -65,7 +65,7 @@ const ProfileOption: React.FC<Props> = ({    children,current,username
                 </DialogTrigger>
                 <DialogContent>
                     <QRCodeDialog url='ddd'>
-                        <Button variant="ghost">
+                        <Button className='w-full' variant="ghost">
                             Code qr
                         </Button>
                     </QRCodeDialog>
@@ -74,6 +74,7 @@ const ProfileOption: React.FC<Props> = ({    children,current,username
                         Parametre et confidantialité
                     </Button>
                     <Button onClick={async ()=>{
+                            router.push('/auth')
                             await supabase.auth.signOut()
                             router.refresh()
 

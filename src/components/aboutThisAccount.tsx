@@ -1,9 +1,7 @@
 'use client'
 
 import React, { ReactNode } from 'react'
-import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Separator } from '@radix-ui/react-dropdown-menu'
 import {
     Dialog,
     DialogContent,
@@ -23,13 +21,14 @@ import { DialogHeader } from './ui/dialogInbox'
   export default function AboutThisAccount(props: ModalPostProps) {
   return (
         <Dialog>
-            <DialogTrigger>{props.children}</DialogTrigger>
+            <DialogTrigger className='w-full'>{props.children}</DialogTrigger>
             <DialogContent className='max-w-[500px] w-full h-full max-h-[500px] flex flex-col justify-between gap-11' >
-            <DialogHeader>About this account</DialogHeader>
-                                <div>
-                                    <Avatar>
-                                        <AvatarImage src={props.avatar} />
-                                        <AvatarFallback>{props.username}</AvatarFallback>
+            <DialogHeader className='flex flex-row w-full justify-center'>About this account</DialogHeader>
+
+                                <div className='flex flex-col justify-start gap-2'>
+                                    <Avatar className='max-w-[200px] max-h-[200px]'>
+                                        <AvatarImage className='w-[200px] h-[200px]' src={props.avatar} />
+                                        <AvatarFallback className='h-[200px] w-[200px'>{props.username}</AvatarFallback>
                                     </Avatar>
                                     <span>{props.name}</span>
                                 </div>
