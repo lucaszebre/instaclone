@@ -17,11 +17,11 @@ const Setting = (props:{
   fullname:string
 }) => {
   return (
-    <div className='flex flex-col justify-start'>
+    <div className='flex w-full h-full max-w-[650px] gap-3 p-4 flex-col justify-between'>
       <span>
         Edit Profile
       </span>
-      <div className='flex flex-row justify-between w-full bg-gray-300 h-[80px] rounded-md'>
+      <div className='flex flex-row items-center p-4 justify-between w-full light: dark:bg-[#363636] h-[88px] rounded-md'>
         {/* Edit avatar */}
         <div className='flex flex-row justify-start gap-3'>
           <Avatar className='max-w-[200px] max-h-[200px]'>
@@ -33,34 +33,36 @@ const Setting = (props:{
             <p>{props.fullname}</p>
           </div>
         </div>
-        <Button>Change button</Button>
+        <Button className='bg-[#0095F6] text-white'>Change photo</Button>
       </div>
 
         {/* Edit Bio */}
 
-      <div className='flex flex-col items-start text-start'>
+      <div className='flex flex-col gap-2 items-start text-start'>
       <label >Bio</label>
-      <Textarea  className='w-full rounded-sm h-[50px]' />
+      <Textarea  maxLength={156} className='w-full rounded-sm h-[50px]' />
       </div>
 
             {/* Edit gender */}
 
-      <div className='flex flex-col items-start text-start'>
+      <div className='flex gap-2 flex-col items-start text-start'>
       <label >Gender</label>
         <Select >
-          <SelectTrigger className="w-full h-[80px] bg-gray-50 rounded-sm">
-            <SelectValue placeholder="Theme" />
+          <SelectTrigger className="w-full h-[80px]  rounded-sm">
+            <SelectValue defaultValue={"Female"} placeholder='Female' />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="light">Light</SelectItem>
-            <SelectItem value="dark">Dark</SelectItem>
-            <SelectItem value="system">System</SelectItem>
+            <SelectItem value="female">Female</SelectItem>
+            <SelectItem value="male">Male</SelectItem>
+            <SelectItem value="bi">Bi</SelectItem>
+            <SelectItem value="trans">Trans</SelectItem>
+            <SelectItem value="other">Other</SelectItem>
           </SelectContent>
         </Select>
 
       </div>
       <div className='flex flex-rox justify-end w-full'>
-        <Button>Submit</Button>
+        <Button className='bg-[#0095F6] text-white'>Submit</Button>
       </div>
 
     </div>
