@@ -1,7 +1,5 @@
 import React, { ReactNode } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { UploadButton } from '@/lib/uploadthing';
 import { NewAvatar } from '@/actions/newAvatar';
 import { toast } from './ui/use-toast';
 import { Button } from './ui/button';
@@ -17,13 +15,16 @@ const AvatarOption: React.FC<Props> = ({children,url,username,avatarkey}) => {
     <div>
       <Dialog>
             <DialogTrigger> 
-               {children}
+                {children}
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader className='flex flex-row w-full text-center'>
-                <DialogTitle className='text-center'>Modifier la photo de profil</DialogTitle>
+                <DialogTitle className='text-center w-full'>Modifier la photo de profil</DialogTitle>
             </DialogHeader>
-            <UploadButton
+            <Button>
+              <input type='file' hidden />
+              Change the avatar</Button>
+            <Button
                 className="border-white"
             endpoint="imageUploader"
             onClientUploadComplete={async (res) => {

@@ -13,9 +13,12 @@ import QRCodeDialog from './qrcode';
 interface Props {
     children: ReactNode;
     current:boolean
-    username?:string
+    uploadDate:string
+    avatar:string
+    username:string
+    name:string
     }
-const ProfileOption: React.FC<Props> = ({    children,current,username
+const ProfileOption: React.FC<Props> = ({    children,current,username,uploadDate,avatar,name
 }) => {
     const supabase = createClientComponentClient<Database>()
     const router = useRouter()
@@ -45,7 +48,7 @@ const ProfileOption: React.FC<Props> = ({    children,current,username
                         }} variant="ghost">
                         Share
                     </Button>
-                    <AboutThisAccount uploadDate={''} like={0} image={''} imgdescription={''} name={''}  avatar={''} username={''}>
+                    <AboutThisAccount  date={uploadDate} name={name}  avatar={avatar} username={username}>
                         <Button className='w-full'  variant="ghost">
                             About this account
                         </Button>
@@ -70,7 +73,10 @@ const ProfileOption: React.FC<Props> = ({    children,current,username
                         </Button>
                     </QRCodeDialog>
                    
-                    <Button variant="ghost">
+                    <Button onClick={()=>{
+                        router.push('/account')
+                        router.refresh()
+                }} variant="ghost">
                         Parametre et confidantialité
                     </Button>
                     <Button onClick={async ()=>{

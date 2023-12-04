@@ -1,8 +1,6 @@
-import { cookies } from 'next/headers'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import prisma from '@/lib/db'
 import { notFound } from 'next/navigation'
-import Profile from '@/components/profile'
+import Post from '@/components/post'
 
 interface PageProps {
   params: {
@@ -13,35 +11,26 @@ interface PageProps {
 const page = async ({ params }: PageProps) => {
   const { slug } = params
 
-  const cookieStore = cookies()
-  const supabase = createServerComponentClient({ cookies: () => cookieStore })
-        // This code runs on your server before upload
-        const {
-          data: { session },
-        } = await supabase.auth.getSession()
 
-  const profile = await prisma.user.findUnique({
-    where: { username: slug },
+
+  const post = await prisma.post.findUnique({
+    where: { id: slug },
     include: {
-      posts:{include:{
-        user:true,
-        likes:true,
-        comments:true,
-        taggedUsers:true,
-        tags:true
-      }},
-      followers:true,
-      following:true,
-
-      },
+      comments:true,
+      likes:true,
+      tags:true,
+      taggedUsers:true,
+      user:true
+    }
     },
   )
 
-  if (!profile) return notFound()
+
+  if (!post) return notFound()
 
   return (
     <div className='flex flex-row justify-center w-full'>
-      <Profile profile={profile}  />
+      <Post image={post.imageUrl} alt={post.author} username={post.user.username} id={post.id} comments={post.comments} likes={post.likes} avatar={post.user.profilePictureUrl||""} fullName={post.user.fullName||""} city={"Paris"} randomPeopleWhoLike={''} like={post.likes.length}   />
     </div>
   )
 }

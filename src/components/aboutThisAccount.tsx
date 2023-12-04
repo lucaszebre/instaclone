@@ -5,12 +5,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
     Dialog,
     DialogContent,
-    DialogFooter,
     DialogTrigger,
   } from "@/components/ui/dialog"
 import { DialogHeader } from './ui/dialogInbox'
   interface ModalPostProps {
-    uploadDate: string;
     name: string;
     children: ReactNode;
     avatar:string;
