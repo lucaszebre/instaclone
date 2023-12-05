@@ -98,7 +98,9 @@ const FeedPost = (props:{id:string,image:string,username:string,date:string , li
             
         </header>
       <div className='flex flex-col relative  w-screen h-screen max-w-[468px] max-h-[468px] '>
-        <Image className='rounded-sm'  src={props.image} fill objectFit='cover' alt={''}/>
+        <Link href={`p/${props.id}`}>
+            <Image className='rounded-sm'  src={props.image} fill objectFit='cover' alt={''}/>
+        </Link>
       </div>
     <div className='flex h-[40px] flex-row w-full content-center justify-between'>
                     <div className='flex flex-row items-center content-center gap-4'>

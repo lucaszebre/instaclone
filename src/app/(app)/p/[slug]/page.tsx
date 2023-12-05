@@ -1,3 +1,4 @@
+"use server"
 import prisma from '@/lib/db'
 import { notFound } from 'next/navigation'
 import Post from '@/components/post'
@@ -29,7 +30,7 @@ const page = async ({ params }: PageProps) => {
   if (!post) return notFound()
 
   return (
-    <div className='flex flex-row justify-center w-full'>
+    <div className='flex flex-row justify-center h-full items-center w-full'>
       <Post image={post.imageUrl} alt={post.author} username={post.user.username} id={post.id} comments={post.comments} likes={post.likes} avatar={post.user.profilePictureUrl||""} fullName={post.user.fullName||""} city={"Paris"} randomPeopleWhoLike={''} like={post.likes.length}   />
     </div>
   )
