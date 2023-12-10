@@ -19,7 +19,7 @@ export default async function Page() {
   return (
     <>
      
-          <Home />
+          <Home userId={session.user.id} />
      
       
     </>

@@ -11,7 +11,7 @@ import { timeSince } from '@/lib/time';
 import { FeedPostLoader } from './loader/feedPost';
 import { useIntersection } from '@mantine/hooks'
 
-const Feed = () => {
+const Feed = (props:{userId:string}) => {
     
     const lastPostRef = useRef<HTMLElement>(null)
     const { ref, entry } = useIntersection({
@@ -75,6 +75,7 @@ const Feed = () => {
                 return isLastPost ? (
                     <div ref={ref} key={`${i}-${index}`}>
                         <FeedPost
+                            userId={props.userId}
                             id={post.id}
                             image={post.imageUrl}
                             username={post.user.username}
@@ -87,6 +88,7 @@ const Feed = () => {
                     </div>
                 ) : (
                     <FeedPost 
+                        userId={props.userId}
                         id={post.id}
                         key={`${i}-${index}`} 
                         image={post.imageUrl}

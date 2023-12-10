@@ -10,37 +10,18 @@ import {  useQuery, useMutation } from '@tanstack/react-query'
 import SharePost from './sharePost'
 import FeedOption from './optionFeed'
 import { Like } from '@/types'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import type { Database } from '@/lib/database.type'
 
-const fetchPostLikeStatus = async (postId:string) => {
-    const { data  } = await axios.get(`/api/like?p=${postId}`);
-    return data;
-};
+import { useQueryClient } from '@tanstack/react-query'
 
-const FeedPost = (props:{id:string,image:string,username:string,date:string , likes:number,comment:string,avatarurl:string,like:Like[]}) => {
+
+const FeedPost = (props:{id:string,userId:string,image:string,username:string,date:string , likes:number,comment:string,avatarurl:string,like:Like[]}) => {
+    const queryClient = useQueryClient()
+
+
     const [save,setSave]=useState(false)
-    const supabase = createClientComponentClient<Database>()
-    const {
-        isFetching,
-        data,
-        refetch,
-        isFetched,
-        } = useQuery({
-        queryFn: async () => {
-            const    data = await supabase.auth.getSession();
-            
-            return data;
-        },
-        queryKey: ['userId'],
-        enabled:true
-      })
+    
 
-    const [like, setLike] = useState(props.like.some((l)=>{l.userId.includes(data?.data.session?.user.id||"")}));
-
-    useEffect(()=>{
-        setLike(props.like.some((l)=>{l.userId.includes(data?.data.session?.user.id||"")}))
-    },[data?.data.session?.user.id,props.like])
+ 
     const [likeCount, setLikeCount] = useState(props.likes);
     const Like = useMutation({
         mutationFn: async (id:string) => {
@@ -49,14 +30,28 @@ const FeedPost = (props:{id:string,image:string,username:string,date:string , li
         onError: () => {
         setLike(false)
         setLikeCount(prev=>prev-1)
-
-        
         },
         onMutate: () => {
             setLike(true)
             setLikeCount(prev=>prev+1)
         }
+        
     })
+    
+    const {
+        isFetching,
+        data,
+        refetch,
+        isFetched,
+        } = useQuery({
+        queryFn: async () => {
+            const { data  } = await axios.get(`/api/like?p=${props.id}`);
+            return data;
+        },
+        queryKey: [`post${props.id}`],
+      })
+      const [like, setLike] = useState(data);
+
     const Unlike = useMutation({
         mutationFn: async (id:string) => {
         await axios.delete(`/api/like?p=${id}`)
@@ -65,11 +60,11 @@ const FeedPost = (props:{id:string,image:string,username:string,date:string , li
         setLike(true)
         setLikeCount(prev=>prev+1)
 
-        
         },
         onMutate: () => {
             setLike(false)
             setLikeCount(prev=>prev-1)
+
         }
     })
 
