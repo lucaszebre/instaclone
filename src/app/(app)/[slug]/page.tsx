@@ -3,6 +3,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import prisma from '@/lib/db'
 import { notFound } from 'next/navigation'
 import Profile from '@/components/profile'
+import { UserSchema } from '@/types'
 
 interface PageProps {
   params: {
@@ -20,7 +21,7 @@ const page = async ({ params }: PageProps) => {
           data: { session },
         } = await supabase.auth.getSession()
 
-  if (slug===undefined||slug.trim()==="") return notFound();
+  if (!slug) return notFound();
 
   const profile = await prisma.user.findUnique({
     where: { username: slug },
@@ -39,11 +40,17 @@ const page = async ({ params }: PageProps) => {
     },
   )
 
+
+  
+  
+
   if (!profile) return notFound()
+  
+  const userParse = UserSchema.parse(profile);
 
   return (
     <div className='flex flex-row justify-center w-full'>
-      <Profile profile={profile}  />
+      <Profile profile={userParse}  />
     </div>
   )
 }

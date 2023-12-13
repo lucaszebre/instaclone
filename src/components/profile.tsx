@@ -15,7 +15,7 @@ import Gallery from './gallery'
 import { Separator } from "@/components/ui/separator"
 import MenuMobile from './menuMobile'
 import { useToast } from './ui/use-toast'
-import { Follower, User } from '@/types'
+import { Follower, User, Usered } from '@/types'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import type { Database } from '@/lib/database.type'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -29,8 +29,7 @@ import ModalFollowing from './modalFollowing'
 import ModalFollower from './modalFollower'
 import { ReloadIcon } from '@radix-ui/react-icons'
 
-const Profile = (props:{
-    profile:User}) => {
+const Profile = (props:{profile:Usered}) => {
     const queryClient = useQueryClient();
     const {toast} = useToast();
     const supabase = createClientComponentClient<Database>();
