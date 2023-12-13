@@ -206,7 +206,7 @@ export const UserSchema = z.object({
     isPrivate: z.boolean(),
     joinedAt: z.date(),
     isEmailVerified: z.boolean(),
-    posts: z.array(PostSchema).optional(),
+    posts: z.array(PostSchema),
     following: z.array(FollowerSchema).optional(),
     followers: z.array(FollowerSchema).optional(),
     comments: z.array(CommentSchema).optional(),

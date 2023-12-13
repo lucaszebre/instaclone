@@ -46,8 +46,8 @@ const Profile = (props:{profile:Usered}) => {
         queryKey: ['user'],
         })
         const [isFollow,setIsFollow]= useState(data?.following.some(following => following.followingId === props.profile.id))
-        const [follower,setFollower]=useState(props.profile.followers.length)
-        const [following,setFollowing]=useState(props.profile.following.length)
+        const [follower,setFollower]=useState( props.profile.followers ? props.profile.followers.length : 0)
+        const [following,setFollowing]=useState(props.profile.following ? props.profile.following.length :0)
         useEffect(()=>{
         setIsFollow(data?.following.some(following => following.followingId === props.profile.id))
         },[data?.following.some(following => following.followingId === props.profile.id)])
@@ -142,7 +142,7 @@ const Profile = (props:{profile:Usered}) => {
                         </div>
                         <div className='flex flex-row justify-start content-center text-center items-cente gap-8 w-full'>
                             <span>
-                                {props.profile.posts.length} publications
+                                {props.profile.posts ? props.profile.posts.length: 0} publications
                             </span>
                             <ModalFollower id={props.profile.id}>
                             <span>
@@ -230,7 +230,7 @@ const Profile = (props:{profile:Usered}) => {
                     </div>
                     <div className='flex flex-row justify-start content-center text-center items-cente gap-8 w-full'>
                         <span>
-                            {props.profile.posts.length} publications
+                            {props.profile.posts ? props.profile.posts.length: 0} publications
                         </span>
                         <ModalFollower id={props.profile.id}>
                             <span>
