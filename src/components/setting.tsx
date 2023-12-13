@@ -1,7 +1,6 @@
 "use client"
 
 /* eslint-disable react/jsx-no-undef */
-import React from 'react'
 import { Button, buttonVariants } from './ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Textarea } from './ui/textarea'
@@ -15,6 +14,11 @@ import {
 import { useToast } from './ui/use-toast'
 import { NewAvatar } from '@/actions/newAvatar';
 import { uploadFiles } from '@/lib/uploadthing'
+import React, { ReactNode } from 'react'
+import { DeleteAvatar } from '@/actions/deleteAvatar';
+import { UploadButton } from "@uploadthing/react";
+import { OurFileRouter } from "@/app/api/uploadthing/core";
+import { useQueryClient } from '@tanstack/react-query';
 
 const Setting = (props:{
   urlavatar?:string,
@@ -24,6 +28,7 @@ const Setting = (props:{
   gender?:string
 }) => {
   const {toast} = useToast()
+  const queryClient = useQueryClient();
 
   return (
     <div className='flex w-full h-full max-w-[650px] gap-3 p-4 flex-col justify-between'>
@@ -33,9 +38,9 @@ const Setting = (props:{
       <div className='flex flex-row items-center p-4 justify-between w-full light: dark:bg-[#363636] h-[88px] rounded-md'>
         {/* Edit avatar */}
         <div className='flex flex-row justify-start gap-3'>
-          <Avatar>
-            <AvatarImage className='w-[200px] h-[200px]' src={props.urlavatar} />
-            <AvatarFallback className='h-[200px] w-[200px'>{props.username}</AvatarFallback>
+          <Avatar className={`  w-48px] h-[50px]`} >
+                <AvatarImage src={props.urlavatar||''} />
+                <AvatarFallback>{props.fullname}</AvatarFallback>
           </Avatar>
           <div className='flex flex-row justify-between '>
             <h1>{props.username}</h1>
@@ -43,50 +48,39 @@ const Setting = (props:{
           </div>
         </div>
         <div>
-        <Button onClick={()=>{
-        async uploadByFile(file: File) {
-                  // upload to uploadthing
-                  const [res] = await uploadFiles([file], 'imageUploader')
+        <UploadButton<OurFileRouter>
+                  endpoint="imageUploader"
+                  onClientUploadComplete={async (res) => {
+                  if(res){
+                    await NewAvatar(res[0].url,res[0].key)
 
-                  return {
-                    success: 1,
-                    file: {
-                      url: res.fileUrl,
-                    },
-                  }
-                },}}>
-        Change the photos
-        </Button>
-          <UploadButton
-          
-              className='bg-[#0095F6] rounded-sm p-2 text-white'
-              endpoint="imageUploader"
-              appearance={button:{
-              
-              }}
-              onClientUploadComplete={async (res) => {
-                // Do something with the response
-                console.log("Files: ", res);
-                if(res){
-                  await NewAvatar(res[0].url,res[0].key)
-                toast({
-                  title: "Upload of the image completed",
-                  // Other properties for the toast can be added here
-              });
-              }}
+                  toast({
+                    title: "Upload of the image completed",
+                    // Other properties for the toast can be added here
+                });
+                queryClient.invalidateQueries({ queryKey: ['user',] })
                 }
-                
-              onUploadError={(error: Error) => {
-                // Do something with the error.
-                toast({
-                  title: error.message,
-                  description: 'Error to upload the image',
-                  variant:'destructive'
-                  // Other properties for the toast can be added here
-              });
               }}
+                
+                onUploadError={(error: Error) => {
+                  toast({
+                    title: error.message,
+                    description: 'Error to upload the image',
+                    variant:'destructive'
+                    // Other properties for the toast can be added here
+                });
+                }}
+
+                onUploadBegin={()=>{
+                  toast({
+                    title: "Upload of the image just started",
+                    description: '-_-',
+                });
+                }
+              }
               
-            />
+              
+              />
         </div>
       </div>
 

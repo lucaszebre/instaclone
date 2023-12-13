@@ -19,8 +19,11 @@ export async function Follow(id: string) {
         const updatedUser = await prisma.user.update({
             where: { id: currentUserId },
             data: {
+                
                 followers: {
+                    
                     connect: {
+
                         id: id, // Assuming 'id' is the ID of the user to follow
                     },
                 },

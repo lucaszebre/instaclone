@@ -110,8 +110,8 @@ const LikeSchema = z.object({
 
 const FollowerSchema = z.object({
     id: z.string(),
-    followerId: z.string(),
-    followedAt: z.date(),
+    followerId: z.string().optional(),
+    followedAt: z.date().optional(),
     userId:z.string()
 });
 

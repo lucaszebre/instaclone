@@ -35,6 +35,7 @@ export function Sidebar() {
     return data;
     },
     queryKey: ['user'],
+    enabled:true
   })
   
   const handleSidebarToggle = (newSide:string) => {
