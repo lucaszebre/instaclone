@@ -33,18 +33,15 @@ export async function POST(req: Request) {
             return new Response('Post not found', { status: 404 })
         }
 
-    
 
-    
-            // If the like exists, remove it (unlike the post)
-            await prisma.like.delete({
-                where: {
-                    postId_userId: { postId, userId },
-                },
-            });
-            return new Response('Post unliked', { status: 404 })
-       
-        // return new Response(JSON.stringify(posts))
+        await prisma.like.create({
+            data: {
+                postId,
+                userId,
+                likedAt: new Date(),
+            },
+        });
+        return new Response('Post liked', { status: 200 })
 
     } catch (error) {
         return new Response('Server error', { status: 500 })
@@ -83,17 +80,12 @@ export async function DELETE(req: Request) {
             return new Response('Post not found', { status: 404 })
         }
 
-       
-
-
-            // If the like exists, remove it (unlike the post)
             await prisma.like.delete({
                 where: {
                     postId_userId: { postId, userId },
                 },
             });
-            return new Response('Post unliked', { status: 404 })
-        // return new Response(JSON.stringify(posts))
+            return new Response('Post unliked', { status:200 })
 
     } catch (error) {
         return new Response('Server error', { status: 500 })
