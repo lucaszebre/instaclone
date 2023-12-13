@@ -12,6 +12,7 @@ interface PageProps {
 }
 
 const page = async ({ params }: PageProps) => {
+  try{
   const { slug } = params
 
   const cookieStore = cookies()
@@ -23,7 +24,7 @@ const page = async ({ params }: PageProps) => {
 
   if (!slug) return notFound();
 
-  const profile = await prisma.user.findUnique({
+  const profile = await prisma.user.findFirst({
     where: { username: slug },
     include: {
       posts:{include:{
@@ -44,7 +45,6 @@ const page = async ({ params }: PageProps) => {
   
   
 
-  if (!profile) return notFound()
   
   const userParse = UserSchema.parse(profile);
 
@@ -53,6 +53,10 @@ const page = async ({ params }: PageProps) => {
       <Profile profile={userParse}  />
     </div>
   )
+  }catch(error){
+    return notFound()
+  
+  }
 }
 
 export default page

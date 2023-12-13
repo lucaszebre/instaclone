@@ -4,6 +4,9 @@ import { NewAvatar } from '@/actions/newAvatar';
 import { toast } from './ui/use-toast';
 import { Button } from './ui/button';
 import { DeleteAvatar } from '@/actions/deleteAvatar';
+import { UploadButton } from "@uploadthing/react";
+import { OurFileRouter } from "@/app/api/uploadthing/core";
+import { useQueryClient } from '@tanstack/react-query';
 interface Props {
     children: ReactNode;
     url:string,
@@ -11,6 +14,8 @@ interface Props {
     avatarkey:string
   }
 const AvatarOption: React.FC<Props> = ({children,url,username,avatarkey}) => {
+  const queryClient = useQueryClient();
+
   return (
     <div>
       <Dialog>
@@ -21,34 +26,42 @@ const AvatarOption: React.FC<Props> = ({children,url,username,avatarkey}) => {
                 <DialogHeader className='flex flex-row w-full text-center'>
                 <DialogTitle className='text-center w-full'>Modifier la photo de profil</DialogTitle>
             </DialogHeader>
-            <Button>
-              <input type='file' hidden />
-              Change the avatar</Button>
-            <Button
-                className="border-white"
-            endpoint="imageUploader"
-            onClientUploadComplete={async (res) => {
-              // Do something with the response
-              console.log("Files: ", res);
-              if(res){
-                await NewAvatar(res[0].url,res[0].key)
-              toast({
-                title: "Upload of the image completed",
-                // Other properties for the toast can be added here
-            });
-            }}
+          
+              <UploadButton<OurFileRouter>
+                  endpoint="imageUploader"
+                  onClientUploadComplete={async (res) => {
+                  if(res){
+                    await NewAvatar(res[0].url,res[0].key)
+
+                  toast({
+                    title: "Upload of the image completed",
+                    // Other properties for the toast can be added here
+                });
+                queryClient.invalidateQueries({ queryKey: ['user',] })
+                queryClient.refetchQueries({ queryKey: ['user',] })
+                }
+              }}
+                
+                onUploadError={(error: Error) => {
+                  toast({
+                    title: error.message,
+                    description: 'Error to upload the image',
+                    variant:'destructive'
+                    // Other properties for the toast can be added here
+                });
+                }}
+
+                onUploadBegin={()=>{
+                  toast({
+                    title: "Upload of the image just started",
+                    description: '-_-',
+                });
+                }
               }
               
-            onUploadError={(error: Error) => {
-              // Do something with the error.
-              toast({
-                title: error.message,
-                description: 'Error to upload the image',
-                variant:'destructive'
-                // Other properties for the toast can be added here
-            });
-            }}
-          />
+              
+              />
+          
         <Button onClick={async ()=>{await DeleteAvatar(avatarkey || "")}} variant="ghost">
             Supprimer la photo actuelle
         </Button>

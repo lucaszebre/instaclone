@@ -16,12 +16,7 @@ import { useQueryClient } from '@tanstack/react-query'
 
 const FeedPost = (props:{id:string,userId:string,image:string,username:string,date:string , likes:number,comment:string,avatarurl:string,like:Like[]}) => {
     const queryClient = useQueryClient()
-
-
     const [save,setSave]=useState(false)
-    
-
- 
     const [likeCount, setLikeCount] = useState(props.likes);
     const Like = useMutation({
         mutationFn: async (id:string) => {
@@ -34,23 +29,14 @@ const FeedPost = (props:{id:string,userId:string,image:string,username:string,da
         onMutate: () => {
             setLike(true)
             setLikeCount(prev=>prev+1)
+        },
+        onSuccess:()=>{
+            queryClient.invalidateQueries({ queryKey: [`post${props.id}`] })
+            queryClient.refetchQueries({queryKey:[`post${props.id}`]})
         }
         
+        
     })
-    
-    const {
-        isFetching,
-        data,
-        refetch,
-        isFetched,
-        } = useQuery({
-        queryFn: async () => {
-            const { data  } = await axios.get(`/api/like?p=${props.id}`);
-            return data;
-        },
-        queryKey: [`post${props.id}`],
-      })
-      const [like, setLike] = useState(data);
 
     const Unlike = useMutation({
         mutationFn: async (id:string) => {
@@ -65,8 +51,30 @@ const FeedPost = (props:{id:string,userId:string,image:string,username:string,da
             setLike(false)
             setLikeCount(prev=>prev-1)
 
+        },
+        onSuccess:()=>{
+            queryClient.invalidateQueries({ queryKey: [`post${props.id}`] })
+            queryClient.refetchQueries({queryKey:[`post${props.id}`]})
         }
     })
+    
+    const {
+        isFetching,
+        data,
+        refetch,
+        isFetched,
+        } = useQuery({
+        queryFn: async () => {
+            const { data  } = await axios.get(`/api/like?p=${props.id}`);
+            return data;
+        },
+        queryKey: [`post${props.id}`],
+      })
+      const [like, setLike] = useState(props.like.some((i)=>i.userId==props.userId));
+
+
+      console.log(`le like est ${like}`);
+  
 
    
 
