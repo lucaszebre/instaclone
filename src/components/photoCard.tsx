@@ -3,12 +3,13 @@
 import Image from 'next/image';
 import React from 'react';
 import ModalPost from './modalPost';
+import { Like } from '@/types';
 
 
-const PhotoCard = (props: { image: string; like: string; comment: string; imgdescription: string ,avatar:string,username:string}) => {
+const PhotoCard = (props: { id:string, userId:string,image: string; likes:Like[], like: string; comment: string; imgdescription: string ,avatar:string,username:string}) => {
   return (
     <>
-    <ModalPost  uploadDate={''} avatar={props.avatar} username={props.username} like={parseInt(props.like)} image={props.image} imgdescription={props.imgdescription} name={'ddd'}   >
+    <ModalPost  id={props.id} userId={props.userId} uploadDate={''} avatar={props.avatar} like={props.likes} username={props.username} likes={parseInt(props.like)} image={props.image} imgdescription={props.imgdescription} name={'ddd'} date={''} comment={''}   >
     <div className="cursor-pointer relative w-full h-full">
     <Image src={props.image} alt={props.imgdescription} fill={true} objectFit='contain' placeholder='blur' blurDataURL={'<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">'} />
 
