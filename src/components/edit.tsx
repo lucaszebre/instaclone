@@ -20,7 +20,7 @@ import { UploadButton } from "@uploadthing/react";
 import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { useQueryClient } from '@tanstack/react-query';
 
-const Setting = (props:{
+const Edit = (props:{
   urlavatar?:string,
   username?:string,
   fullname?:string
@@ -117,4 +117,4 @@ const Setting = (props:{
   )
 }
 
-export default Setting
+export default Edit

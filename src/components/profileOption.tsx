@@ -73,12 +73,7 @@ const ProfileOption: React.FC<Props> = ({    children,current,username,uploadDat
                         </Button>
                     </QRCodeDialog>
                    
-                    <Button onClick={()=>{
-                        router.push('/account')
-                        router.refresh()
-                }} variant="ghost">
-                        Parametre et confidantialité
-                    </Button>
+                    
                     <Button onClick={async ()=>{
                             router.push('/auth')
                             await supabase.auth.signOut()

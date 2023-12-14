@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import Setting from '@/components/setting'
+import Edit from '@/components/edit'
 import React from 'react'
 import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
@@ -41,7 +41,7 @@ const page = async () => {
   if (!profile) return notFound()
   return (
     <div className='flex flex-row justify-center w-full h-full'>
-      <Setting username={profile.username} urlavatar={profile.profilePictureUrl||""} fullname={profile.fullName||""} bio={profile.bio||""} />
+      <Edit username={profile.username} urlavatar={profile.profilePictureUrl||""} fullname={profile.fullName||""} bio={profile.bio||""} />
     </div>
   
   )
