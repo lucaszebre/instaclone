@@ -26,13 +26,30 @@ export async function savePost(id:string) {
             throw new Error("The post do not exist");
         }
 
+        // Check if the post is already saved by the user
+        const user = await prisma.user.findUnique({
+            where: {
+                id: session.session.user.id,
+            },
+            select: {
+                savePost: true
+            },
+        });
+
+        if (user?.savePost.some((p)=>p==id)) {
+            return 'The post is already saved';
+        }
+
         // Update the user's avatar to null or an empty string
         await prisma.user.update({
             where: {
                 id: session.session.user.id, // Assuming 'id' is the field for user ID in your database
             },
+        
             data: {
+                
                 savePost:{
+                    
                     push:id
                 }
             },
