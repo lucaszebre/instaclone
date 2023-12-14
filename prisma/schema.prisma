@@ -35,16 +35,11 @@ model User {
   taggedPosts            UserTag[]
   userBlock              String[]
   userBLockme            String[]
-  savePost               savePost        @relation(fields: [savePostId], references: [id])
+  savePost               String[]       
   savePostId             String
 }
 
-model savePost {
-  id String @id @unique @default(uuid())
 
-  Post Post[]
-  User User[]
-}
 
 model Post {
   id          String    @id @default(uuid())
@@ -59,7 +54,6 @@ model Post {
   likes       Like[]
   tags        PostTag[]
   taggedUsers UserTag[]
-  savePost    savePost? @relation(fields: [savePostId], references: [id])
   savePostId  String?
 }
 

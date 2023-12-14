@@ -1,13 +1,11 @@
 'use server'
 import prisma from '@/lib/db';
+import { PostSchema, Posted } from '@/types';
 
 
 export async function getSavePost(id:string) {
     try {
-        // Retrieve the cookies
-       
 
-      
         const savepost = await prisma.user.findFirst({
             where:{
                 id
@@ -17,9 +15,12 @@ export async function getSavePost(id:string) {
             }
         })
 
-        const listPost =   savepost?.savePost.map(async (post)=> {
-            return (
-            await prisma.post.findFirst({
+        if(!savepost){
+            return []
+        }
+
+        const listFollowing = await Promise.all(savepost.savePost.map(async (post) => {
+            const posted = prisma.post.findFirst({
                 where:{
                     id:post
                 },
@@ -31,18 +32,13 @@ export async function getSavePost(id:string) {
                     taggedUsers:true
                 },
             })
-        )
-        }
-        
-        )
 
-        const list = await Promise.resolve(listPost);
-
+            return posted
+        }));
         
 
-
         
-        return list;
+        return listFollowing;
 
     } catch (error) {
         if (error instanceof Error) {

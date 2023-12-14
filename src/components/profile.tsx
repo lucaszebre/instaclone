@@ -26,12 +26,10 @@ import Link from 'next/link'
 import { getSavePost } from '@/actions/getSavePost'
 
 const Profile = (props:{profile:Usered}) => {
-    const router = useRouter()
 
     const [save,setSave]=useState(false);
     const queryClient = useQueryClient();
     const {toast} = useToast();
-    const user = useContext(DataContext);
 
     const {
         isFetching,
@@ -229,7 +227,7 @@ const Profile = (props:{profile:Usered}) => {
         
     </nav>
             {
-                save?<Gallery photos={props.profile.posts} />:<Gallery photos={savePost.data} />
+                !save? <Gallery photos={props.profile.posts} />:<Gallery photos={savePost.data} />
             }
             
 

@@ -158,7 +158,7 @@ const UserTagSchema = z.object({
     userId: z.string(),
     // Add more fields as needed
 });
-const PostSchema = z.object({
+export const PostSchema = z.object({
   id: z.string(),
   userId: z.string(),
   imageUrl: z.string(),
@@ -176,7 +176,7 @@ comments:z.array(z.object({
   userId: z.string(),
   content: z.string(),
   repliedToCommentId: z.string().nullable(),
-  commentedAt: z.date(),
+  commentedAt: z.date().optional(),
   // Add any nested relations if necessary
 })).optional(),
   user:z.object({
@@ -184,7 +184,7 @@ comments:z.array(z.object({
     username: z.string(),
     email: z.string(),
     fullName: z.string().nullable(),
-    bio: z.string().nullable(),
+    bio: z.string().nullable().optional(),
     avatarkey: z.string().nullable(),
     profilePictureUrl: z.string().nullable(),
     isPrivate: z.boolean(),
