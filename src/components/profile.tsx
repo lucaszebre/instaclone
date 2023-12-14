@@ -169,6 +169,9 @@ const Profile = (props:{profile:Usered}) => {
                                 {props.profile.fullName}
                             </div>
                             <div>
+                                {props.profile.gender}
+                            </div>
+                            <div>
                                 {props.profile.bio}
                             </div>
                         </div>
