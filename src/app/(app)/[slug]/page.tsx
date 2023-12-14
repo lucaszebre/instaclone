@@ -1,62 +1,62 @@
-import { cookies } from 'next/headers'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import prisma from '@/lib/db'
-import { notFound } from 'next/navigation'
+'use client'
 import Profile from '@/components/profile'
-import { UserSchema } from '@/types'
-
+import { GetCurrentUser } from '@/actions/getCurrentUser'
+import { useQuery } from '@tanstack/react-query'
+import ProfileCurrent from '@/components/profileCurrent'
+import React from 'react'
+import { GetUser } from '@/actions/getUser'
+import Gallery from '@/components/gallery'
 interface PageProps {
   params: {
     slug: string
   }
 }
 
-const page = async ({ params }: PageProps) => {
-  try{
+const Page = ({ params }: PageProps) => {
   const { slug } = params
 
-  const cookieStore = cookies()
-  const supabase = createServerComponentClient({ cookies: () => cookieStore })
-        // This code runs on your server before upload
-        const {
-          data: { session },
-        } = await supabase.auth.getSession()
-
-  if (!slug) return notFound();
-
-  const profile = await prisma.user.findFirst({
-    where: { username: slug },
-    include: {
-      posts:{include:{
-        user:true,
-        likes:true,
-        comments:true,
-        taggedUsers:true,
-        tags:true
-      }},
-      followers:true,
-      following:true,
-
-      },
+  const currentUser =useQuery({
+    queryFn: async () => {
+      const  data  = await GetCurrentUser();
+    return data;
     },
-  )
+    queryKey: ['user'],
+    enabled:true
+  })
+    const user = useQuery({
+      queryFn: async () => {
+        const  data  = await GetUser(slug);
+    return data;
+  },
+  queryKey: [`${slug}`],
+  })
 
-
-  
-  
-
-  
-  const userParse = UserSchema.parse(profile);
-
+if(slug===currentUser.data?.username){
   return (
     <div className='flex flex-row justify-center w-full'>
-      <Profile profile={userParse}  />
+      <ProfileCurrent profile={currentUser.data}  />
     </div>
   )
-  }catch(error){
-    return notFound()
-  
-  }
+}else if(user.data){
+  return (
+    <div className='flex flex-row justify-center w-full'>
+      <Profile profile={user.data}  />
+  </div>)
+}
+else{
+  return (
+    <div className='flex flex-row w-full  items-center justify-start mt-6 text-center'>
+      <div className='flex w-full flex-col gap-2'>
+        <h2>Sorry, this page is not available.</h2>
+        <p>The link you followed may be broken, or the page may have been removed. Go back to Instagram.</p>
+      </div>
+    </div>
+  )
 }
 
-export default page
+ 
+
+  
+}
+
+export default Page

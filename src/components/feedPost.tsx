@@ -31,8 +31,7 @@ const FeedPost = (props:{id:string,userId:string,image:string,username:string,da
             setLikeCount(prev=>prev+1)
         },
         onSuccess:()=>{
-            queryClient.invalidateQueries({ queryKey: [`post${props.id}`] })
-            queryClient.refetchQueries({queryKey:[`post${props.id}`]})
+            queryClient.resetQueries({ queryKey: [`post${props.id}`] })
         }
         
         
@@ -53,8 +52,7 @@ const FeedPost = (props:{id:string,userId:string,image:string,username:string,da
 
         },
         onSuccess:()=>{
-            queryClient.invalidateQueries({ queryKey: [`post${props.id}`] })
-            queryClient.refetchQueries({queryKey:[`post${props.id}`]})
+            queryClient.resetQueries({ queryKey: [`post${props.id}`] })
         }
     })
     

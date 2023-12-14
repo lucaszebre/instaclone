@@ -37,8 +37,7 @@ const AvatarOption: React.FC<Props> = ({children,url,username,avatarkey}) => {
                     title: "Upload of the image completed",
                     // Other properties for the toast can be added here
                 });
-                queryClient.invalidateQueries({ queryKey: ['user',] })
-                queryClient.refetchQueries({ queryKey: ['user',] })
+                queryClient.resetQueries({ queryKey: ['user',] })
                 }
               }}
                 
@@ -62,7 +61,21 @@ const AvatarOption: React.FC<Props> = ({children,url,username,avatarkey}) => {
               
               />
           
-        <Button onClick={async ()=>{await DeleteAvatar(avatarkey || "")}} variant="ghost">
+        <Button onClick={async ()=>{
+          try {
+            await DeleteAvatar(avatarkey || "")
+            queryClient.resetQueries({ queryKey: ['user',] })
+            toast({
+              title: "The avatar been deleted sucessfully",
+          });
+          } catch (error) {
+            toast({
+              title: "Problem to delete the avatar",
+              description: '-_-',
+          });
+          }
+          
+        }} variant="ghost">
             Supprimer la photo actuelle
         </Button>
         <Button variant="ghost">

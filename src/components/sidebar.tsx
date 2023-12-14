@@ -11,7 +11,7 @@ import Tool from "./tool"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { usePathname } from 'next/navigation'
-import { GetCurrentUser } from "@/actions/getUser"
+import { GetCurrentUser } from "@/actions/getCurrentUser"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import Link from "next/link"
 

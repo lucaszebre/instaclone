@@ -1,20 +1,37 @@
 import prisma from '@/lib/db';
-import { cookies } from 'next/headers'
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '@/lib/database.type';
+import { UserSchema } from '@/types';
+
 export async function GET(req: Request) {
     try {
         
-        const cookieStore = cookies()
+        const url = new URL(req.url)
+        const q = url.searchParams.get('q')
 
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
+        if (!q) return new Response('Invalid query', { status: 400 })
+
+        const User =await prisma.user.findFirst({
+            where: { username:q },
+            include: {
+                posts:{include:{
+                    user:true,
+                    likes:true,
+                    comments:true,
+                    taggedUsers:true,
+                    tags:true
+                    }},
+                    followers:true,
+                    following:true,
+            
+                },
+                },
+        )
+
+        const UserParsed = UserSchema.parse(User);
         
-        const data = await supabase.auth.getSession()
-        const User = await prisma.user.findFirst({
-            where:{id:data.data.session?.user.id}
-        });
-
-        return User;
+        return new Response(
+            JSON.stringify({
+                UserParsed
+            }))
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(error.message);

@@ -114,6 +114,12 @@ const FollowerSchema = z.object({
     followedAt: z.date().optional(),
     userId:z.string()
 });
+const FollowingSchema = z.object({
+    id: z.string(),
+    followingId: z.string().optional(),
+    followedAt: z.date().optional(),
+    userId:z.string()
+});
 
 const TagSchema = z.object({
     id: z.string(),
@@ -184,7 +190,7 @@ comments:z.array(z.object({
     isPrivate: z.boolean(),
     joinedAt: z.date(),
     isEmailVerified: z.boolean(),
-    following: z.array(FollowerSchema).optional(),
+    following: z.array(FollowingSchema).optional(),
     followers: z.array(FollowerSchema).optional(),
     comments: z.array(CommentSchema).optional(),
     likes: z.array(LikeSchema).optional(),
@@ -199,16 +205,16 @@ export const UserSchema = z.object({
     id: z.string(),
     username: z.string(),
     email: z.string(),
-    gender:z.string().optional(),
+    gender:z.string().nullable().optional(),
     fullName: z.string().nullable(),
     bio: z.string().nullable(),
     avatarkey: z.string().nullable(),
-    profilePictureUrl: z.string().nullable(),
+    profilePictureUrl: z.string().optional().nullable(),
     isPrivate: z.boolean(),
     joinedAt: z.date(),
     isEmailVerified: z.boolean(),
     posts: z.array(PostSchema),
-    following: z.array(FollowerSchema).optional(),
+    following: z.array(FollowingSchema).optional(),
     followers: z.array(FollowerSchema).optional(),
     comments: z.array(CommentSchema).optional(),
     likes: z.array(LikeSchema).optional(),

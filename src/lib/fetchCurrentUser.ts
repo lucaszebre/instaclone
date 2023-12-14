@@ -1,4 +1,4 @@
-import { GetCurrentUser } from '@/actions/getUser';
+import { GetCurrentUser } from '@/actions/getCurrentUser';
 import { UserSchema } from '@/types';
 import axios from 'axios';
 

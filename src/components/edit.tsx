@@ -85,7 +85,7 @@ const Edit = (props:{
                     title: "Upload of the image completed",
                     // Other properties for the toast can be added here
                 });
-                queryClient.invalidateQueries({ queryKey: ['user',] })
+                queryClient.resetQueries({ queryKey: ['user',] })
                 }
               }}
                 
@@ -136,7 +136,10 @@ const Edit = (props:{
 
         </div>
         <div className='flex flex-rox justify-end w-full'>
-          <Button onClick={()=>{Edit.mutate()}} className='bg-[#0095F6] text-white'>Submit</Button>
+          <Button onClick={()=>{
+            Edit.mutate()
+            queryClient.resetQueries({ queryKey: ['user',] })
+          }} className='bg-[#0095F6] text-white'>Submit</Button>
         </div>
       
 

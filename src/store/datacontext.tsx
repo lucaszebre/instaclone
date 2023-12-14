@@ -5,7 +5,7 @@ import type { Database } from '@/lib/database.type'
 
 
 export type DataContextType = {
-    session: string | undefined; 
+    userId: string | undefined; 
 };
 
 
@@ -20,12 +20,12 @@ export const DataProvider = async (props: { children: React.ReactNode }) => {
     const data = await supabase.auth.getSession()
 
         
-        const session=   data.data.session?.access_token  
+        const userId=   data.data.session?.user.id 
             
 
     return (
         <DataContext.Provider value={{
-            session 
+            userId
         }}>{props.children}</DataContext.Provider>
     );
     };

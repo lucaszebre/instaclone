@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["fullTextSearch"]
 }
 
@@ -12,32 +12,39 @@ datasource db {
 }
 
 model User {
-  id                     String           @unique @id @default(uuid())
-  username               String           @unique
-  email                  String           @unique
+  id                     String          @id @unique @default(uuid())
+  username               String          @unique
+  email                  String          @unique
   fullName               String?
   gender                 String?
   bio                    String?
   avatarkey              String?
   profilePictureUrl      String?
-  isPrivate              Boolean          @default(false)
-  joinedAt               DateTime         @default(now())
-  isEmailVerified        Boolean          @default(false)
+  isPrivate              Boolean         @default(false)
+  joinedAt               DateTime        @default(now())
+  isEmailVerified        Boolean         @default(false)
   posts                  Post[]
-  following              FollowingList[]  // Users that this user is following
-  followers              FollowerList[]    // Users that are following this user (as 'user')
+  following              FollowingList[] // Users that this user is following
+  followers              FollowerList[] // Users that are following this user (as 'user')
   comments               Comment[]
   likes                  Like[]
-  initiatedConversations Conversation[]   @relation("initiatedConversations")
-  receivedConversations  Conversation[]   @relation("receivedConversations")
+  initiatedConversations Conversation[]  @relation("initiatedConversations")
+  receivedConversations  Conversation[]  @relation("receivedConversations")
   notifications          Notification[]
   stories                Story[]
   taggedPosts            UserTag[]
   userBlock              String[]
-  userBLockme         String[]
+  userBLockme            String[]
+  savePost               savePost        @relation(fields: [savePostId], references: [id])
+  savePostId             String
 }
 
+model savePost {
+  id String @id @unique @default(uuid())
 
+  Post Post[]
+  User User[]
+}
 
 model Post {
   id          String    @id @default(uuid())
@@ -52,6 +59,8 @@ model Post {
   likes       Like[]
   tags        PostTag[]
   taggedUsers UserTag[]
+  savePost    savePost? @relation(fields: [savePostId], references: [id])
+  savePostId  String?
 }
 
 model PostTag {
@@ -87,8 +96,6 @@ model Like {
   @@id([postId, userId])
 }
 
-
-
 model FollowerList {
   id         String   @id @default(uuid())
   userId     String
@@ -98,6 +105,7 @@ model FollowerList {
 
   @@unique([userId, followerId])
 }
+
 model FollowingList {
   id          String   @id @default(uuid())
   userId      String
@@ -107,8 +115,6 @@ model FollowingList {
 
   @@unique([userId, followingId])
 }
-
-
 
 model Tag {
   id    String    @id @default(uuid())
@@ -155,6 +161,3 @@ model UserTag {
 
   @@id([postId, userId])
 }
-
-
-

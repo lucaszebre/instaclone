@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import CardSideProfile from './cardSideProfile'
-import { GetCurrentUser } from '@/actions/getUser'
+import { GetCurrentUser } from '@/actions/getCurrentUser'
 import { useQuery } from '@tanstack/react-query'
 import { GetCurrentAndSideProfiles } from '@/actions/getSideProfile'
 import { CardProfileLoader } from './loader/cardProfile'
