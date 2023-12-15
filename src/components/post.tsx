@@ -14,12 +14,16 @@ import { useQueryClient } from '@tanstack/react-query'
 import { savePost } from '@/actions/savePost'
 import { unsavePost } from '@/actions/unsavePost'
 import { GetCurrentUser } from '@/actions/getCurrentUser'
+import { Comment } from '@/types'
+import { toast } from './ui/use-toast';
+import { postComment } from '@/actions/postComment'
+
 const Post = (props:{
   image:string,
   alt:string,
   username:string,
   id:string,
-  comments:any[],
+  comments:Comment[],
   likes:Like[]
   avatar:string,
   fullName:string,
@@ -103,9 +107,35 @@ const Post = (props:{
         }
     })
     
+    const postedComment = useMutation({
+        mutationFn: async (id:string) => {
+        await postComment(id,content);
+        },
+        // onError: () => {
+        // setLike(true)
+        // setLikeCount(prev=>prev+1)
 
+        // },
+       onError:()=>{
+        toast({
+            title: "Problem -_-",
+            description: 'Error to add a comment',
+            variant:'destructive'
+            // Other properties for the toast can be added here
+        });
+       },
+        onSuccess:()=>{
+            toast({
+                title: "just add a new comment",
+                // Other properties for the toast can be added here
+            });
+            setContent("");
+            queryClient.resetQueries({ queryKey: [`post${props.id}`] })
+        }
+    })
     
     const [like, setLike] = useState(props.likes.some((i)=>i.userId==props.userId));
+    const [content,setContent]=useState("");
   return (
     <div className='flex flex-row border-1 border-gray-100 gap-3 justify-between w-full relative max-w-[800px] h-full  max-h-[600px]'>
       <div className='w-full h-full relative max-w-[65%]'>
@@ -134,9 +164,24 @@ const Post = (props:{
                             </div>
                         </div>
                     <Separator />
-                    <div  className='flex flex-row h-screen w-full overflow-y-scroll'>
+                    <div  className='flex flex-col gap-2 h-screen w-full overflow-y-scroll'>
+                        {props.comments.map((com,index)=>(
+                            <div className='flex flex-row justify-start gap-3 p-2'  key={index}>
+                                <Avatar className={`  w-[24px] h-[24px]`} >
+                                    <AvatarImage src={com.user.profilePictureUrl||''} />
+                                    <AvatarFallback>{com.user.username}</AvatarFallback>
+                                </Avatar>
+                                <span>
+                                    {com.user.username}
+                                </span>
+                                <p >{com.content}</p>
+                            </div>
+                        
+                        ))}
 
+         
                         </div>
+                    
                     
                     <Separator />
                 <div className='w-full flex flex-col gap-4 '>
@@ -156,8 +201,8 @@ const Post = (props:{
                         </div>
                         
                         <div className='flex flex-row w-full gap-4 justify-between content-center'>
-                            <textarea className='border-0 w-full bg-transparent  border-none max-h-[18px] h-full' placeholder='Add a comment' />
-                            <span>Post</span>
+                            <textarea value={content} onChange={(e)=>{setContent(e.target.value)}} className='border-0 w-full bg-transparent  border-none max-h-[18px] h-full' placeholder='Add a comment' />
+                            <span className='cursor-pointer' onClick={()=>{postedComment.mutate(props.id)}}>Post</span>
                         </div>
 
                     </div>

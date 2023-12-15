@@ -16,6 +16,9 @@ import { savePost } from '@/actions/savePost'
 import { unsavePost } from '@/actions/unsavePost'
 import axios from 'axios'
 import { Like,Comment } from '@/types'
+import { postComment } from '@/actions/postComment'
+import { toast } from './ui/use-toast';
+
   interface ModalPostProps {
     id:string
     uploadDate: string;
@@ -46,6 +49,7 @@ import { Like,Comment } from '@/types'
       })
     const [save,setSave]=useState(user.data?.savePost.some((p)=>p==props.id))
     const [likeCount, setLikeCount] = useState(props.likes);
+    const [content, setContent] = useState("");
     const Save = useMutation({
         mutationFn: async (id:string) => {
         await savePost(id)
@@ -106,6 +110,32 @@ import { Like,Comment } from '@/types'
 
         },
         onSuccess:()=>{
+            queryClient.resetQueries({ queryKey: [`post${props.id}`] })
+        }
+    })
+    const postedComment = useMutation({
+        mutationFn: async (id:string) => {
+        await postComment(id,content);
+        },
+        // onError: () => {
+        // setLike(true)
+        // setLikeCount(prev=>prev+1)
+
+        // },
+       onError:()=>{
+        toast({
+            title: "Problem -_-",
+            description: 'Error to add a comment',
+            variant:'destructive'
+            // Other properties for the toast can be added here
+        });
+       },
+        onSuccess:()=>{
+            toast({
+                title: "just add a new comment",
+                // Other properties for the toast can be added here
+            });
+            setContent("");
             queryClient.resetQueries({ queryKey: [`post${props.id}`] })
         }
     })
@@ -175,8 +205,8 @@ import { Like,Comment } from '@/types'
                         </div>
                         
                         <div className='flex flex-row w-full gap-4 justify-between content-center'>
-                            <textarea className='border-0 w-full bg-transparent  border-none max-h-[18px] h-full' placeholder='Add a comment' />
-                            <span>Post</span>
+                            <textarea value={content} onChange={(e)=>{setContent(e.target.value)}} className='border-0 w-full bg-transparent  border-none max-h-[18px] h-full' placeholder='Add a comment' />
+                            <span className='cursor-pointer' onClick={()=>{postedComment.mutate(props.id)}}>Post</span>
                         </div>
 
                     </div>

@@ -17,7 +17,11 @@ const page = async ({ params }: PageProps) => {
   const post = await prisma.post.findUnique({
     where: { id: slug },
     include: {
-      comments:true,
+      comments:{
+        include:{
+          user:true
+        }
+      },
       likes:true,
       tags:true,
       taggedUsers:true,
@@ -31,7 +35,7 @@ const page = async ({ params }: PageProps) => {
 
   return (
     <div className='flex flex-row justify-center h-full items-center w-full'>
-      <Post image={post.imageUrl} alt={post.author} username={post.user.username} id={post.id} comments={post.comments} likes={post.likes} avatar={post.user.profilePictureUrl||""} fullName={post.user.fullName||""} city={"Paris"} randomPeopleWhoLike={''} like={post.likes.length}   />
+      <Post userId={post.userId} image={post.imageUrl} alt={post.author} username={post.user.username} id={post.id} comments={post.comments} likes={post.likes} avatar={post.user.profilePictureUrl||""} fullName={post.user.fullName||""} city={"Paris"} randomPeopleWhoLike={''} like={post.likes.length}   />
     </div>
   )
 }
