@@ -15,14 +15,14 @@ import { GetCurrentUser } from '@/actions/getCurrentUser'
 import { savePost } from '@/actions/savePost'
 import { unsavePost } from '@/actions/unsavePost'
 import axios from 'axios'
-import { Like } from '@/types'
+import { Like,Comment } from '@/types'
   interface ModalPostProps {
     id:string
     uploadDate: string;
     likes: number;
     userId:string;
     date:string;
-    comment:string;
+    comment:Comment[];
     like:Like[]
     image: string;
     imgdescription: string;
@@ -139,8 +139,22 @@ import { Like } from '@/types'
                             </div>
                         </div>
                     <Separator />
-                    <div  className='flex flex-row h-screen w-full overflow-y-scroll'>
+                    <div  className='flex flex-col gap-2 h-screen w-full overflow-y-scroll'>
+                        {props.comment.map((com,index)=>(
+                            <div className='flex flex-row justify-start gap-3 p-2'  key={index}>
+                                <Avatar className={`  w-[24px] h-[24px]`} >
+                                    <AvatarImage src={com.user.profilePictureUrl||''} />
+                                    <AvatarFallback>{com.user.username}</AvatarFallback>
+                                </Avatar>
+                                <span>
+                                    {com.user.username}
+                                </span>
+                                <p >{com.content}</p>
+                            </div>
+                        
+                        ))}
 
+         
                         </div>
                     
                     <Separator />

@@ -14,10 +14,13 @@ import { useQueryClient } from '@tanstack/react-query'
 import { savePost } from '@/actions/savePost'
 import { unsavePost } from '@/actions/unsavePost'
 import { GetCurrentUser } from '@/actions/getCurrentUser'
+import { postComment } from '@/actions/postComment'
 
 
 const FeedPost = (props:{id:string,userId:string,image:string,username:string,date:string , likes:number,comment:string,avatarurl:string,like:Like[]}) => {
     const queryClient = useQueryClient()
+        const [content,setContent]=useState('');
+
     const user = useQuery({
         queryFn: async () => {
           const  data  = await GetCurrentUser();
@@ -92,10 +95,29 @@ const FeedPost = (props:{id:string,userId:string,image:string,username:string,da
         }
     })
     
+    const postedComment = useMutation({
+        mutationFn: async (id:string) => {
+        await postComment(id,content);
+        },
+        // onError: () => {
+        // setLike(true)
+        // setLikeCount(prev=>prev+1)
+
+        // },
+        onMutate: () => {
+           
+
+        },
+        onSuccess:()=>{
+            alert("comment add");
+            setContent("");
+            queryClient.resetQueries({ queryKey: [`post${props.id}`] })
+        }
+    })
+    
 
     
     const [like, setLike] = useState(props.like.some((i)=>i.userId==props.userId));
-
 
     return (
 
@@ -149,7 +171,11 @@ const FeedPost = (props:{id:string,userId:string,image:string,username:string,da
 
     </div>
     <div className='flex w-full flex-row justify-between items-center gap-8'>
-        <Textarea />
+        <Textarea value={content} onChange={(e)=>setContent(e.target.value)} onKeyUp={event => {
+                if (event.key === 'Enter') {
+                  postedComment.mutate(props.id);
+                }
+              }} />
         <svg aria-label="Emoji" className="x1lliihq x1n2onr6 x1roi4f4" fill="currentColor" height="13" role="img" viewBox="0 0 24 24" width="13"><title>Emoji</title><path d="M15.83 10.997a1.167 1.167 0 1 0 1.167 1.167 1.167 1.167 0 0 0-1.167-1.167Zm-6.5 1.167a1.167 1.167 0 1 0-1.166 1.167 1.167 1.167 0 0 0 1.166-1.167Zm5.163 3.24a3.406 3.406 0 0 1-4.982.007 1 1 0 1 0-1.557 1.256 5.397 5.397 0 0 0 8.09 0 1 1 0 0 0-1.55-1.263ZM12 .503a11.5 11.5 0 1 0 11.5 11.5A11.513 11.513 0 0 0 12 .503Zm0 21a9.5 9.5 0 1 1 9.5-9.5 9.51 9.51 0 0 1-9.5 9.5Z"></path></svg>
 
     </div>

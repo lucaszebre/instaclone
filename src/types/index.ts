@@ -97,8 +97,12 @@ const CommentSchema = z.object({
     content: z.string(),
     repliedToCommentId: z.string().nullable(),
     commentedAt: z.date(),
-    // Add any nested relations if necessary
-});
+    user :z.object({
+      id: z.string(),
+      username: z.string(),
+      profilePictureUrl: z.string().nullable().optional(),
+      fullName: z.string().nullable(),
+})})
 
 
 

@@ -3,13 +3,12 @@
 import Image from 'next/image';
 import React from 'react';
 import ModalPost from './modalPost';
-import { Like } from '@/types';
+import { Like,Comment } from '@/types';
 
-
-const PhotoCard = (props: { id:string, userId:string,image: string; likes:Like[], like: string; comment: string; imgdescription: string ,avatar:string,username:string}) => {
+const PhotoCard = (props: { id:string,comment:Comment[], userId:string,image: string; likes:Like[], like: string; imgdescription: string ,avatar:string,username:string}) => {
   return (
     <>
-    <ModalPost  id={props.id} userId={props.userId} uploadDate={''} avatar={props.avatar} like={props.likes} username={props.username} likes={parseInt(props.like)} image={props.image} imgdescription={props.imgdescription} name={'ddd'} date={''} comment={''}   >
+    <ModalPost  id={props.id} userId={props.userId} uploadDate={''} avatar={props.avatar} like={props.likes} username={props.username} likes={parseInt(props.like)} image={props.image} imgdescription={props.imgdescription} name={'ddd'} date={''} comment={props.comment}   >
     <div className="cursor-pointer relative w-full h-full">
     <Image src={props.image} alt={props.imgdescription} fill={true} objectFit='contain' placeholder='blur' blurDataURL={'<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">'} />
 
@@ -18,7 +17,7 @@ const PhotoCard = (props: { id:string, userId:string,image: string; likes:Like[]
           ❤️ {props.like}
         </span>
         <span className="text-white text-xl gap-2">
-          💬 {props.comment}
+          💬 {props.comment.length.toString()}
         </span>
       </div>
     </div>

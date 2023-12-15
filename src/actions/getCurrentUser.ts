@@ -19,7 +19,11 @@ export async function GetCurrentUser() {
               posts:{include:{
                 user:true,
                 likes:true,
-                comments:true,
+                comments:{
+                  include:{
+                    user:true
+                  }
+                },
                 taggedUsers:true,
                 tags:true
               }},
