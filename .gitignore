@@ -38,3 +38,6 @@ next-env.d.ts
 
 /src/lib/supabase.ts 
 
+
+
+/src/lib/db.ts
