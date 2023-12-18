@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import type { Database } from '@/lib/database.type'
 
-export async function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest,resp:NextResponse) {
   const res = NextResponse.next()
   const supabase = createMiddlewareClient<Database>({ req, res })
   const { data: session } = await supabase.auth.getSession()
@@ -13,7 +13,14 @@ export async function middleware(req: NextRequest) {
   if (!session) {
     // Redirect to /auth if the user is not authenticated
     return NextResponse.redirect('/auth');
-  }  return res
+
+  } 
+  if(session.session?.user.id){
+    resp.headers.set('session', session.session?.user.id)
+
+  }
+
+   return res
 }
 
 export const config = {

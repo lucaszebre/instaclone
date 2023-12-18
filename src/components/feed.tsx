@@ -10,6 +10,8 @@ import getFeed from '@/actions/getFeed';
 import { timeSince } from '@/lib/time';
 import { FeedPostLoader } from './loader/feedPost';
 import { useIntersection } from '@mantine/hooks'
+import axios from 'axios';
+import { PostSchemaArray } from '@/lib/validator/feed';
 
 const Feed = (props:{userId:string}) => {
     
@@ -30,7 +32,7 @@ const Feed = (props:{userId:string}) => {
     } = useInfiniteQuery({
         queryKey: ['feed'],
         queryFn: async ({ pageParam = 1 }) => {
-            const posts = await getFeed(pageParam,5);
+            const posts = await getFeed(pageParam,5)
             return posts;
         },
         getNextPageParam: (lastPage, allPages) => {
@@ -69,6 +71,7 @@ const Feed = (props:{userId:string}) => {
             <FeedPostLoader />
         </>
     ) : (
+        
         data?.pages.map((group, i) => (
             group.map((post, index) => {
                 const isLastPost = i === data.pages.length - 1 && index === group.length - 1;
@@ -80,10 +83,10 @@ const Feed = (props:{userId:string}) => {
                             image={post.imageUrl}
                             username={post.user.username}
                             date={timeSince(post.postedAt)}
-                            likes={post.likes.length}
-                            comment={post.comments.length.toString()}
+                            likes={post.likes? post.likes.length: 0}
+                            comment={post.comments? post.comments.length.toString() : "0"}
                             avatarurl={post.user.profilePictureUrl || ''}
-                            like={post.likes}
+                            like={post.likes? post.likes :[]}
                         />
                     </div>
                 ) : (
@@ -94,10 +97,10 @@ const Feed = (props:{userId:string}) => {
                         image={post.imageUrl}
                         username={post.user.username}
                         date={timeSince(post.postedAt)}
-                        likes={post.likes.length}
-                        comment={post.comments.length.toString()}
+                        likes={post.likes? post.likes.length: 0}
+                        comment={post.comments? post.comments.length.toString() : "0"}
                         avatarurl={post.user.profilePictureUrl || ''}
-                        like={post.likes}
+                        like={post.likes ? post.likes : []}
                     />
                 );
             })

@@ -90,7 +90,7 @@ export type followers= {
 
 
 
-const CommentSchema = z.object({
+export const CommentSchema = z.object({
     id: z.string(),
     postId: z.string(),
     userId: z.string(),
@@ -106,32 +106,32 @@ const CommentSchema = z.object({
 
 
 
-const LikeSchema = z.object({
+export const LikeSchema = z.object({
     postId: z.string(),
     userId: z.string(),
     likedAt: z.date(),
 });
 
-const FollowerSchema = z.object({
+export const FollowerSchema = z.object({
     id: z.string(),
     followerId: z.string().optional(),
     followedAt: z.date().optional(),
     userId:z.string()
 });
-const FollowingSchema = z.object({
+export const FollowingSchema = z.object({
     id: z.string(),
     followingId: z.string().optional(),
     followedAt: z.date().optional(),
     userId:z.string()
 });
 
-const TagSchema = z.object({
+export const TagSchema = z.object({
     id: z.string(),
     name: z.string(),
     // Add relation to PostTag if necessary
 });
 
-const ConversationSchema = z.object({
+export   const ConversationSchema = z.object({
     id: z.string(),
     redisKey: z.string(),
     initiatorId: z.string(),
@@ -139,7 +139,7 @@ const ConversationSchema = z.object({
     // Add more fields as needed
 });
 
-const NotificationSchema = z.object({
+export const NotificationSchema = z.object({
     id: z.string(),
     userId: z.string(),
     type: z.string(),
@@ -148,7 +148,7 @@ const NotificationSchema = z.object({
     createdAt: z.date(),
 });
 
-const StorySchema = z.object({
+export const StorySchema = z.object({
     id: z.string(),
     userId: z.string(),
     imageUrl: z.string(),
@@ -157,7 +157,7 @@ const StorySchema = z.object({
     expiresAt: z.date(),
 });
 
-const UserTagSchema = z.object({
+export const UserTagSchema = z.object({
     postId: z.string(),
     userId: z.string(),
     // Add more fields as needed
