@@ -11,7 +11,6 @@ import {
     DialogTrigger,
   } from "@/components/ui/dialog"
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { GetCurrentUser } from '@/actions/getCurrentUser'
 import { savePost } from '@/actions/savePost'
 import { unsavePost } from '@/actions/unsavePost'
 import axios from 'axios'

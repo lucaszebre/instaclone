@@ -58,6 +58,7 @@ const FeedPost = (props:{id:string,userId:string,image:string,username:string,da
             
             queryClient.resetQueries({ queryKey: [`post${props.id}`] })
             queryClient.resetQueries({ queryKey: [`user`] })
+            queryClient.resetQueries({ queryKey: [`userSavePost${props.userId}`] })
         }
     })
     

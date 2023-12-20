@@ -47,6 +47,7 @@ export async function POST(req: Request) {
         return new Response('Server error', { status: 500 })
 
     }
+    
 
   
 }
@@ -96,6 +97,7 @@ export async function DELETE(req: Request) {
 }
 
 export async function GET(req: Request) {
+  
     try {
         const url = new URL(req.url)
         const postId = url.searchParams.get('p');
@@ -114,18 +116,42 @@ export async function GET(req: Request) {
             return new Response('Unauthorized', { status: 401 })
         }
 
-        const like = await prisma.like.findFirst({
-            where: {
-                postId: postId,
-                userId: userId
+        const savepost = await prisma.user.findFirst({
+            where:{
+                id:postId
+            },
+            select:{
+                savePost:true
             }
-        });
+        })
 
-        const isLiked = like !== null;
+        if(!savepost){
+            return []
+        }
 
-        return new Response(JSON.stringify(isLiked), { status: 200 });
+        const listFollowing = await Promise.all(savepost.savePost.map(async (post) => {
+            const posted = prisma.post.findFirst({
+                where:{
+                    id:post
+                },
+                include:{
+                    comments:true,
+                    likes:true,
+                    user:true,
+                },
+            })
+
+            return posted
+        }));
+        
+
+        return new Response(JSON.stringify(listFollowing), { status: 200 });
+
 
     } catch (error) {
-        return new Response('Server error', { status: 500 });
+        if (error instanceof Error) {
+            return new Response('Server error', { status: 500 });
+        }
     }
+    
 }

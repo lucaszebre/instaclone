@@ -13,7 +13,6 @@ import { Like } from '@/types'
 import { useQueryClient } from '@tanstack/react-query'
 import { savePost } from '@/actions/savePost'
 import { unsavePost } from '@/actions/unsavePost'
-import { GetCurrentUser } from '@/actions/getCurrentUser'
 import { Comment } from '@/types'
 import { toast } from './ui/use-toast';
 import { postComment } from '@/actions/postComment'

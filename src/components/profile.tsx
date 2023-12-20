@@ -8,7 +8,6 @@ import { Separator } from "@/components/ui/separator"
 import MenuMobile from './menuMobile'
 import { useToast } from './ui/use-toast'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { GetCurrentUser } from '@/actions/getCurrentUser'
 import OptionProfile from './avatarOption'
 import ProfileOption from './profileOption'
 import axios from 'axios'
@@ -43,10 +42,11 @@ const Profile = (props:{profile:Usered}) => {
     
       const savePost = useQuery({
         queryFn: async () => {
-          const  data  = await getSavePost(props.profile.id);
+          const  data  = (await axios.get(`/api/save?p=${props.profile.id}`)).data;
+          console.log(data)
         return data;
         },
-        queryKey: ['userSavePost'],
+        queryKey: [`userSavePost${props.profile.id}`],
         enabled:true
       })
         
@@ -224,8 +224,7 @@ const Profile = (props:{profile:Usered}) => {
         
     </nav>
             {
-                !save? <Gallery photos={props.profile.posts} />:<></>
-                // <Gallery photos={savePost.data} />
+                !save? <Gallery photos={props.profile.posts} />: <Gallery photos={savePost.data} />
             }
             
 

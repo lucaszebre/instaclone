@@ -1,11 +1,8 @@
 'use client'
 import Profile from '@/components/profile'
-import { GetCurrentUser } from '@/actions/getCurrentUser'
 import { useQuery } from '@tanstack/react-query'
 import ProfileCurrent from '@/components/profileCurrent'
 import React from 'react'
-import { GetUser } from '@/actions/getUser'
-import Gallery from '@/components/gallery'
 import axios from 'axios'
 import { Usered } from '@/lib/validator/currentUser'
 interface PageProps {

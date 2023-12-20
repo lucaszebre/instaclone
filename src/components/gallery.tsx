@@ -4,7 +4,6 @@
 import React from 'react';
 import PhotoCard from './photoCard'; // Assuming PhotoCard is in the same directory
 import { useQuery } from '@tanstack/react-query';
-import { GetCurrentUser } from '@/actions/getCurrentUser';
 import { GalleryType } from '@/lib/validator/gallery';
 import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser';
 import axios from 'axios';

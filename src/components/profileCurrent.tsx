@@ -14,7 +14,6 @@ import { useToast } from './ui/use-toast'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import type { Database } from '@/lib/database.type'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { GetCurrentUser } from '@/actions/getCurrentUser'
 import OptionProfile from './avatarOption'
 import ProfileOption from './profileOption'
 import AvatarOption from './avatarOption'
@@ -41,13 +40,13 @@ const ProfileCurrent = (props:{profile:Usered}) => {
     
     const savePost = useQuery({
         queryFn: async () => {
-          const  data  = await getSavePost(props.profile.id);
-        return GallerySchema.parse(data);
+          const  data  = (await axios.get(`/api/save?p=${props.profile.id}`)).data;
+          console.log(data)
+        return data;
         },
-        queryKey: ['userSavePost'],
+        queryKey: [`userSavePost${props.profile.id}`],
         enabled:true
       })
-      console.log(savePost.data)
 
   return (
     <>
@@ -128,8 +127,7 @@ const ProfileCurrent = (props:{profile:Usered}) => {
                     
                 </nav>
                 {
-                !save? <Gallery photos={props.profile.posts} />:<></>
-                // <Gallery photos={savePost.data} />
+                !save? <Gallery photos={props.profile.posts} />:<Gallery photos={savePost.data} />
             }
             </div>
             </>
