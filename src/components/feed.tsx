@@ -6,12 +6,11 @@ import FeedPost from './feedPost'
 import MenuMobile from './menuMobile';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import getFeed from '@/actions/getFeed';
 import { timeSince } from '@/lib/time';
 import { FeedPostLoader } from './loader/feedPost';
 import { useIntersection } from '@mantine/hooks'
 import axios from 'axios';
-import { PostSchemaArray } from '@/lib/validator/feed';
+import { Posted } from '@/types';
 
 const Feed = (props:{userId:string}) => {
     
@@ -32,8 +31,8 @@ const Feed = (props:{userId:string}) => {
     } = useInfiniteQuery({
         queryKey: ['feed'],
         queryFn: async ({ pageParam = 1 }) => {
-            const posts = await getFeed(pageParam,5)
-            return posts;
+            const posts = (await axios.get(`/api/feed?page=${pageParam}&limit=5}`)).data
+            return posts as Posted[];
         },
         getNextPageParam: (lastPage, allPages) => {
             if (lastPage.length < POSTS_PER_PAGE) {
@@ -81,11 +80,11 @@ const Feed = (props:{userId:string}) => {
                             userId={props.userId}
                             id={post.id}
                             image={post.imageUrl}
-                            username={post.user.username}
+                            username={post.user? post.user?.username:""}
                             date={timeSince(post.postedAt)}
                             likes={post.likes? post.likes.length: 0}
                             comment={post.comments? post.comments.length.toString() : "0"}
-                            avatarurl={post.user.profilePictureUrl || ''}
+                            avatarurl={post.user?.profilePictureUrl? post.user?.profilePictureUrl : ''}
                             like={post.likes? post.likes :[]}
                         />
                     </div>
@@ -95,11 +94,11 @@ const Feed = (props:{userId:string}) => {
                         id={post.id}
                         key={`${i}-${index}`} 
                         image={post.imageUrl}
-                        username={post.user.username}
+                        username={post.user? post.user?.username:""}
                         date={timeSince(post.postedAt)}
                         likes={post.likes? post.likes.length: 0}
                         comment={post.comments? post.comments.length.toString() : "0"}
-                        avatarurl={post.user.profilePictureUrl || ''}
+                        avatarurl={post.user?.profilePictureUrl? post.user?.profilePictureUrl : ''}
                         like={post.likes ? post.likes : []}
                     />
                 );

@@ -11,8 +11,6 @@ import SharePost from './sharePost'
 import FeedOption from './optionFeed'
 import { Like } from '@/types'
 import { useQueryClient } from '@tanstack/react-query'
-import { savePost } from '@/actions/savePost'
-import { unsavePost } from '@/actions/unsavePost'
 import { Comment } from '@/types'
 import { toast } from './ui/use-toast';
 import { postComment } from '@/actions/postComment'
@@ -49,7 +47,7 @@ const Post = (props:{
     const [likeCount, setLikeCount] = useState(props.like);
     const Save = useMutation({
         mutationFn: async (id:string) => {
-        await savePost(id)
+            await axios.post(`/api/save?id=${id}`)
         },
         onMutate: () => {
             setSave(true)
@@ -61,7 +59,8 @@ const Post = (props:{
     })
     const UnSave = useMutation({
         mutationFn: async (id:string) => {
-        await unsavePost(id)
+            await axios.delete(`/api/save?id=${id}`)
+
         },
         onMutate: () => {
             setSave(false)

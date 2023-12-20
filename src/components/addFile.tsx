@@ -13,13 +13,13 @@ import { Separator } from "./ui/separator";
 import { useToast } from "./ui/use-toast"
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from "@/lib/database.type";
-import { NewPost } from "@/actions/newPost";
 import type { FileWithPath } from "@uploadthing/react";
 import { useDropzone } from "@uploadthing/react/hooks";
 import { generateClientDropzoneAccept } from "uploadthing/client";
  
 import { useUploadThing } from "@/lib/uploadthing";
 import { useState, useCallback } from "react";
+import axios from "axios";
 
 interface Props {
     children: ReactNode;
@@ -40,7 +40,9 @@ interface Props {
           // Do something with the response
           if(res){
             console.log(res);
-            await NewPost(res[0].url)
+            await axios.post('/api/post/',{
+              url:res[0].url
+            })
           toast({
             title: "Upload of the image completed",
             // Other properties for the toast can be added here

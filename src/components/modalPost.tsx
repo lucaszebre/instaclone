@@ -11,8 +11,6 @@ import {
     DialogTrigger,
   } from "@/components/ui/dialog"
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { savePost } from '@/actions/savePost'
-import { unsavePost } from '@/actions/unsavePost'
 import axios from 'axios'
 import { Like,Comment } from '@/types'
 import { postComment } from '@/actions/postComment'
@@ -55,7 +53,7 @@ import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
     const [content, setContent] = useState("");
     const Save = useMutation({
         mutationFn: async (id:string) => {
-        await savePost(id)
+        await axios.post(`/api/save?id=${id}`)
         },
         onMutate: () => {
             setSave(true)
@@ -67,7 +65,7 @@ import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
     })
     const UnSave = useMutation({
         mutationFn: async (id:string) => {
-        await unsavePost(id)
+            await axios.delete(`/api/save?id=${id}`)
         },
         onMutate: () => {
             setSave(false)

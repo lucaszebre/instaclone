@@ -1,12 +1,19 @@
-'use server'
-import prisma from '@/lib/db';
-import { cookies } from 'next/headers'
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '@/lib/database.type';
+import { Database } from "@/lib/database.type";
+import prisma from "@/lib/db";
+import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
-export async function NewPost(url: string) {
+type Payload = {
+    url: string;
+  }
+
+
+export async function POST(req:Request){
     try {
-        
+        const body: Payload = await req.json();
+  
+        // This doesn't work
+        const { url } = body;
         const cookieStore = cookies()
 
         const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })

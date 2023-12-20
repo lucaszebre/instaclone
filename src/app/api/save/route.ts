@@ -6,42 +6,60 @@ import { Database } from '@/lib/database.type';
 
 export async function POST(req: Request) {
     try {
-        
-        const cookieStore = cookies()
-
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
-        
-        const data = await supabase.auth.getSession()
-      
-        let userId=data.data.session?.user.id
-
-        if(userId===undefined){
-            return new Response('Unauthorized', { status: 401 })
-        }
-
         const url = new URL(req.url)
-        
-        const postId = url.searchParams.get('p')
+        const id= url.searchParams.get('id');
 
-        if (!postId) return new Response('Invalid query', { status: 400 })
+        if (!id) return new Response('Invalid query', { status: 400 });
+        // Retrieve the cookies
+        const cookieStore = cookies();
+        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore });
 
-        const post = await prisma.post.findUnique({
-            where: { id: postId },
-        });
-
-        if (!post) {
-            return new Response('Post not found', { status: 404 })
+        // Get the session
+        const { data: session } = await supabase.auth.getSession();
+        if (!session.session?.user.id) {
+            throw new Error("User is not authenticated");
         }
 
+        const post = await prisma.post.findFirst({
+            where:{
+                id:id
+            }
+        })
 
-        await prisma.like.create({
-            data: {
-                postId,
-                userId,
-                likedAt: new Date(),
+        if(!post){
+            throw new Error("The post do not exist");
+        }
+
+        // Check if the post is already saved by the user
+        const user = await prisma.user.findUnique({
+            where: {
+                id: session.session.user.id,
+            },
+            select: {
+                savePost: true
             },
         });
-        return new Response('Post liked', { status: 200 })
+
+        if (user?.savePost.some((p)=>p==id)) {
+            return 'The post is already saved';
+        }
+
+        // Update the user's avatar to null or an empty string
+        await prisma.user.update({
+            where: {
+                id: session.session.user.id, // Assuming 'id' is the field for user ID in your database
+            },
+        
+            data: {
+                
+                savePost:{
+                    
+                    push:id
+                }
+            },
+        });
+
+        return new Response('Post save', { status:200 })
 
     } catch (error) {
         return new Response('Server error', { status: 500 })
@@ -54,46 +72,63 @@ export async function POST(req: Request) {
 
 export async function DELETE(req: Request) {
     try {
-        
-        const cookieStore = cookies()
-
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
-        
-        const data = await supabase.auth.getSession()
-      
-        let userId=data.data.session?.user.id
-
-        if(userId===undefined){
-            return new Response('Unauthorized', { status: 401 })
-        }
-
         const url = new URL(req.url)
-        
-        const postId = url.searchParams.get('p')
+        const id= url.searchParams.get('id');
 
-        if (!postId) return new Response('Invalid query', { status: 400 })
+        if (!id) return new Response('Invalid query', { status: 400 });
+        // Retrieve the cookies
+        // Retrieve the cookies
+        const cookieStore = cookies();
+        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore });
 
-        const post = await prisma.post.findUnique({
-            where: { id: postId },
-        });
-
-        if (!post) {
-            return new Response('Post not found', { status: 404 })
+        // Get the session
+        const { data: session } = await supabase.auth.getSession();
+        if (!session.session?.user.id) {
+            throw new Error("User is not authenticated");
         }
 
-            await prisma.like.delete({
-                where: {
-                    postId_userId: { postId, userId },
-                },
-            });
-            return new Response('Post unliked', { status:200 })
+        const post = await prisma.post.findFirst({
+            where:{
+                id:id
+            }
+        })
+
+        if(!post){
+            throw new Error("The post do not exist");
+        }
+
+        const Savepost = await prisma.user.findFirst({
+            where:{
+                id:session.session.user.id
+            },
+            select:{
+                savePost:true
+            }
+        })
+
+        // filter out the id the post from save post 
+        const SavepostFiltered=Savepost?.savePost.filter((f)=>f!==id)
+
+
+        // set the new array 
+        await prisma.user.update({
+            where: {
+                id: session.session.user.id, // Assuming 'id' is the field for user ID in your database
+            },
+            data: {
+                savePost:{
+                    set:SavepostFiltered
+                }
+            },
+        });
+        return new Response('sucessfully unsave the post', { status: 200 });
+
 
     } catch (error) {
-        return new Response('Server error', { status: 500 })
-
+        if (error instanceof Error) {
+            return new Response('Server error', { status: 500 });
+        }
     }
-
-  
 }
 
 export async function GET(req: Request) {

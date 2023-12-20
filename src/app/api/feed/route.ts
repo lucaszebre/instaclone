@@ -6,7 +6,8 @@ import { FeedValidator } from '@/lib/validator/feed';
 
 
 export async function GET(req: Request) {
-    const cookieStore = cookies();
+    try {
+        const cookieStore = cookies();
     const supabase = createServerActionClient<Database>({ cookies: () => cookieStore });
 
     const { data: sessionData } = await supabase.auth.getSession();
@@ -35,18 +36,7 @@ const paged = parseInt(page)
 const limited = parseInt(limit)
     // Calculate the number of posts to skip
 
-    let whereClause = {};
-
- 
-        whereClause = {
-            user: {
-                followers: { some: { followerId: currentUserId } }
-            }
-        };
-    
-
     const posts = await prisma.post.findMany({
-        where: whereClause,
         include:{
             comments:true,
             likes:true,
@@ -59,5 +49,12 @@ const limited = parseInt(limit)
         orderBy: { postedAt: 'desc' },
     });
 
-    return new Response(JSON.stringify(posts)) 
+
+    return new Response(JSON.stringify(posts),{status:200}) 
+    } catch (error) {
+        return new Response('Server error', { status: 500 })
+    }
+    
 }
+
+
