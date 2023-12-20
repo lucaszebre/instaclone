@@ -13,8 +13,8 @@ import { Like } from '@/types'
 import { useQueryClient } from '@tanstack/react-query'
 import { savePost } from '@/actions/savePost'
 import { unsavePost } from '@/actions/unsavePost'
-import { GetCurrentUser } from '@/actions/getCurrentUser'
 import { postComment } from '@/actions/postComment'
+import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
 
 
 const FeedPost = (props:{id:string,userId:string,image:string,username:string,date:string , likes:number,comment:string,avatarurl:string,like:Like[]}) => {
@@ -23,13 +23,17 @@ const FeedPost = (props:{id:string,userId:string,image:string,username:string,da
 
     const user = useQuery({
         queryFn: async () => {
-          const  data  = await GetCurrentUser();
-        return data;
+          const  data  = await axios.get('/api/currentUser');
+          const {User}= data.data ;
+          console.log(User)
+    
+          return User as Usered
         },
         queryKey: ['user'],
         enabled:true
       })
-    const [save,setSave]=useState(user.data?.savePost.some((p)=>p==props.id))
+    
+    const [save,setSave]=useState(user.data?.savePost? user.data?.savePost.some((p)=>p==props.id):false)
     const [likeCount, setLikeCount] = useState(props.likes);
     const Save = useMutation({
         mutationFn: async (id:string) => {

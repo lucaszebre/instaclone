@@ -1,5 +1,5 @@
 
-import React, { useContext, useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from './ui/button'
 
@@ -7,23 +7,16 @@ import Gallery from './gallery'
 import { Separator } from "@/components/ui/separator"
 import MenuMobile from './menuMobile'
 import { useToast } from './ui/use-toast'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import type { Database } from '@/lib/database.type'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { GetCurrentUser } from '@/actions/getCurrentUser'
 import OptionProfile from './avatarOption'
 import ProfileOption from './profileOption'
-import AvatarOption from './avatarOption'
-import ModalFollow from './modalFollower'
 import axios from 'axios'
 import ModalFollowing from './modalFollowing'
 import ModalFollower from './modalFollower'
 import { ReloadIcon } from '@radix-ui/react-icons'
-import { useRouter } from 'next/navigation';
-import { DataContext } from '@/store/datacontext'
-import Link from 'next/link'
 import { getSavePost } from '@/actions/getSavePost'
-import { Usered } from '@/lib/validator/currentUser'
+import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
 
 const Profile = (props:{profile:Usered}) => {
 
@@ -38,12 +31,16 @@ const Profile = (props:{profile:Usered}) => {
         isFetched,
       } = useQuery({
         queryFn: async () => {
-          const  data  = await GetCurrentUser();
-        return data;
+          const  data  = await axios.get('/api/currentUser');
+          const {User}= data.data ;
+          console.log(User)
+    
+          return User as Usered
         },
         queryKey: ['user'],
         enabled:true
       })
+    
       const savePost = useQuery({
         queryFn: async () => {
           const  data  = await getSavePost(props.profile.id);
@@ -170,7 +167,7 @@ const Profile = (props:{profile:Usered}) => {
                       
                     
                         }
-                        <ProfileOption username={props.profile.username} current={true}  uploadDate={data?.joinedAt.toDateString()||""} avatar={data?.profilePictureUrl||""} name={data?.fullName||""}>
+                        <ProfileOption username={props.profile.username} current={true}  uploadDate={data?.joinedAt.toString()||""} avatar={data?.profilePictureUrl||""} name={data?.fullName||""}>
                         <svg aria-label="Options" className="cursor-pointer x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Options</title><circle cx="12" cy="12" fill="none" r="8.635" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle><path d="M14.232 3.656a1.269 1.269 0 0 1-.796-.66L12.93 2h-1.86l-.505.996a1.269 1.269 0 0 1-.796.66m-.001 16.688a1.269 1.269 0 0 1 .796.66l.505.996h1.862l.505-.996a1.269 1.269 0 0 1 .796-.66M3.656 9.768a1.269 1.269 0 0 1-.66.796L2 11.07v1.862l.996.505a1.269 1.269 0 0 1 .66.796m16.688-.001a1.269 1.269 0 0 1 .66-.796L22 12.93v-1.86l-.996-.505a1.269 1.269 0 0 1-.66-.796M7.678 4.522a1.269 1.269 0 0 1-1.03.096l-1.06-.348L4.27 5.587l.348 1.062a1.269 1.269 0 0 1-.096 1.03m11.8 11.799a1.269 1.269 0 0 1 1.03-.096l1.06.348 1.318-1.317-.348-1.062a1.269 1.269 0 0 1 .096-1.03m-14.956.001a1.269 1.269 0 0 1 .096 1.03l-.348 1.06 1.317 1.318 1.062-.348a1.269 1.269 0 0 1 1.03.096m11.799-11.8a1.269 1.269 0 0 1-.096-1.03l.348-1.06-1.317-1.318-1.062.348a1.269 1.269 0 0 1-1.03-.096" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg>   
                         </ProfileOption> 
 
@@ -227,7 +224,8 @@ const Profile = (props:{profile:Usered}) => {
         
     </nav>
             {
-                !save? <Gallery photos={props.profile.posts} />:<Gallery photos={savePost.data} />
+                !save? <Gallery photos={props.profile.posts} />:<></>
+                // <Gallery photos={savePost.data} />
             }
             
 

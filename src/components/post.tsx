@@ -17,6 +17,7 @@ import { GetCurrentUser } from '@/actions/getCurrentUser'
 import { Comment } from '@/types'
 import { toast } from './ui/use-toast';
 import { postComment } from '@/actions/postComment'
+import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
 
 const Post = (props:{
   image:string,
@@ -35,12 +36,16 @@ const Post = (props:{
     const queryClient = useQueryClient()
     const user = useQuery({
         queryFn: async () => {
-          const  data  = await GetCurrentUser();
-        return data;
+          const  data  = await axios.get('/api/currentUser');
+          const {User}= data.data ;
+          console.log(User)
+    
+          return User as Usered
         },
         queryKey: ['user'],
         enabled:true
       })
+    
     const [save,setSave]=useState(user.data?.savePost.some((p)=>p==props.id))
     const [likeCount, setLikeCount] = useState(props.like);
     const Save = useMutation({

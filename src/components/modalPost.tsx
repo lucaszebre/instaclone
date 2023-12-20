@@ -18,6 +18,7 @@ import axios from 'axios'
 import { Like,Comment } from '@/types'
 import { postComment } from '@/actions/postComment'
 import { toast } from './ui/use-toast';
+import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
 
   interface ModalPostProps {
     id:string
@@ -41,12 +42,15 @@ import { toast } from './ui/use-toast';
     const queryClient = useQueryClient()
     const user = useQuery({
         queryFn: async () => {
-          const  data  = await GetCurrentUser();
-        return data;
+          const  data  = await axios.get('/api/currentUser');
+          const {User}= data.data ;
+    
+          return User as Usered
         },
         queryKey: ['user'],
         enabled:true
       })
+    
     const [save,setSave]=useState(user.data?.savePost.some((p)=>p==props.id))
     const [likeCount, setLikeCount] = useState(props.likes);
     const [content, setContent] = useState("");
@@ -171,6 +175,7 @@ import { toast } from './ui/use-toast';
                     <Separator />
                     <div  className='flex flex-col gap-2 h-screen w-full overflow-y-scroll'>
                         {props.comment.map((com,index)=>(
+                            com.user &&
                             <div className='flex flex-row justify-start gap-3 p-2'  key={index}>
                                 <Avatar className={`  w-[24px] h-[24px]`} >
                                     <AvatarImage src={com.user.profilePictureUrl||''} />

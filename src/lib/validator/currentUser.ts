@@ -45,6 +45,7 @@ export const CurrentUserValidator = z.object({
     isPrivate: z.boolean(),
     joinedAt: z.date(),
     isEmailVerified: z.boolean(),
+    savePost:z.array(z.string()),
     following: z.array(FollowingSchema).optional(),
     posts: z.array(PostSchema).optional(),
     followers: z.array(FollowerSchema).optional(),

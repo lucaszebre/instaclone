@@ -3,21 +3,26 @@
 
 import React from 'react';
 import PhotoCard from './photoCard'; // Assuming PhotoCard is in the same directory
-import {Post,  Posted } from '@/types';
 import { useQuery } from '@tanstack/react-query';
 import { GetCurrentUser } from '@/actions/getCurrentUser';
+import { GalleryType } from '@/lib/validator/gallery';
+import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser';
+import axios from 'axios';
 
 
 
-    const Gallery = (props:{photos?: Posted[]} ) => {
+    const Gallery = (props:{photos?: GalleryType[]} ) => {
         const user = useQuery({
-            queryFn: async () => {
-              const  data  = await GetCurrentUser();
-            return data;
-            },
-            queryKey: ['user'],
-            enabled:true
-          })
+          queryFn: async () => {
+            const  data  = await axios.get('/api/currentUser');
+            const {User}= data.data ;
+      
+            return User as Usered
+          },
+          queryKey: ['user'],
+          enabled:true
+        })
+      
     
         return (
         

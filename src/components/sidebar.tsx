@@ -14,15 +14,17 @@ import { usePathname } from 'next/navigation'
 import { GetCurrentUser } from "@/actions/getCurrentUser"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import Link from "next/link"
+import axios from "axios"
+import { CurrentUserValidator, Usered } from "@/lib/validator/currentUser"
 
 export function Sidebar() {
+  
   const { setSide, side,short,setShort } = useStore()
   const [search,setSearch]=useState(false)
   // Function to handle sidebar toggle
   const queryClient = useQueryClient()
 
   // Queries
-
 
   const {
     isFetching,
@@ -31,12 +33,17 @@ export function Sidebar() {
     isFetched,
   } = useQuery({
     queryFn: async () => {
-      const  data  = await GetCurrentUser();
-    return data;
+      const  data  = await axios.get('/api/currentUser');
+      const {User}= data.data ;
+      console.log(User)
+
+      return User as Usered
     },
     queryKey: ['user'],
     enabled:true
   })
+
+
   
   const handleSidebarToggle = (newSide:string) => {
     if(newSide==='search'){
@@ -49,7 +56,6 @@ export function Sidebar() {
 };
 
 const pathname = usePathname()
-
 
 
 

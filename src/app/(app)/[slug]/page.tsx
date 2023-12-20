@@ -7,7 +7,7 @@ import React from 'react'
 import { GetUser } from '@/actions/getUser'
 import Gallery from '@/components/gallery'
 import axios from 'axios'
-import { CurrentUserValidator } from '@/lib/validator/currentUser'
+import { Usered } from '@/lib/validator/currentUser'
 interface PageProps {
   params: {
     slug: string
@@ -20,15 +20,21 @@ const Page = ({ params }: PageProps) => {
   const currentUser =useQuery({
     queryFn: async () => {
       const  data  = await axios.get('/api/currentUser');
-    return CurrentUserValidator.parse(data);
+      const {User}= data.data ;
+      console.log(User)
+
+      return User as Usered
     },
     queryKey: ['user'],
     enabled:true
   })
+
     const user = useQuery({
       queryFn: async () => {
-        const  data  = await axios.get(`/api/user?username=${slug}`);
-        return CurrentUserValidator.parse(data);
+        const  data  = (await axios.get(`/api/user?username=${slug}`));
+        const {User}= data.data;
+  
+        return User as Usered
   },
   queryKey: [`${slug}`],
   })
@@ -39,13 +45,14 @@ if(slug===currentUser.data?.username){
       <ProfileCurrent profile={currentUser.data}  />
     </div>
   )
-}else if(user.data){
+}else if(user.data  ){
   return (
     <div className='flex flex-row justify-center w-full'>
       <Profile profile={user.data}  />
   </div>)
 }
-else{
+else if(user.error || currentUser.error){
+
   return (
     <div className='flex flex-row w-full  items-center justify-start mt-6 text-center'>
       <div className='flex w-full flex-col gap-2'>
@@ -56,7 +63,13 @@ else{
   )
 }
 
- 
+ else if(user.isLoading || currentUser.isLoading){
+  return (
+    <p>
+      Is Loading ...
+    </p>
+  )
+ }
 
   
 }

@@ -1,6 +1,5 @@
 'use server'
 import prisma from '@/lib/db';
-import { PostSchema, Posted } from '@/types';
 
 
 export async function getSavePost(id:string) {
@@ -27,9 +26,7 @@ export async function getSavePost(id:string) {
                 include:{
                     comments:true,
                     likes:true,
-                    tags:true,
                     user:true,
-                    taggedUsers:true
                 },
             })
 
