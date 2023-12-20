@@ -41,7 +41,7 @@ const page = async () => {
   if (!profile) return notFound()
   return (
     <div className='flex flex-row justify-center w-full h-full'>
-      <Edit username={profile.username} urlavatar={profile.profilePictureUrl||""} fullname={profile.fullName||""} bio={profile.bio||""} />
+      <Edit username={profile.username} gender={profile.gender||""} urlavatar={profile.profilePictureUrl||""} fullname={profile.fullName||""} bio={profile.bio||""} />
     </div>
   
   )

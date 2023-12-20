@@ -121,9 +121,10 @@ const Edit = (props:{
 
         <div className='flex gap-2 flex-col items-start text-start'>
         <label >Gender</label>
-          <Select  >
-            <SelectTrigger value={gender} onChange={(e)=>{setGender(e.currentTarget.value)}}   className="w-full h-[80px]  rounded-sm">
-              <SelectValue  defaultValue={props.gender} placeholder='Female' />
+          <Select onValueChange={(e)=>{setGender(e)
+                console.log(e)}} >
+            <SelectTrigger value={gender}   className="w-full h-[80px]  rounded-sm">
+              <SelectValue placeholder={props.gender}   />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="female">Female</SelectItem>

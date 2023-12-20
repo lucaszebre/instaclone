@@ -38,7 +38,6 @@ const DialogPost: React.FC<Props> = ({children,id,likes,avatarurl,username,image
         },
         queryKey: ['postLikeStatus'],
       })
-      console.log(data)
     // const [like, setLike] = useState(data.isLiked);
     const [like, setLike] = useState(false);
     const [likeCount, setLikeCount] = useState<number>(likes);

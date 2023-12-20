@@ -31,7 +31,6 @@ const Profile = (props:{profile:Usered}) => {
         queryFn: async () => {
           const  data  = await axios.get('/api/user');
           const {User}= data.data ;
-          console.log(User)
     
           return User as Usered
         },
@@ -42,7 +41,6 @@ const Profile = (props:{profile:Usered}) => {
       const savePost = useQuery({
         queryFn: async () => {
           const  data  = (await axios.get(`/api/save?p=${props.profile.id}`)).data;
-          console.log(data)
         return data;
         },
         queryKey: [`userSavePost${props.profile.id}`],

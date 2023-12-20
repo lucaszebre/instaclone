@@ -22,7 +22,6 @@ const FeedPost = (props:{id:string,userId:string,image:string,username:string,da
         queryFn: async () => {
           const  data  = await axios.get('/api/user');
           const {User}= data.data ;
-          console.log(User)
     
           return User as Usered
         },
