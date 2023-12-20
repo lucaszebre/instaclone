@@ -7,7 +7,6 @@ import Gallery from './gallery'
 import { Separator } from "@/components/ui/separator"
 import MenuMobile from './menuMobile'
 import { useToast } from './ui/use-toast'
-import { Follower, User, UserSchema, Usered } from '@/types'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import type { Database } from '@/lib/database.type'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -24,6 +23,7 @@ import { useRouter } from 'next/navigation';
 import { DataContext } from '@/store/datacontext'
 import Link from 'next/link'
 import { getSavePost } from '@/actions/getSavePost'
+import { Usered } from '@/lib/validator/currentUser'
 
 const Profile = (props:{profile:Usered}) => {
 

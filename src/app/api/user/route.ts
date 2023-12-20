@@ -5,14 +5,15 @@ export async function GET(req: Request) {
     try {
         
         const url = new URL(req.url)
-        const q = url.searchParams.get('q')
 
-        if (!q) return new Response('Invalid query', { status: 400 })
+        const username = url.searchParams.get("username")
+
+        if (!username) return new Response('Invalid query', { status: 400 })
 
         const User =await prisma.user.findFirst({
-            where: { username:q },
+            where: { username },
             include: {
-                posts:{include:{
+                    posts:{include:{
                     user:true,
                     likes:true,
                     comments:true,
@@ -26,11 +27,11 @@ export async function GET(req: Request) {
                 },
         )
 
-        const UserParsed = UserSchema.parse(User);
+       
         
         return new Response(
             JSON.stringify({
-                UserParsed
+                User
             }))
     } catch (error) {
         if (error instanceof Error) {

@@ -6,6 +6,8 @@ import ProfileCurrent from '@/components/profileCurrent'
 import React from 'react'
 import { GetUser } from '@/actions/getUser'
 import Gallery from '@/components/gallery'
+import axios from 'axios'
+import { CurrentUserValidator } from '@/lib/validator/currentUser'
 interface PageProps {
   params: {
     slug: string
@@ -17,16 +19,16 @@ const Page = ({ params }: PageProps) => {
 
   const currentUser =useQuery({
     queryFn: async () => {
-      const  data  = await GetCurrentUser();
-    return data;
+      const  data  = await axios.get('/api/currentUser');
+    return CurrentUserValidator.parse(data);
     },
     queryKey: ['user'],
     enabled:true
   })
     const user = useQuery({
       queryFn: async () => {
-        const  data  = await GetUser(slug);
-    return data;
+        const  data  = await axios.get(`/api/user?username=${slug}`);
+        return CurrentUserValidator.parse(data);
   },
   queryKey: [`${slug}`],
   })

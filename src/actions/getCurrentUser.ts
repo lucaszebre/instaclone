@@ -23,9 +23,7 @@ export async function GetCurrentUser() {
                   include:{
                     user:true
                   }
-                },
-                taggedUsers:true,
-                tags:true
+                }
               }},
               followers:true,
               following:true,
