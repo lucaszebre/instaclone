@@ -32,7 +32,7 @@ export function Sidebar() {
     isFetched,
   } = useQuery({
     queryFn: async () => {
-      const  data  = await axios.get('/api/currentUser');
+      const  data  = await axios.get('/api/user');
       const {User}= data.data ;
       console.log(User)
 

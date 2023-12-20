@@ -13,7 +13,7 @@ import axios from 'axios';
     const Gallery = (props:{photos?: GalleryType[]} ) => {
         const user = useQuery({
           queryFn: async () => {
-            const  data  = await axios.get('/api/currentUser');
+            const  data  = await axios.get('/api/user');
             const {User}= data.data ;
       
             return User as Usered

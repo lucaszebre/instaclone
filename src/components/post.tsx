@@ -13,7 +13,6 @@ import { Like } from '@/types'
 import { useQueryClient } from '@tanstack/react-query'
 import { Comment } from '@/types'
 import { toast } from './ui/use-toast';
-import { postComment } from '@/actions/postComment'
 import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
 
 const Post = (props:{
@@ -33,7 +32,7 @@ const Post = (props:{
     const queryClient = useQueryClient()
     const user = useQuery({
         queryFn: async () => {
-          const  data  = await axios.get('/api/currentUser');
+          const  data  = await axios.get('/api/user');
           const {User}= data.data ;
           console.log(User)
     
@@ -112,7 +111,11 @@ const Post = (props:{
     
     const postedComment = useMutation({
         mutationFn: async (id:string) => {
-        await postComment(id,content);
+            await axios.post('/api/comment',
+            {
+                postId:id,
+                content
+            });
         },
         // onError: () => {
         // setLike(true)

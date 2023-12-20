@@ -1,11 +1,21 @@
-'use server'
 import prisma from '@/lib/db';
 import { cookies } from 'next/headers'
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '@/lib/database.type';
 
-export async function postComment(Postid: string,content:string) {
+
+type Payload = {
+    postId: string;
+    content:string
+  }
+
+
+export async function POST(req:Request){
     try {
+        const body: Payload = await req.json();
+  
+        // This doesn't work
+        const { postId,content} = body;
         
         const cookieStore = cookies()
 
@@ -20,16 +30,18 @@ export async function postComment(Postid: string,content:string) {
 
         const newComment = await prisma.comment.create({
           data:{
-            postId:Postid,
+            postId,
             userId:currentUserId,
             content:content
           }
         });
 
-        return 'A comment has been add sucessfully!';
+        return new Response('Sucessfully post a comment', { status: 200 })
+
     } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message);
-        }
+        return new Response('Server error', { status: 500 })
+
     }
+
+
 }

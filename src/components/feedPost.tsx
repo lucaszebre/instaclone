@@ -11,7 +11,6 @@ import SharePost from './sharePost'
 import FeedOption from './optionFeed'
 import { Like } from '@/types'
 import { useQueryClient } from '@tanstack/react-query'
-import { postComment } from '@/actions/postComment'
 import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
 
 
@@ -21,7 +20,7 @@ const FeedPost = (props:{id:string,userId:string,image:string,username:string,da
 
     const user = useQuery({
         queryFn: async () => {
-          const  data  = await axios.get('/api/currentUser');
+          const  data  = await axios.get('/api/user');
           const {User}= data.data ;
           console.log(User)
     
@@ -100,13 +99,13 @@ const FeedPost = (props:{id:string,userId:string,image:string,username:string,da
     
     const postedComment = useMutation({
         mutationFn: async (id:string) => {
-        await postComment(id,content);
+        await axios.post('/api/comment',
+        {
+            postId:id,
+            content
+        });
         },
-        // onError: () => {
-        // setLike(true)
-        // setLikeCount(prev=>prev+1)
-
-        // },
+       
         onMutate: () => {
            
 

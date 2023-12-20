@@ -13,7 +13,6 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { Like,Comment } from '@/types'
-import { postComment } from '@/actions/postComment'
 import { toast } from './ui/use-toast';
 import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
 
@@ -39,7 +38,7 @@ import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
     const queryClient = useQueryClient()
     const user = useQuery({
         queryFn: async () => {
-          const  data  = await axios.get('/api/currentUser');
+          const  data  = await axios.get('/api/user');
           const {User}= data.data ;
     
           return User as Usered
@@ -116,7 +115,11 @@ import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
     })
     const postedComment = useMutation({
         mutationFn: async (id:string) => {
-        await postComment(id,content);
+            await axios.post('/api/comment',
+            {
+                postId:id,
+                content
+            });
         },
         // onError: () => {
         // setLike(true)
