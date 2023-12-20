@@ -1,10 +1,10 @@
-'use server'
-import prisma from '@/lib/db';
-import { cookies } from 'next/headers'
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '@/lib/database.type';
+import { Database } from "@/lib/database.type";
+import prisma from "@/lib/db";
+import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
-export async function GetCurrentAndSideProfiles() {
+export async function GET(req: Request) {
+  
     try {
         const cookieStore = cookies();
         const supabase = createServerActionClient<Database>({ cookies: () => cookieStore });
@@ -42,11 +42,14 @@ export async function GetCurrentAndSideProfiles() {
             [sideProfiles[i], sideProfiles[j]] = [sideProfiles[j], sideProfiles[i]];
         }
 
-        return { currentUser, sideProfiles };
+    
+    return new Response(JSON.stringify({ currentUser, sideProfiles }))
+
+
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(error.message);
+            return new Response('Server error', { status: 500 });
         }
-        throw new Error('An unexpected error occurred');
     }
+    
 }

@@ -1,13 +1,28 @@
 'use client'
 import React from 'react'
 import CardSideProfile from './cardSideProfile'
-import { GetCurrentUser } from '@/actions/getCurrentUser'
 import { useQuery } from '@tanstack/react-query'
-import { GetCurrentAndSideProfiles } from '@/actions/getSideProfile'
-import { CardProfileLoader } from './loader/cardProfile'
 import { CardProfileFeedLoader } from './loader/cardFeedProfile'
+import axios from 'axios'
+import { z } from 'zod'
 
 const SideProfile = () => {
+
+  const sideProfile = z.object({
+    currentUser:z.object(
+      {username:z.string(),
+      fullName:z.string(),
+      profilePictureUrl :z.string()}),
+        sideProfiles:z.array(
+          z.object({username:z.string(),
+            fullName:z.string(),
+            profilePictureUrl :z.string()})
+        )
+  }
+    
+    )
+
+    type SideType = z.infer<typeof sideProfile>;
   const {
     isFetching,
     data,
@@ -15,8 +30,8 @@ const SideProfile = () => {
     isFetched,
   } = useQuery({
     queryFn: async () => {
-      const  data  = await GetCurrentAndSideProfiles();
-    return data;
+      const  data  = (await axios.get('/api/side')).data;
+    return data as SideType;
     },
     queryKey: ['side'],
   }) 

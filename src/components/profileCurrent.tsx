@@ -25,7 +25,6 @@ import { ReloadIcon } from '@radix-ui/react-icons'
 import { useRouter } from 'next/navigation';
 import { DataContext } from '@/store/datacontext'
 import Link from 'next/link'
-import { getSavePost } from '@/actions/getSavePost'
 import { Usered } from '@/lib/validator/currentUser'
 import { GallerySchema } from '@/lib/validator/gallery'
 

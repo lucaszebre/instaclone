@@ -14,7 +14,6 @@ import axios from 'axios'
 import ModalFollowing from './modalFollowing'
 import ModalFollower from './modalFollower'
 import { ReloadIcon } from '@radix-ui/react-icons'
-import { getSavePost } from '@/actions/getSavePost'
 import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
 
 const Profile = (props:{profile:Usered}) => {
