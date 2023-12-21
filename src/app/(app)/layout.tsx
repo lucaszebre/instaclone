@@ -11,6 +11,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import { Next13ProgressBar } from 'next13-progressbar';
+import { usePathname } from 'next/navigation';
 
 
 
@@ -22,6 +23,13 @@ export default function RootLayout({
   const queryClient = new QueryClient()
   const {short,side} = useStore()
   
+  const pathname = usePathname()
+
+
+const path = new RegExp(
+  '^/direct(?:\/.*|)$'
+);
+
   return (
   <html lang="en">
     <head />
@@ -48,7 +56,7 @@ export default function RootLayout({
         <Sidebar />
         <div className={`flex overflow-x-hidden z-0 mb-[50px]
         
-        ${short && 'md:ml-[96px]' || 
+        ${   path.test(pathname)  && 'md:ml-[96px]' || 
         '  flex-row  xl:ml-[250px] md:ml-[96px] ml-[0px]'}
         h-screen w-full  justify-start`}>
           {children}
