@@ -50,7 +50,8 @@ const Feed = (props:{userId:string}) => {
           fetchNextPage() // Load more posts when the last post comes into view
         }
       }, [entry, fetchNextPage])
-
+    
+      
   return (
     <>
         <MenuMobile />
