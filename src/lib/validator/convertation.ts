@@ -1,0 +1,20 @@
+
+
+import { UserSchema } from '@/types';
+import { z } from 'zod'
+
+
+
+
+
+export const ConversationValidator = z.object({
+    id: z.string(),
+    redisKey: z.string(),
+    initiatorId: z.string(),
+    initiator: UserSchema.nullable().optional(),
+    recipientId: z.string(),
+    recipient: UserSchema.nullable().optional(),
+});
+
+
+export type Conversation = z.infer<typeof ConversationValidator>;
