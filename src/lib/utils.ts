@@ -6,8 +6,8 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 
-const upstashRedisRestUrl = process.env.UPSTASH_REDIS_REST_URL
-const authToken = process.env.UPSTASH_REDIS_REST_TOKEN
+const upstashRedisRestUrl = "https://eu2-subtle-ram-32443.upstash.io"
+const authToken = "AX67ACQgOWFlMjc2MDYtZjE1NC00MmY2LThhNDEtMWNhNGQwM2VjZDFlOGE1NzMyMWJiMjQwNDQwNDg5ZTMyYjlhODIxYzZkNGQ="
 
 type Command = 'zrange' | 'sismember' | 'get' | 'smembers'
 
@@ -30,4 +30,14 @@ export async function fetchRedis(
 
   const data = await response.json()
   return data.result
+}
+
+
+export function toPusherKey(key: string) {
+  return key.replace(/:/g, '__')
+}
+
+export function chatHrefConstructor(id1: string, id2: string) {
+  const sortedIds = [id1, id2].sort()
+  return `${sortedIds[0]}--${sortedIds[1]}`
 }

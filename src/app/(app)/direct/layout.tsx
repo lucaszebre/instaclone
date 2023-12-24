@@ -16,7 +16,6 @@ export default function RootLayout({children,}: {
     queryFn: async () => {
       const  data  = await axios.get('/api/conversation');
       const dated= data.data ;
-      console.log(dated)
       return dated as Conversation[]
     },
     queryKey: [`conversation`]

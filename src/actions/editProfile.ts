@@ -16,7 +16,6 @@ export async function editProfile( bio?:string,gender?:string) {
             throw new Error("User is not authenticated");
         }
 
-        console.log(gender)
         await prisma.user.update({
             where: {
                 id: session.session.user.id, // Assuming 'id' is the field for user ID in your database
