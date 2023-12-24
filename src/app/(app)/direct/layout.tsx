@@ -53,10 +53,18 @@ export default function RootLayout({children,}: {
 
 
               {Conv.data?.map((c,index)=>{
-                return (
-                  <CardSideProfile chatId={c.id} key={index}  inbox={true} name='main' subname='main' url={c.recipient?.profilePictureUrl ? c.recipient.profilePictureUrl : ""} username={c.recipient?.username ? c.recipient.username :""} />
-
-                )
+                if(c.recipient?.id!==currentUser.data?.id){
+                  return (
+                    <CardSideProfile chatId={c.id} key={index}  inbox={true} name={c.recipient?.username||""} subname={c.recipient?.fullName||""} url={c.recipient?.profilePictureUrl ? c.recipient.profilePictureUrl : ""} username={c.recipient?.username ? c.recipient.username :""} />
+  
+                  )
+                }else{
+                  return (
+                    <CardSideProfile chatId={c.id} key={index}  inbox={true} name={c.initiator?.username||""} subname={c.initiator?.fullName||""} url={c.initiator?.profilePictureUrl ? c.initiator.profilePictureUrl : ""} username={c.initiator?.username ? c.initiator.username :""} />
+  
+                  )
+                }
+                
               })}
             
 
