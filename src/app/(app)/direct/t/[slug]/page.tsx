@@ -21,37 +21,44 @@ const Page = ({ params }: PageProps) => {
         queryFn: async () => {
             const  data  = (await axios.get(`/api/conversation?id=${slug}`)).data;
             return data as Conversation
+
+
     },
     queryKey: [`${slug}`],
     })
 
+
+
     const currentUser =useQuery({
         queryFn: async () => {
-          const  data  = await axios.get('/api/user');
-          const {User}= data.data ;
-    
-          return User as Usered
+            const  data  = await axios.get('/api/user');
+            const {User}= data.data ;
+        
+            return User as Usered
         },
         queryKey: ['user'],
         enabled:true
-      })
+    })
 
+    console.log(conv.data)
 
-      if(conv.data?.recipient?.id!==currentUser.data?.id){
+    if(conv.data?.recipient?.id!==currentUser.data?.id){
+
         return (
             <>
-            <Chat  sessionId='' sessionImg={conv.data?.recipient?.profilePictureUrl || ""} username={conv.data?.recipient?.username || ""} initialMessages={[]} chatId={`${conv.data?.initiator?.id}--${conv.data?.recipient?.id}`||""}         chatPartner={conv.data?.recipient}/>
+            <Chat  sessionId='' sessionImg={conv.data?.recipient?.profilePictureUrl || ""} username={conv.data?.recipient?.username || ""} initialMessages={conv.data?.messages||[]} chatId={`${conv.data?.initiator?.id}--${conv.data?.recipient?.id}`||""}         chatPartner={conv.data?.recipient}/>
             </>
         )
-      }else{
-        return (
-            <>
-            <Chat  sessionId='' sessionImg={conv.data?.initiator?.profilePictureUrl || ""} username={conv.data?.initiator?.username || ""} initialMessages={[]} chatId={`${conv.data?.initiator?.id}--${conv.data?.recipient?.id}`||""}         chatPartner={conv.data?.initiator}/>
-            </>
-        )
-      }
+        }else{
+
+            return (
+                <>
+                <Chat  sessionId='' sessionImg={conv.data?.initiator?.profilePictureUrl || ""} username={conv.data?.initiator?.username || ""} initialMessages={conv.data?.messages||[]} chatId={`${conv.data?.initiator?.id}--${conv.data?.recipient?.id}`||""}         chatPartner={conv.data?.initiator}/>
+                </>
+            )
+        }
+        
     
-   
 }
 
 export default Page

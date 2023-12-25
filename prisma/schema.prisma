@@ -28,18 +28,16 @@ model User {
   followers              FollowerList[] // Users that are following this user (as 'user')
   comments               Comment[]
   likes                  Like[]
-  initiatedConversations Conversation[]  @relation("initiatedConversations")
+  Conversations Conversation[]  @relation("initiatedConversations")
   receivedConversations  Conversation[]  @relation("receivedConversations")
   notifications          Notification[]
   stories                Story[]
   taggedPosts            UserTag[]
   userBlock              String[]
   userBLockme            String[]
-  savePost               String[]       
-  savePostId             String
+  savePost               String[]
+  savePostId             String?
 }
-
-
 
 model Post {
   id          String    @id @default(uuid())
@@ -117,14 +115,22 @@ model Tag {
 }
 
 model Conversation {
-  id       String @id @default(uuid())
-  redisKey String
-
+  id          String    @id @default(uuid())
+  redisKey    String
+  message     Message[]
   initiatorId String
-  initiator   User   @relation("initiatedConversations", fields: [initiatorId], references: [id])
-
+  initiator   User      @relation("initiatedConversations", fields: [initiatorId], references: [id])
   recipientId String
   recipient   User   @relation("receivedConversations", fields: [recipientId], references: [id])
+}
+
+model Message {
+  id             String        @id
+  senderId       String
+  text           String
+  timestamp      DateTime
+  Conversation   Conversation? @relation(fields: [conversationId], references: [id])
+  conversationId String?
 }
 
 model Notification {

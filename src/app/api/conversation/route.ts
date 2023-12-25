@@ -22,6 +22,8 @@ export async function GET(req:Request){
         
         const id  = url.searchParams.get('id') 
 
+        console.log(id)
+
         if(id){
             const Conv = await prisma.conversation.findFirst({
             where:{
@@ -29,7 +31,9 @@ export async function GET(req:Request){
                     {
                         initiatorId:currentUserId
                     },
-                    { recipientId:currentUserId },
+                    { 
+                        recipientId:currentUserId 
+                    },
                     ],
             },
             include:{

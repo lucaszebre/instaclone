@@ -2,6 +2,7 @@
 
 import { UserSchema } from '@/types';
 import { z } from 'zod'
+import { messageValidator } from './message';
 
 
 
@@ -14,6 +15,7 @@ export const ConversationValidator = z.object({
     initiator: UserSchema.nullable().optional(),
     recipientId: z.string(),
     recipient: UserSchema.nullable().optional(),
+    messages:messageValidator.nullable().optional()
 });
 
 
