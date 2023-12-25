@@ -26,7 +26,11 @@ export async function GET(req: Request) {
                 posts:{include:{
                     user:true,
                     likes:true,
-                    comments:true,
+                    comments:{
+                        include:{
+                          user:true
+                        }
+                      },
                     taggedUsers:true,
                     tags:true
                 }},
@@ -50,7 +54,11 @@ export async function GET(req: Request) {
                 posts:{include:{
                     user:true,
                     likes:true,
-                    comments:true,
+                    comments:{
+                        include:{
+                          user:true
+                        }
+                      },
                     taggedUsers:true,
                     tags:true
                 }},
@@ -87,22 +95,26 @@ export async function POST(req: Request) {
 
         let User;
         if(username){
-            User =  await prisma.user.findFirst({
-                where: { username },
-                include: {
-                posts:{include:{
-                    user:true,
-                    likes:true,
-                    comments:true,
-                    taggedUsers:true,
-                    tags:true
-                }},
-                followers:true,
-                following:true,
-            
-                },
-                },
-            )
+                User =  await prisma.user.findFirst({
+                    where: { username },
+                    include: {
+                    posts:{include:{
+                        user:true,
+                        likes:true,
+                        comments:{
+                            include:{
+                            user:true
+                            }
+                        },
+                        taggedUsers:true,
+                        tags:true
+                    }},
+                    followers:true,
+                    following:true,
+                
+                    },
+                    },
+                )
     
         }else{
             const cookieStore = cookies()
@@ -111,20 +123,24 @@ export async function POST(req: Request) {
         
             const data = await supabase.auth.getSession()
 
-            User =  await prisma.user.findFirst({
-                where: { id:data.data.session?.user.id },
-                include: {
-                posts:{include:{
-                    user:true,
-                    likes:true,
-                    comments:true,
-                    taggedUsers:true,
-                    tags:true
-                }},
-                followers:true,
-                following:true}}
-            )
-        }
+                User =  await prisma.user.findFirst({
+                    where: { id:data.data.session?.user.id },
+                    include: {
+                    posts:{include:{
+                        user:true,
+                        likes:true,
+                        comments:{
+                            include:{
+                            user:true
+                            }
+                        },
+                        taggedUsers:true,
+                        tags:true
+                    }},
+                    followers:true,
+                    following:true}}
+                )
+            }
 
     
     return new Response(JSON.stringify({User}))

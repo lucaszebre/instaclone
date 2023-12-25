@@ -21,7 +21,8 @@ import axios from 'axios';
           queryKey: ['user'],
           enabled:true
         })
-      
+        
+        console.log(user.data);
     
         return (
         

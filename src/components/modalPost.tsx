@@ -145,7 +145,7 @@ import InputEmoji from 'react-input-emoji'
         }
     })
     const [like, setLike] = useState(props.like.some((i)=>i.userId==props.userId));
-
+    console.log(props.comment)
   return (
         <Dialog>
             <DialogTrigger>{props.children}</DialogTrigger>
