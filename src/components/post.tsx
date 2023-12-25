@@ -4,7 +4,6 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { Textarea } from './ui/textarea'
 import axios from 'axios'
 import {  useQuery, useMutation } from '@tanstack/react-query'
 import SharePost from './sharePost'
@@ -15,6 +14,8 @@ import { Comment } from '@/types'
 import { toast } from './ui/use-toast';
 import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
 import InputEmoji from 'react-input-emoji'
+import { pusherClient } from '@/lib/pusher'
+import { toPusherKey } from '@/lib/utils'
 
 const Post = (props:{
   image:string,
@@ -30,6 +31,27 @@ const Post = (props:{
   city:string
   userId:string
 }) => {
+
+
+    const [comment,setComment]=useState(props.comments)
+    useEffect(() => {
+        pusherClient.subscribe(
+          toPusherKey(`post:${props.id}`)
+        )
+    
+        const commentHandler = (comment: Comment) => {
+            console.log(comment)
+          setComment((prev) => [...prev,comment ])
+        }
+        pusherClient.bind('incoming-comment-post', commentHandler)
+    
+        return () => {
+          pusherClient.unsubscribe(
+            toPusherKey(`post:${props.id}`)
+          )
+          pusherClient.unbind('incoming-comment-post', commentHandler)
+        }
+      }, [props.id])
     const queryClient = useQueryClient()
     const user = useQuery({
         queryFn: async () => {
@@ -41,7 +63,6 @@ const Post = (props:{
         queryKey: ['user'],
         enabled:true
       })
-    
     const [save,setSave]=useState(user.data?.savePost.some((p)=>p==props.id))
     const [likeCount, setLikeCount] = useState(props.like);
     const Save = useMutation({
@@ -114,8 +135,11 @@ const Post = (props:{
             await axios.post('/api/comment',
             {
                 postId:id,
-                content
+                content,
+                user:user.data
             });
+            setContent("");
+
         },
         // onError: () => {
         // setLike(true)
@@ -131,15 +155,10 @@ const Post = (props:{
         });
        },
         onSuccess:()=>{
-            toast({
-                title: "just add a new comment",
-                // Other properties for the toast can be added here
-            });
-            setContent("");
             queryClient.resetQueries({ queryKey: [`post${props.id}`] })
         }
     })
-    
+
     const [like, setLike] = useState(props.likes.some((i)=>i.userId==props.userId));
     const [content,setContent]=useState("");
   return (
@@ -171,7 +190,7 @@ const Post = (props:{
                         </div>
                     <Separator />
                     <div  className='flex flex-col gap-2 h-screen w-full overflow-y-scroll'>
-                        {props.comments.map((com,index)=>(
+                        {comment.map((com,index)=>(
                             <div className='flex flex-row justify-start gap-3 p-2'  key={index}>
                                 <Avatar className={`  w-[24px] h-[24px]`} >
                                     <AvatarImage src={com.user.profilePictureUrl||''} />
