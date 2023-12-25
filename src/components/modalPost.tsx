@@ -1,6 +1,6 @@
 'use client'
 
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from '@radix-ui/react-dropdown-menu'
@@ -16,6 +16,8 @@ import { Like,Comment } from '@/types'
 import { toast } from './ui/use-toast';
 import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
 import InputEmoji from 'react-input-emoji'
+import { pusherClient } from '@/lib/pusher'
+import { toPusherKey } from '@/lib/utils'
 
   interface ModalPostProps {
     id:string
@@ -36,6 +38,25 @@ import InputEmoji from 'react-input-emoji'
   }
 
   export default function ModalPost(props: ModalPostProps) {
+    const [comment,setComment]=useState(props.comment)
+    useEffect(() => {
+        pusherClient.subscribe(
+          toPusherKey(`post:${props.id}`)
+        )
+    
+        const commentHandler = (comment: Comment) => {
+            console.log(comment)
+          setComment((prev) => [...prev,comment ])
+        }
+        pusherClient.bind('incoming-comment-post', commentHandler)
+    
+        return () => {
+          pusherClient.unsubscribe(
+            toPusherKey(`post:${props.id}`)
+          )
+          pusherClient.unbind('incoming-comment-post', commentHandler)
+        }
+      }, [props.id])
     const queryClient = useQueryClient()
     const user = useQuery({
         queryFn: async () => {
@@ -119,7 +140,8 @@ import InputEmoji from 'react-input-emoji'
             await axios.post('/api/comment',
             {
                 postId:id,
-                content
+                content,
+                user:user.data
             });
         },
         // onError: () => {
@@ -175,7 +197,7 @@ import InputEmoji from 'react-input-emoji'
                         </div>
                     <Separator />
                     <div  className='flex flex-col gap-2 h-screen w-full overflow-y-scroll'>
-                        {props.comment.map((com,index)=>(
+                        {comment.map((com,index)=>(
                             com.user &&
                             <div className='flex flex-row justify-start gap-3 p-2'  key={index}>
                                 <Avatar className={`  w-[24px] h-[24px]`} >
