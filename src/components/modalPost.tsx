@@ -15,6 +15,7 @@ import axios from 'axios'
 import { Like,Comment } from '@/types'
 import { toast } from './ui/use-toast';
 import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
+import InputEmoji from 'react-input-emoji'
 
   interface ModalPostProps {
     id:string
@@ -209,10 +210,13 @@ import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
                             </span>
                         </div>
                         
-                        <div className='flex flex-row w-full gap-4 justify-between content-center'>
-                            <textarea value={content} onChange={(e)=>{setContent(e.target.value)}} className='border-0 w-full bg-transparent  border-none max-h-[18px] h-full' placeholder='Add a comment' />
-                            <span className='cursor-pointer' onClick={()=>{postedComment.mutate(props.id)}}>Post</span>
-                        </div>
+                        <InputEmoji
+                            inputClass=''
+                            value={content}
+                            onChange={setContent}
+                            onEnter={()=>{ postedComment.mutate(props.id);}}
+                            placeholder="Type a message"
+                        />
 
                     </div>
                     
