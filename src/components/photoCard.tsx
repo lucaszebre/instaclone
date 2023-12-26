@@ -6,7 +6,6 @@ import ModalPost from './modalPost';
 import { Like,Comment } from '@/types';
 
 const PhotoCard = (props: { id:string,comment:Comment[], userId:string,image: string; likes:Like[], like: string; imgdescription: string ,avatar:string,username:string}) => {
-  console.log(props.comment,"photacard")
   return (
     <>
     <ModalPost  id={props.id} userId={props.userId} uploadDate={''} avatar={props.avatar} like={props.likes} username={props.username} likes={parseInt(props.like)} image={props.image} imgdescription={props.imgdescription} name={'ddd'} date={''} comment={props.comment}   >

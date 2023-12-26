@@ -22,7 +22,6 @@ import axios from 'axios';
           enabled:true
         })
         
-        console.log(user.data);
     
         return (
         

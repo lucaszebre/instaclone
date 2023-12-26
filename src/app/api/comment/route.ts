@@ -5,6 +5,8 @@ import { Database } from '@/lib/database.type';
 import { pusherServer } from '@/lib/pusher';
 import { toPusherKey } from '@/lib/utils';
 import { User } from '@/types';
+import { timeSince } from '@/lib/time';
+import { z } from 'zod';
 
 
 type Payload = {
@@ -29,18 +31,55 @@ export async function POST(req:Request){
 
         const currentUserId = data.data.session?.user.id;
 
+        console.log(currentUserId);
         if(!currentUserId){
             throw new Error("You need to be auth");        }
 
-            await pusherServer.trigger(toPusherKey(`post:${postId}`), 'incoming-comment-post', {
+            const CommentSchema = z.object({
+              commentedAt: z.string(), // Assuming it's always a string representation of a date
+              content: z.string(),
+              id: z.string(),
+              postId: z.string(),
+              repliedToCommentId: z.string().nullable(),
+              user: z.object({
+                id: z.string(),
+                email: z.string(),
+                avatarkey: z.string(),
+                bio: z.string(),
+                fullName: z.string().nullable(),
+                gender: z.string().nullable(),
+                isEmailVerified: z.boolean(),
+                isPrivate: z.boolean(),
+                joinedAt: z.string(),
+                profilePictureUrl: z.string(),
+                savePost: z.array(z.string()),
+                savePostId: z.string().nullable(),
+                userBLockme: z.array(z.string()),
+                userBlock: z.array(z.string()),
+                username: z.string(),
+              }),
+              userId: z.string(),
+            });
+
+            const commentData =  {
               postId,
               userId:currentUserId,
-              content:content,
+              content,
               repliedToCommentId:null,
               user,
+              commentedAt:"",
+              id:"",
               
 
-            })
+            }
+
+            const comment = CommentSchema.parse(commentData)
+
+
+            await pusherServer.trigger(toPusherKey(`post:${postId}`), 'incoming-comment-post', comment)
+
+
+        
 
       
 

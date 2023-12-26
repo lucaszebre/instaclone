@@ -63,6 +63,7 @@ const Post = (props:{
         queryKey: ['user'],
         enabled:true
       })
+      
     const [save,setSave]=useState(user.data?.savePost.some((p)=>p==props.id))
     const [likeCount, setLikeCount] = useState(props.like);
     const Save = useMutation({

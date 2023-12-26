@@ -166,8 +166,8 @@ import { toPusherKey } from '@/lib/utils'
             queryClient.resetQueries({ queryKey: [`post${props.id}`] })
         }
     })
-    const [like, setLike] = useState(props.like.some((i)=>i.userId==props.userId));
     console.log(props.comment)
+    const [like, setLike] = useState(props.like.some((i)=>i.userId==props.userId));
   return (
         <Dialog>
             <DialogTrigger>{props.children}</DialogTrigger>
