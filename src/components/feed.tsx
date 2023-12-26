@@ -16,6 +16,7 @@ import { toPusherKey } from '@/lib/utils';
 import { Message } from 'postcss';
 import { Toaster,toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { Button } from './ui/button';
 
 const Feed = (props:{userId:string}) => {
 
@@ -81,15 +82,18 @@ const Feed = (props:{userId:string}) => {
       const router = useRouter()
 
       useEffect(()=>{
-        console.log("haha")
-        toast((t) => (
+        console.log(feed)
+        if(feed){
+            toast((t) => (
                 <span>
                 New post is here
-                <button onClick={() => router.reload()}>
+                <Button onClick={() => router.refresh()}>
                     Refresh
-                </button>
+                </Button>
                 </span>
           ));
+        }
+        
 
         
       },[feed])
