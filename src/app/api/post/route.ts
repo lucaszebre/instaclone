@@ -1,5 +1,7 @@
 import { Database } from "@/lib/database.type";
 import prisma from "@/lib/db";
+import { pusherServer } from "@/lib/pusher";
+import { toPusherKey } from "@/lib/utils";
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
@@ -19,6 +21,8 @@ export async function POST(req:Request){
         const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
         
         const data = await supabase.auth.getSession()
+
+
         const newPost = await prisma.post.create({
             data: {
                 imageUrl: url,
@@ -26,10 +30,16 @@ export async function POST(req:Request){
             },
         });
 
-        return 'Registration successful';
+        await pusherServer.trigger(toPusherKey(`feed`), 'incoming-post', {
+            feed:1
+        })
+
+        
+
+
+        return new Response('Sucessfully post a post', { status: 200 })
     } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message);
-        }
+        return new Response('Server error', { status: 500 })
+
     }
 }

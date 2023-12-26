@@ -1,7 +1,7 @@
 'use client'
 
 
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import FeedPost from './feedPost'
 import MenuMobile from './menuMobile';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -11,8 +11,36 @@ import { FeedPostLoader } from './loader/feedPost';
 import { useIntersection } from '@mantine/hooks'
 import axios from 'axios';
 import { Posted } from '@/types';
+import { pusherClient } from '@/lib/pusher';
+import { toPusherKey } from '@/lib/utils';
+import { Message } from 'postcss';
+import { Toaster,toast } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 const Feed = (props:{userId:string}) => {
+
+    const [feed,setFeed] = useState(0);
+
+    useEffect(() => {
+        pusherClient.subscribe(
+          toPusherKey(`feed`)
+        )
+    
+        const feedHandler = (feed:number) => {
+          setFeed((prev) => prev+feed)
+        }
+    
+    
+    
+        pusherClient.bind('incoming-post', feedHandler)
+    
+        return () => {
+          pusherClient.unsubscribe(
+            toPusherKey(`feed`)
+          )
+          pusherClient.unbind('incoming-post', feedHandler)
+        }
+      }, [props.userId])
     
     const lastPostRef = useRef<HTMLElement>(null)
     const { ref, entry } = useIntersection({
@@ -50,10 +78,28 @@ const Feed = (props:{userId:string}) => {
           fetchNextPage() // Load more posts when the last post comes into view
         }
       }, [entry, fetchNextPage])
-    
+      const router = useRouter()
+
+      useEffect(()=>{
+        console.log("haha")
+        toast((t) => (
+                <span>
+                New post is here
+                <button onClick={() => router.reload()}>
+                    Refresh
+                </button>
+                </span>
+          ));
+
+        
+      },[feed])
       
   return (
     <>
+    <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
         <MenuMobile />
         <div className='max-w-[630px] mt-[60px] md:mt-0 h-screen relative flex flex-col gap-8 mb-[50px] w-full'>
         <div className='h-[48px]  w-full justify-start flex flex-row'>
