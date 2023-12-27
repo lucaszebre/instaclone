@@ -40,7 +40,6 @@ const Page = ({ params }: PageProps) => {
         enabled:true
     })
 
-    console.log(conv.data)
 
     if(conv.data?.recipient?.id!==currentUser.data?.id){
 

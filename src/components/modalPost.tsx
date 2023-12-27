@@ -45,7 +45,6 @@ import { toPusherKey } from '@/lib/utils'
         )
     
         const commentHandler = (comment: Comment) => {
-            console.log(comment)
           setComment((prev) => [...prev,comment ])
         }
         pusherClient.bind('incoming-comment-post', commentHandler)
@@ -166,7 +165,6 @@ import { toPusherKey } from '@/lib/utils'
             queryClient.resetQueries({ queryKey: [`post${props.id}`] })
         }
     })
-    console.log(props.comment)
     const [like, setLike] = useState(props.like.some((i)=>i.userId==props.userId));
   return (
         <Dialog>

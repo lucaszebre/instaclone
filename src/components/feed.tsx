@@ -82,7 +82,6 @@ const Feed = (props:{userId:string}) => {
       const router = useRouter()
 
       useEffect(()=>{
-        console.log(feed)
         if(feed){
             toast((t) => (
                 <span>

@@ -40,7 +40,6 @@ const Post = (props:{
         )
     
         const commentHandler = (comment: Comment) => {
-            console.log(comment)
           setComment((prev) => [...prev,comment ])
         }
         pusherClient.bind('incoming-comment-post', commentHandler)

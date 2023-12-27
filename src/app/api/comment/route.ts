@@ -31,7 +31,6 @@ export async function POST(req:Request){
 
         const currentUserId = data.data.session?.user.id;
 
-        console.log(currentUserId);
         if(!currentUserId){
             throw new Error("You need to be auth");        }
 
