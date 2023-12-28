@@ -18,6 +18,7 @@ import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
 import InputEmoji from 'react-input-emoji'
 import { pusherClient } from '@/lib/pusher'
 import { toPusherKey } from '@/lib/utils'
+import CommentCard from './commentCard'
 
   interface ModalPostProps {
     id:string
@@ -47,12 +48,21 @@ import { toPusherKey } from '@/lib/utils'
         const commentHandler = (comment: Comment) => {
           setComment((prev) => [...prev,comment ])
         }
+
+         // Event handler for deleted comments
+        const deletedCommentHandler = ( commentId:string) => {
+            setComment((prev) => prev.filter((comment:Comment) => comment.id !== commentId));
+        };
         pusherClient.bind('incoming-comment-post', commentHandler)
+        pusherClient.bind('deleted-comment-post', deletedCommentHandler);
+
     
         return () => {
           pusherClient.unsubscribe(
             toPusherKey(`post:${props.id}`)
           )
+          pusherClient.unbind('deleted-comment-post', deletedCommentHandler);
+
           pusherClient.unbind('incoming-comment-post', commentHandler)
         }
       }, [props.id])
@@ -195,18 +205,10 @@ import { toPusherKey } from '@/lib/utils'
                         </div>
                     <Separator />
                     <div  className='flex flex-col gap-2 h-screen w-full overflow-y-scroll'>
-                        {comment.map((com,index)=>(
-                            com.user &&
-                            <div className='flex flex-row justify-start gap-3 p-2'  key={index}>
-                                <Avatar className={`  w-[24px] h-[24px]`} >
-                                    <AvatarImage src={com.user.profilePictureUrl||''} />
-                                    <AvatarFallback>{com.user.username}</AvatarFallback>
-                                </Avatar>
-                                <span>
-                                    {com.user.username}
-                                </span>
-                                <p >{com.content}</p>
-                            </div>
+                    {comment.map((com,index)=>(
+                        com.user &&
+                            <CommentCard postId={com.postId} userId={user.data?.id||""} comIsUserId={com.userId}  key={index} avatarUrl={com.user.profilePictureUrl||""} username={com.user.username} content={com.content} id={com.id} index={index} date={com.commentedAt}  />
+                            
                         
                         ))}
 

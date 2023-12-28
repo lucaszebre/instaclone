@@ -2,7 +2,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '@radix-ui/react-avatar'
 import React from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu'
 import { timeSince } from '@/lib/time'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from './ui/use-toast'
 import axios from 'axios'
 
@@ -12,12 +12,16 @@ const CommentCard = (props:{
     content:string,
     id:string,
     index:number,
-    date:Date
+    date:Date,
+    userId:string,
+    comIsUserId:string,
+    postId:string
 }) => {
+    const queryClient = useQueryClient()
 
     const DeleteComment = useMutation({
         mutationFn: async () => {
-        await axios.delete(`/api/comment?id=${props.id}`);
+        await axios.delete(`/api/comment?id=${props.id}&postid=${props.postId}`);
         },
         onError: () => {
           toast({
@@ -28,12 +32,12 @@ const CommentCard = (props:{
         });
         },
        
-    //     onSuccess:()=>{
-    //         // queryClient.invalidateQueries({ queryKey: [`user`] })
+        onSuccess:()=>{
+             queryClient.invalidateQueries({ queryKey: [`user`] })
             
         
         
-    // }
+     }
 
     }
     )
@@ -57,7 +61,9 @@ const CommentCard = (props:{
                                     <p >{props.content}</p>
 
                                     </div>
-                                    <div className='absolute right-2'>
+                                    {
+                                        props.userId===props.comIsUserId?
+                                        <div className='absolute right-2'>
                                         <DropdownMenu >
                                         <DropdownMenuTrigger><svg aria-label="More options" className="none hover:flex x1lliihq x1n2onr6 x1roi4f4" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>More options</title><circle cx="12" cy="12" r="1.5"></circle><circle cx="6" cy="12" r="1.5"></circle><circle cx="18" cy="12" r="1.5"></circle></svg>
                                         </DropdownMenuTrigger>
@@ -67,7 +73,9 @@ const CommentCard = (props:{
                                         </DropdownMenuContent>
                                         </DropdownMenu>
 
-                                    </div>
+                                    </div>:<></>
+                                    }
+                                    
                                     
 
                                 </div>

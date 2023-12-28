@@ -131,6 +131,10 @@ export async function DELETE(req:Request){
             if (!id) {
                 throw new Error("Need the id ");
             }
+             const postId = url.searchParams.get('postid');
+            if (!postId) {
+                throw new Error("Need the id ");
+            }
       
       
 
@@ -140,6 +144,9 @@ export async function DELETE(req:Request){
             id:id
           }
         });
+
+        await pusherServer.trigger(toPusherKey(`post:${postId}`), 'deleted-comment-post',id);
+
 
 
 

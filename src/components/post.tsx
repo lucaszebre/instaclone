@@ -43,12 +43,21 @@ const Post = (props:{
         const commentHandler = (comment: Comment) => {
           setComment((prev) => [...prev,comment ])
         }
+
+         // Event handler for deleted comments
+        const deletedCommentHandler = ( commentId:string) => {
+            setComment((prev) => prev.filter((comment:Comment) => comment.id !== commentId));
+        };
         pusherClient.bind('incoming-comment-post', commentHandler)
+        pusherClient.bind('deleted-comment-post', deletedCommentHandler);
+
     
         return () => {
           pusherClient.unsubscribe(
             toPusherKey(`post:${props.id}`)
           )
+          pusherClient.unbind('deleted-comment-post', deletedCommentHandler);
+
           pusherClient.unbind('incoming-comment-post', commentHandler)
         }
       }, [props.id])
@@ -192,7 +201,7 @@ const Post = (props:{
                     <Separator />
                     <div  className='flex flex-col gap-2 h-screen w-full overflow-y-scroll'>
                         {comment.map((com,index)=>(
-                            <CommentCard key={index} avatarUrl={com.user.profilePictureUrl||""} username={com.user.username} content={com.content} id={com.id} index={index} date={com.commentedAt}  />
+                            <CommentCard postId={com.postId} userId={user.data?.id||""} comIsUserId={com.userId}  key={index} avatarUrl={com.user.profilePictureUrl||""} username={com.user.username} content={com.content} id={com.id} index={index} date={com.commentedAt}  />
                             
                         
                         ))}
