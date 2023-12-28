@@ -27,7 +27,7 @@ export const PostSchemaArray = z.array(z.object({
     userId: z.string(),
     content: z.string(),
     repliedToCommentId: z.string().nullable(),
-    commentedAt: z.date().optional(),
+    commentedAt: z.date(),
     // Add any nested relations if necessary
   })).optional(),
     user:z.object({

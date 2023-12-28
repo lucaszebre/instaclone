@@ -7,6 +7,8 @@ import { toPusherKey } from '@/lib/utils';
 import { User } from '@/types';
 import { timeSince } from '@/lib/time';
 import { z } from 'zod';
+import { nanoid } from 'nanoid';
+import { randomUUID } from 'crypto';
 
 
 type Payload = {
@@ -35,7 +37,7 @@ export async function POST(req:Request){
             throw new Error("You need to be auth");        }
 
             const CommentSchema = z.object({
-              commentedAt: z.string(), // Assuming it's always a string representation of a date
+              commentedAt: z.date(), // Assuming it's always a string representation of a date
               content: z.string(),
               id: z.string(),
               postId: z.string(),
@@ -60,14 +62,18 @@ export async function POST(req:Request){
               userId: z.string(),
             });
 
+            const idcomment=randomUUID()
+
+            console.log(idcomment)
+
             const commentData =  {
               postId,
               userId:currentUserId,
               content,
               repliedToCommentId:null,
               user,
-              commentedAt:"",
-              id:"",
+              commentedAt:new Date(),
+              id:idcomment,
               
 
             }
@@ -85,6 +91,7 @@ export async function POST(req:Request){
 
         const newComment = await prisma.comment.create({
           data:{
+            id:idcomment,
             postId,
             userId:currentUserId,
             content:content
@@ -96,6 +103,50 @@ export async function POST(req:Request){
         return new Response('Sucessfully post a comment', { status: 200 })
 
     } catch (error) {
+      console.error(error)
+        return new Response('Server error', { status: 500 })
+
+    }
+
+
+}
+
+
+export async function DELETE(req:Request){
+    try {
+          
+        const cookieStore = cookies()
+
+        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
+        
+        const data = await supabase.auth.getSession()
+
+        const currentUserId = data.data.session?.user.id;
+
+        if(!currentUserId){
+            throw new Error("You need to be auth");        }
+
+        const url = new URL(req.url)
+            const id = url.searchParams.get('id');
+            if (!id) {
+                throw new Error("Need the id ");
+            }
+      
+      
+
+
+        await prisma.comment.delete({
+          where:{
+            id:id
+          }
+        });
+
+
+
+        return new Response('Sucessfully Delete the comment', { status: 200 })
+
+    } catch (error) {
+      console.error(error)
         return new Response('Server error', { status: 500 })
 
     }
