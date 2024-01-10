@@ -43,3 +43,35 @@ export async function POST(req:Request){
 
     }
 }
+
+export async function DELETE(req:Request){
+    try {
+        const body: Payload = await req.json();
+  
+        // This doesn't work
+        const { url } = body;
+        const cookieStore = cookies()
+
+        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
+        
+        const data = await supabase.auth.getSession()
+
+
+        const newPost = await prisma.post.create({
+            data: {
+                imageUrl: url,
+                user: { connect: { id: data.data.session?.user.id} },
+            },
+        });
+
+      
+
+        
+
+
+        return new Response('Sucessfully delete a post', { status: 200 })
+    } catch (error) {
+        return new Response('Server error', { status: 500 })
+
+    }
+}
