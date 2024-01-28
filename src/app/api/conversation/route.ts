@@ -79,6 +79,7 @@ export async function GET(req:Request){
 export async function POST(req:Request){
     try {
 
+
         const url = new URL(req.url)
         
         const id  = url.searchParams.get('id') 
@@ -86,6 +87,8 @@ export async function POST(req:Request){
         if(!id){
             return new Response("The id is not", { status: 400 })
         }
+
+
 
         const cookieStore = cookies()
 

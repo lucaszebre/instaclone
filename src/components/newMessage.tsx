@@ -83,12 +83,14 @@ interface NewMessageProps {
       },
       onSuccess:()=>{
           router.push('/direct/t/idChat')
-          queryClient.resetQueries({queryKey:['conversation']})
+          queryClient.refetchQueries({queryKey:['conversation']})
       }
     }) 
+    const [open, setOpen] = useState(false);
+
     
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
@@ -118,6 +120,7 @@ interface NewMessageProps {
         </div>
         <DialogFooter className='p-4'>
           <Button onClick={()=>{
+            setOpen(false);
             newChat.mutate(userId)
           }} className='w-full'>Chat</Button>
         </DialogFooter>
