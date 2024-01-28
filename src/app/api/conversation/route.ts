@@ -79,7 +79,6 @@ export async function GET(req:Request){
 export async function POST(req:Request){
     try {
 
-
         const url = new URL(req.url)
         
         const id  = url.searchParams.get('id') 
