@@ -24,6 +24,7 @@ export async function POST(req: Request) {
     const [userId1, userId2] = chatId.split('--')
 
     if (currentUserId !== userId1 && currentUserId !== userId2) {
+      console.error("hanhan");
       return new Response('Unauthorized', { status: 401 })
     }
 
@@ -35,6 +36,8 @@ export async function POST(req: Request) {
       'get',
       `user:${currentUserId}`
     )) as string
+
+    console.error("step1");
 
 
     const sender = JSON.parse(rawSender) as Usered
@@ -52,18 +55,21 @@ export async function POST(req: Request) {
 
     // notify all connected chat room clients
     await pusherServer.trigger(toPusherKey(`chat:${chatId}`), 'incoming-message', message)
+    console.error("step2");
 
     await pusherServer.trigger(toPusherKey(`user:${friendId}:chats`), 'new_message', {
       ...message,
       senderImg: sender.profilePictureUrl,
       senderName: sender.username
     })
+    console.error("step3");
 
     // all valid, send the message
     await db.zadd(`chat:${chatId}:messages`, {
       score: timestamp,
       member: JSON.stringify(message),
     })
+    console.error("step4");
 
     return new Response('OK')
   } catch (error) {

@@ -102,16 +102,21 @@ export async function POST(req:Request){
             where:{
                 OR: [
                     {  
-                        initiatorId:currentUserId
+                        initiatorId:currentUserId,
+                        recipientId:id
                     },
-                    { recipientId:id},
+                    { recipientId:currentUserId,
+                        initiatorId:id
+                    },
                     ],
             }
         })
 
         if(conv){
-            return new Response("Conversation already create",{status:200}) 
+            return new Response("Conversation already create",{status:202}) 
         }
+        
+        
 
         await prisma.conversation.create({
                 data: {

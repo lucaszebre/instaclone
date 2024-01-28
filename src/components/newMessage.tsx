@@ -63,13 +63,19 @@ interface NewMessageProps {
   
     };
 
-    const [user,setUser]=useState("");
+    const [userId,setUserId]=useState("");
+
+    const handleUserSelect = (userId: string) => {
+      setUserId(userId);
+    };
+
+    // add a loading when newchat is starting to post on the bar
     const newChat = useMutation({
       mutationFn: async (id:string) => {
+        console.log(id);
       await axios.post(`/api/conversation?id=${id}`)
       },
       onError: () => {
-        // reset current vote
       return toast({
           title: 'Something went wrong.',
           variant: 'destructive',
@@ -105,16 +111,14 @@ interface NewMessageProps {
         {data && data.length > 0  ? (
         <ul className="flex flex-col gap-5 mt-5 w-full h-full">
           {data.map((user:Search,index) => (
-            <div onClick={()=>{setUser(user.id)}} key={index}>
-                <CardSideProfile  name='' share={true} key={index} url={user.profilePictureUrl||''} username={user.username} subname={user.fullName||''}  />
-            </div>
+                <CardSideProfile onSelect={() => handleUserSelect(user.id)}  selected={user.id == userId}  name='' share={true} key={index} url={user.profilePictureUrl||''} username={user.username} subname={user.fullName||''}  />
           ))}
         </ul>
       ) : <p className={`${isFetching? 'hidden':'flex'} 'mt-6' `}>No users found</p>}
         </div>
         <DialogFooter className='p-4'>
           <Button onClick={()=>{
-            newChat.mutate(user)
+            newChat.mutate(userId)
           }} className='w-full'>Chat</Button>
         </DialogFooter>
       </DialogContent>

@@ -1,11 +1,13 @@
 'use client'
 
 
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from 'next/link'
 
-const CardSideProfile = (props:{url:string,chatId?:string,username:string,inbox?:boolean,share?:boolean,commentText?:string,CommentDate?:string,comment?:boolean,liked?:boolean,suggestion?:boolean,followYou?:boolean,name:string,subname?:string}) => {
+const CardSideProfile = (props:{url:string,chatId?:string,username:string,inbox?:boolean,share?:boolean,commentText?:string,CommentDate?:string,comment?:boolean,liked?:boolean,suggestion?:boolean,followYou?:boolean,name:string,subname?:string,selected?: boolean;
+    onSelect?: () => void;}) => {
+    const [Select,setSelect] = useState(false);
     if(props.suggestion){
         return (
             <div className='flex flex-row h-[50px] justify-center'>
@@ -108,28 +110,40 @@ const CardSideProfile = (props:{url:string,chatId?:string,username:string,inbox?
         )
     }if(props.share){
         return (
-          
-               <div className='flex flex-row  w-full justify-between content-center items-center'>
-               <div className='flex flex-row gap-4 content-center items-center'>
-                   <Avatar className='w-[44px] h-[44px]'>
-                            <AvatarImage src={props.url} />
-                            <AvatarFallback>{props.username}</AvatarFallback>
-                   </Avatar>
-                   <div className='flex flex-col justify-between h-full'>
-                   <a className='font-mediun' href="">
-                   {props.username}
-                   </a>
-                   <span className='text-[#a8a29e]'>
-                   {props.subname}
-                   </span>
-               </div>
-               </div>
-               
-               <div className='flex flex-col h-full text-center justify-center'>
-               <input type="radio" className='w-[24px] h-[24px]' />
-               </div>
-                    </div>
-          
+           
+                    <div 
+                    onClick={() => {
+                        if(props.onSelect){
+                            props.onSelect();
+                        }
+                        }}
+                        className='flex flex-row cursor-pointer  w-full justify-between content-center items-center'>
+                <div className='flex flex-row gap-4 content-center items-center'>
+                    <Avatar className='w-[44px] h-[44px]'>
+                                <AvatarImage src={props.url} />
+                                <AvatarFallback>{props.username}</AvatarFallback>
+                    </Avatar>
+                    <div className='flex flex-col justify-between h-full'>
+                    <a className='font-mediun' href="">
+                    {props.username}
+                    </a>
+                    <span className='text-[#a8a29e]'>
+                    {props.subname}
+                    </span>
+                </div>
+                </div>
+                
+                <div className='flex flex-col h-full text-center justify-center'>
+                <input  
+                name='same' 
+                type="radio" 
+                className='w-[24px] h-[24px]'
+                checked={props.selected}
+                    />
+                </div>
+                </div>
+            
+            
         )
     }if(props.inbox){
         return (
