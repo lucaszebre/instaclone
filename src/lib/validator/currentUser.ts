@@ -1,19 +1,3 @@
-// include: {
-//   posts:{include:{
-//     user:true,
-//     likes:true,
-//     comments:{
-//       include:{
-//         user:true
-//       }
-//     },
-//     taggedUsers:true,
-//     tags:true
-//   }},
-//   followers:true,
-//   following:true,
-
-//   },
 
 
 import { FollowingSchema, FollowerSchema, CommentSchema, LikeSchema, ConversationSchema, NotificationSchema, UserTagSchema, UserSchema, UserSchemaPost } from '@/types'

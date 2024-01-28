@@ -14,11 +14,11 @@ import InputEmoji from 'react-input-emoji'
 import ChatOption from './optionChat'
 
 interface MessagesProps {
-  initialMessages: Message[]
+  initialMessages?: Message[]
   sessionId: string
   chatId: string
   sessionImg: string | null | undefined
-  chatPartner: Usered |undefined
+  chatPartner: Usered | undefined
   username:string
 }
 const Chat: FC<MessagesProps> = ({
@@ -29,10 +29,12 @@ const Chat: FC<MessagesProps> = ({
   sessionImg,
   username,
 }) => {
-  const [messages, setMessages] = useState<Message[]>(initialMessages)
+  const [messages, setMessages] = useState<Message[]>(initialMessages?initialMessages:[])
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [input, setInput] = useState<string>('')
+
+  
   useEffect(() => {
     pusherClient.subscribe(
       toPusherKey(`chat:${chatId}`)
@@ -63,7 +65,7 @@ const Chat: FC<MessagesProps> = ({
   const sendMessage = async () => {
     if(!input) return
     setIsLoading(true)
-
+    console.log(input,chatId);
     try {
       await axios.post('/api/message', { text: input, chatId })
       setInput('')
