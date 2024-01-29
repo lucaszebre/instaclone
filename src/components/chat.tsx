@@ -31,8 +31,7 @@ const Chat: FC<MessagesProps> = ({
   username,
 }) => {
   
-  const [messages, setMessages] = useState<Message[]>(initialMessages.reverse())
-  console.log(messages)
+  const [messages, setMessages] = useState<Message[]>(initialMessages)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [input, setInput] = useState<string>('')
@@ -92,6 +91,9 @@ const Chat: FC<MessagesProps> = ({
       setIsLoading(false)
     }
   }
+
+  console.log((sessionImg as string) )
+  console.log(chatPartner?.profilePictureUrl )
   
   return (
     <div className='flex relative  flex-col w-[100%] h-[100%]'>
@@ -160,6 +162,7 @@ const Chat: FC<MessagesProps> = ({
                   'order-1': !isCurrentUser,
                   invisible: hasNextMessageFromSameUser,
                 })}>
+                  
                 <Image
                   fill
                   src={

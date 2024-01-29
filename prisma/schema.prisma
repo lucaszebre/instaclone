@@ -45,6 +45,7 @@ model Post {
   author      String    @default("kihura")
   user        User      @relation(fields: [userId], references: [id])
   imageUrl    String
+  filekey    String?
   caption     String?
   location    String?
   postedAt    DateTime  @default(now())

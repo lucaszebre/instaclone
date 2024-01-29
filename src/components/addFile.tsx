@@ -40,7 +40,7 @@ interface Props {
           // Do something with the response
           if(res){
             await axios.post('/api/post/',{
-              url:res[0].url
+              url:res[0].url,filekey:res[0].key
             })
           toast({
             title: "Upload of the image completed",

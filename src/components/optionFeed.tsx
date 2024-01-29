@@ -1,28 +1,58 @@
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
 import { Button } from './ui/button'
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.type';
 import { useRouter } from 'next/navigation';
 import { copyCurrentURL } from '@/lib/copyLink';
 import { useToast } from './ui/use-toast';
 import AlertBlock from './alertBlock';
+
 import Link from 'next/link';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Usered } from '@/types';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 interface Props {
     children: ReactNode;
     follow?:boolean
-    id:string
+    id:string,
+    post?:boolean,
+    userId?:string
+
     }
-const FeedOption: React.FC<Props> = ({  id,  children,follow
+const FeedOption: React.FC<Props> = ({  id,userId,  children,follow,post
 }) => {
-    const supabase = createClientComponentClient<Database>()
-    const router = useRouter()
-    const {toast} = useToast()
+    const currentUser =useQuery({
+        queryFn: async () => {
+          const  data  = await axios.get('/api/user');
+          const {User}= data.data ;
+    
+          return User as Usered
+        },
+        queryKey: ['user'],
+        enabled:true
+      })
+      const queryClient = useQueryClient()
+
+      const Save = useMutation({
+        mutationFn: async (id:string) => {
+        await axios.post(`/api/save?id=${id}`)
+        },
+        onMutate: () => {
+        },
+        onSuccess:()=>{
+            toast("Hello World")
+            queryClient.resetQueries({ queryKey: [`post${id}`] })
+            queryClient.resetQueries({ queryKey: [`user`] })
+        }
+    })
+    const [open, setOpen] = useState(false);
 
     if(follow){
         return (
-          <Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger> 
               {children}
 
@@ -31,21 +61,36 @@ const FeedOption: React.FC<Props> = ({  id,  children,follow
               <Button variant="ghost">
                   Unfollow
               </Button>
-              <Button variant="ghost">
+              <Button onClick={()=>{
+                setOpen(false);
+
+                Save.mutate(id);
+
+              }} variant="ghost">
                   Add to favorites
               </Button>
               <Link href={`p/${id}`} >
-              <Button asChild variant="ghost">
+              <Button onClick={()=>{
+                copyCurrentURL()
+                toast.success("link copied")
+                setOpen(false);
+
+              }} asChild variant="ghost">
                
                     Go to post
                 
               </Button>
               </Link>
-               <Button variant="ghost">
+               <Button onClick={()=>{
+                copyCurrentURL();
+                toast.success("link copied");
+                setOpen(false);
+
+              }}  variant="ghost">
                   Copy the link
               </Button>
               <Button  variant="ghost">
-                 About this acount
+                 About this account
               </Button>
           </DialogContent>
       </Dialog>
@@ -59,17 +104,28 @@ const FeedOption: React.FC<Props> = ({  id,  children,follow
     
                 </DialogTrigger>
                 <DialogContent>
-                    <Button variant="ghost">
+                    <Button onClick={()=>{
+                Save.mutate(id);
+                setOpen(false);
+
+              }} variant="ghost">
                         Add to favorites
                     </Button>
                     
-                        <Button asChild variant="ghost">
+                    {post?null: <Button asChild variant="ghost">
                             <Link href={`p/${id}`} >
                                 Go to post
                             </Link>
-                        </Button>
-                     
-                     <Button variant="ghost">
+                        </Button> }    
+                     {userId==currentUser.data?.id?<Button variant="ghost">
+                        Delete the post
+                    </Button>:null}
+                     <Button onClick={()=>{
+                copyCurrentURL()
+                toast.success("link copied");
+                setOpen(false);
+
+              }} variant="ghost">
                         Copy the link
                     </Button>
                     <Button  variant="ghost">

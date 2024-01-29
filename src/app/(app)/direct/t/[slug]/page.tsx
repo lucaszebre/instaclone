@@ -97,7 +97,7 @@ const Page = ({ params }: PageProps) => {
         </div>
 
         <>
-            <Chat   sessionId={slug} sessionImg={conv.data?.recipient?.profilePictureUrl || ""} username={conv.data?.recipient?.username || ""} initialMessages={ conv.data?.message || []} chatId={`${conv.data?.initiator?.id}--${conv.data?.recipient?.id}`||""}         chatPartner={conv.data?.recipient}/>
+            <Chat   sessionId={slug} sessionImg={conv.data?.recipient?.profilePictureUrl || ""} username={conv.data?.recipient?.username || ""} initialMessages={ conv.data?.message || []} chatId={`${conv.data?.initiator?.id}--${conv.data?.recipient?.id}`||""}         chatPartner={conv.data?.initiator}/>
             </>
              
     </div>
@@ -146,7 +146,7 @@ const Page = ({ params }: PageProps) => {
         </div>
 
         <>
-        <Chat  sessionId={slug} sessionImg={conv.data?.initiator?.profilePictureUrl || ""} username={conv.data?.initiator?.username || ""} initialMessages={conv.data?.message||[]} chatId={`${conv.data?.initiator?.id}--${conv.data?.recipient?.id}`||""}         chatPartner={conv.data?.initiator }/>
+        <Chat  sessionId={slug} sessionImg={conv.data?.initiator?.profilePictureUrl || ""} username={conv.data?.initiator?.username || ""} initialMessages={conv.data?.message||[]} chatId={`${conv.data?.initiator?.id}--${conv.data?.recipient?.id}`||""}         chatPartner={conv.data?.recipient }/>
             </>
     </div>
     
