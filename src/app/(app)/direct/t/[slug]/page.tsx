@@ -34,6 +34,8 @@ const Page = ({ params }: PageProps) => {
 
     const { slug } = params
 
+    console.log(slug)
+
     const conv = useQuery({
         queryFn: async () => {
             const  data  = (await axios.get(`/api/conversation?id=${slug}`)).data;
@@ -44,8 +46,7 @@ const Page = ({ params }: PageProps) => {
     queryKey: [`${slug}`],
     })
 
-
-
+    console.log(conv.data);
     const currentUser =useQuery({
         queryFn: async () => {
             const  data  = await axios.get('/api/user');
@@ -149,12 +150,10 @@ const Page = ({ params }: PageProps) => {
         <>
         <Chat  sessionId='' sessionImg={conv.data?.initiator?.profilePictureUrl || ""} username={conv.data?.initiator?.username || ""} initialMessages={conv.data?.messages||[]} chatId={`${conv.data?.initiator?.id}--${conv.data?.recipient?.id}`||""}         chatPartner={conv.data?.initiator }/>
             </>
-             
     </div>
     
   
     </>
-               
             )
         }
         

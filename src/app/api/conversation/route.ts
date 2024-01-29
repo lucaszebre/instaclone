@@ -26,14 +26,7 @@ export async function GET(req:Request){
         if(id){
             const Conv = await prisma.conversation.findFirst({
             where:{
-                OR: [
-                    {
-                        initiatorId:currentUserId
-                    },
-                    { 
-                        recipientId:currentUserId 
-                    },
-                    ],
+               id
             },
             include:{
                 recipient:true,
@@ -79,6 +72,8 @@ export async function GET(req:Request){
 export async function POST(req:Request){
     try {
 
+        // const del = await prisma.conversation.deleteMany();
+
         const url = new URL(req.url)
         
         const id  = url.searchParams.get('id') 
@@ -99,6 +94,11 @@ export async function POST(req:Request){
 
         if(!currentUserId){
             return new Response("Unthaurized", { status: 400 })       }
+
+            if(id==currentUserId){
+                return new Response("Unthaurized", { status: 400 })       
+
+            }
         
         const conv = await prisma.conversation.findFirst({
             where:{
@@ -115,7 +115,7 @@ export async function POST(req:Request){
         })
 
         if(conv){
-            return new Response("Conversation already create",{status:202}) 
+            return new Response(`Conversation already create ${id} and ${currentUserId} `,{status:202}) 
         }
         
         
@@ -129,7 +129,7 @@ export async function POST(req:Request){
             })
 
 
-        return new Response("new conversation create",{status:200}) 
+        return new Response(`Conversation  create ${id} and ${currentUserId} `,{status:200}) 
 
     } catch (error) {
         return new Response('Server error', { status: 500 })

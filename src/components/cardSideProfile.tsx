@@ -146,6 +146,7 @@ const CardSideProfile = (props:{url:string,chatId?:string,username:string,inbox?
             
         )
     }if(props.inbox){
+        console.log("hah",props.chatId);
         return (
             <Link href={`/direct/t/${props.chatId}`}>
 
