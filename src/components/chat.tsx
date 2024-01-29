@@ -12,9 +12,10 @@ import axios from 'axios'
 import { toast } from 'react-hot-toast'
 import InputEmoji from 'react-input-emoji'
 import ChatOption from './optionChat'
+import { useQuery } from '@tanstack/react-query'
 
 interface MessagesProps {
-  initialMessages?: Message[]
+  initialMessages: Message[]
   sessionId: string
   chatId: string
   sessionImg: string | null | undefined
@@ -29,11 +30,16 @@ const Chat: FC<MessagesProps> = ({
   sessionImg,
   username,
 }) => {
-  const [messages, setMessages] = useState<Message[]>(initialMessages?initialMessages:[])
+  
+  const [messages, setMessages] = useState<Message[]>(initialMessages.reverse())
+  console.log(messages)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [input, setInput] = useState<string>('')
 
+  useEffect(()=>{
+    setMessages(initialMessages.reverse())
+  },[initialMessages])
   
   useEffect(() => {
     pusherClient.subscribe(
@@ -62,11 +68,22 @@ const Chat: FC<MessagesProps> = ({
     return format(timestamp, 'HH:mm')
   }
 
+  const currentUser =useQuery({
+    queryFn: async () => {
+      const  data  = await axios.get('/api/user');
+      const {User}= data.data ;
+
+      return User as Usered
+    },
+    queryKey: ['user'],
+    enabled:true
+  })
+
   const sendMessage = async () => {
     if(!input) return
     setIsLoading(true)
     try {
-      await axios.post('/api/message', { text: input, chatId })
+      await axios.post('/api/message', { text: input, chatId ,convId:sessionId})
       setInput('')
       textareaRef.current?.focus()
     } catch {
@@ -100,7 +117,7 @@ const Chat: FC<MessagesProps> = ({
       <div ref={scrollDownRef} />
 
       {messages && messages.map((message, index) => {
-        const isCurrentUser = message.senderId === sessionId
+        const isCurrentUser = message.senderId === currentUser.data?.id
 
         const hasNextMessageFromSameUser =
           messages[index - 1]?.senderId === messages[index].senderId

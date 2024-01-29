@@ -15,7 +15,7 @@ export const ConversationValidator = z.object({
     initiator: UserSchema.nullable().optional(),
     recipientId: z.string(),
     recipient: UserSchema.nullable().optional(),
-    messages:z.array(messageValidator).nullable().optional()
+    message:z.array(messageValidator).nullable().optional()
 });
 
 

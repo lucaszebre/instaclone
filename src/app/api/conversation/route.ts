@@ -1,4 +1,4 @@
-import prisma from '@/lib/db';
+import prisma, { db } from '@/lib/db';
 import { cookies } from 'next/headers'
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '@/lib/database.type';
@@ -31,6 +31,7 @@ export async function GET(req:Request){
             include:{
                 recipient:true,
                 initiator:true,
+                message:true
             }
         })
 
@@ -53,6 +54,7 @@ export async function GET(req:Request){
             include:{
                 recipient:true,
                 initiator:true,
+                message:true,
             }
         })
 
@@ -114,6 +116,8 @@ export async function POST(req:Request){
             }
         })
 
+
+
         if(conv){
             return new Response(`Conversation already create ${id} and ${currentUserId} `,{status:202}) 
         }
@@ -128,6 +132,10 @@ export async function POST(req:Request){
                 },
             })
 
+            
+                await   db.sadd(`user:${currentUserId}:friends`, id)
+                await   db.sadd(`user:${id}:friends`, currentUserId)
+        
 
         return new Response(`Conversation  create ${id} and ${currentUserId} `,{status:200}) 
 

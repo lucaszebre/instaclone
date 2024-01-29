@@ -57,8 +57,6 @@ const Page = ({ params }: PageProps) => {
         queryKey: ['user'],
         enabled:true
     })
-
-
     if(conv.data?.recipient?.id!==currentUser.data?.id){
         return (
             <>
@@ -99,7 +97,7 @@ const Page = ({ params }: PageProps) => {
         </div>
 
         <>
-            <Chat  sessionId='' sessionImg={conv.data?.recipient?.profilePictureUrl || ""} username={conv.data?.recipient?.username || ""} initialMessages={ conv.data?.messages || []} chatId={`${conv.data?.initiator?.id}--${conv.data?.recipient?.id}`||""}         chatPartner={conv.data?.recipient}/>
+            <Chat   sessionId={slug} sessionImg={conv.data?.recipient?.profilePictureUrl || ""} username={conv.data?.recipient?.username || ""} initialMessages={ conv.data?.message || []} chatId={`${conv.data?.initiator?.id}--${conv.data?.recipient?.id}`||""}         chatPartner={conv.data?.recipient}/>
             </>
              
     </div>
@@ -148,7 +146,7 @@ const Page = ({ params }: PageProps) => {
         </div>
 
         <>
-        <Chat  sessionId='' sessionImg={conv.data?.initiator?.profilePictureUrl || ""} username={conv.data?.initiator?.username || ""} initialMessages={conv.data?.messages||[]} chatId={`${conv.data?.initiator?.id}--${conv.data?.recipient?.id}`||""}         chatPartner={conv.data?.initiator }/>
+        <Chat  sessionId={slug} sessionImg={conv.data?.initiator?.profilePictureUrl || ""} username={conv.data?.initiator?.username || ""} initialMessages={conv.data?.message||[]} chatId={`${conv.data?.initiator?.id}--${conv.data?.recipient?.id}`||""}         chatPartner={conv.data?.initiator }/>
             </>
     </div>
     
