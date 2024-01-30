@@ -5,10 +5,10 @@ import React from 'react';
 import ModalPost from './modalPost';
 import { Like,Comment } from '@/types';
 
-const PhotoCard = (props: { id:string,comment:Comment[], userId:string,image: string; likes:Like[], like: string; imgdescription: string ,avatar:string,username:string}) => {
+const PhotoCard = (props: { id:string,comment:Comment[],filekey:string, userId:string,image: string; likes:Like[], like: string; imgdescription: string ,avatar:string,username:string}) => {
   return (
     <>
-    <ModalPost  id={props.id} userId={props.userId} uploadDate={''} avatar={props.avatar} like={props.likes} username={props.username} likes={parseInt(props.like)} image={props.image} imgdescription={props.imgdescription} name={'ddd'} date={''} comment={props.comment}   >
+    <ModalPost filekey={props.filekey} id={props.id} userId={props.userId} uploadDate={''} avatar={props.avatar} like={props.likes} username={props.username} likes={parseInt(props.like)} image={props.image} imgdescription={props.imgdescription} name={'ddd'} date={''} comment={props.comment}   >
     <div className="cursor-pointer relative w-[300px] h-[300px] ">
     <Image src={props.image} alt={props.imgdescription} fill={true} objectFit='contain' placeholder='blur' blurDataURL={'<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">'} />
 

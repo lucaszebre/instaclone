@@ -1,6 +1,7 @@
 import { Database } from "@/lib/database.type";
 import prisma from "@/lib/db";
 import { pusherServer } from "@/lib/pusher";
+import { utapi } from "@/lib/utapi";
 import { toPusherKey } from "@/lib/utils";
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
@@ -23,6 +24,10 @@ export async function POST(req:Request){
         
         const data = await supabase.auth.getSession()
 
+        if(!data.data.session?.user.id){
+            return new Response('Unthaurized', { status: 400 })
+
+        }
 
         const newPost = await prisma.post.create({
             data: {
@@ -46,26 +51,41 @@ export async function POST(req:Request){
     }
 }
 
+
+type Payload2 = {
+    id: string;
+    filekey:string
+  }
+
 export async function DELETE(req:Request){
     try {
-        const body: Payload = await req.json();
+        const body: Payload2 = await req.json();
   
         // This doesn't work
-        const { url } = body;
+        const { id,filekey } = body;
         const cookieStore = cookies()
 
         const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
         
         const data = await supabase.auth.getSession()
 
+        if(!data.data.session?.user.id){
+            return new Response('Unthaurized', { status: 400 })
 
-        const newPost = await prisma.post.create({
-            data: {
-                imageUrl: url,
-                user: { connect: { id: data.data.session?.user.id} },
-            },
-        });
+        }
 
+        // Delete the post 
+        await prisma.post.delete({where:{
+            id
+        },
+    include:{
+        likes:true,
+        comments:true,
+        
+    }})
+
+       // Delete the file using UTApi
+       await utapi.deleteFiles(filekey);
       
 
         

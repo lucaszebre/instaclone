@@ -28,6 +28,7 @@ export const PostSchema = z.object({
     caption: z.string().nullable(),
     location: z.string().nullable(),
     postedAt: z.date(),
+    filekey:z.string().nullable(),
     likes: z.array(LikeSchema).optional(),
     comments: z.array(CommentSchema).optional(),
     user: z.lazy(() => UserSchemaPost).optional(),

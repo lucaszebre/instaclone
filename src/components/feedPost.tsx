@@ -15,7 +15,7 @@ import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
 import InputEmoji from 'react-input-emoji'
 
 
-const FeedPost = (props:{id:string,userId:string,image:string,username:string,date:string , likes:number,comment:string,avatarurl:string,like:Like[]}) => {
+const FeedPost = (props:{id:string,userId:string,filekey:string,image:string,username:string,date:string , likes:number,comment:string,avatarurl:string,like:Like[]}) => {
     const queryClient = useQueryClient()
     const [ text, setText ] = useState('')
 
@@ -132,7 +132,7 @@ const FeedPost = (props:{id:string,userId:string,image:string,username:string,da
                     </div>
                 </Link>
                 
-                <FeedOption id={props.id}>
+                <FeedOption filekey={props.filekey} id={props.id}>
                 <svg aria-label="More options" className="x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>More options</title><circle cx="12" cy="12" r="1.5"></circle><circle cx="6" cy="12" r="1.5"></circle><circle cx="18" cy="12" r="1.5"></circle></svg>
 
                 </FeedOption>

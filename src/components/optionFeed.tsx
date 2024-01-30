@@ -13,6 +13,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Usered } from '@/types';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { DeletePost } from '@/actions/deletePost';
 
 interface Props {
     children: ReactNode;
@@ -20,9 +21,10 @@ interface Props {
     id:string,
     post?:boolean,
     userId?:string
+    filekey?:string
 
     }
-const FeedOption: React.FC<Props> = ({  id,userId,  children,follow,post
+const FeedOption: React.FC<Props> = ({  id,userId,  children,follow,post,filekey
 }) => {
     const currentUser =useQuery({
         queryFn: async () => {
@@ -46,6 +48,23 @@ const FeedOption: React.FC<Props> = ({  id,userId,  children,follow,post
             toast("Hello World")
             queryClient.resetQueries({ queryKey: [`post${id}`] })
             queryClient.resetQueries({ queryKey: [`user`] })
+        }
+    }) 
+    
+    const Delete = useMutation({
+        mutationFn: async () => {
+            await axios.delete('/api/post', { data: { id, filekey } });
+        },
+        onMutate: () => {
+            toast.loading("Deleting the post");
+        },
+        onSuccess:()=>{
+            toast.success("Just delete the post")
+            queryClient.resetQueries({ queryKey: [`post${id}`] })
+            queryClient.resetQueries({ queryKey: [`user`] })
+        },
+        onError:()=>{
+            toast.error("error to delete the post")
         }
     })
     const [open, setOpen] = useState(false);
@@ -117,7 +136,14 @@ const FeedOption: React.FC<Props> = ({  id,userId,  children,follow,post
                                 Go to post
                             </Link>
                         </Button> }    
-                     {userId==currentUser.data?.id?<Button variant="ghost">
+                     {userId==currentUser.data?.id?
+                     <Button onClick={ ()=>{
+                        if(filekey){
+                            Delete.mutate()
+                        }else{
+                            console.log("not defined")
+                        }
+                     }} variant="ghost">
                         Delete the post
                     </Button>:null}
                      <Button onClick={()=>{

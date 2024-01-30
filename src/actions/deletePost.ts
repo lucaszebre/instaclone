@@ -20,7 +20,7 @@ export async function DeletePost( fileKey: string,id:string) {
         // Delete the file using UTApi
         await utapi.deleteFiles(fileKey);
 
-        // Update the user's avatar to null or an empty string
+        // Delete the post 
         await prisma.post.delete({where:{
             id
         },

@@ -39,6 +39,7 @@ interface Props {
         onClientUploadComplete: async (res) => {
           // Do something with the response
           if(res){
+            console.log(res[0].key);
             await axios.post('/api/post/',{
               url:res[0].url,filekey:res[0].key
             })
