@@ -32,7 +32,6 @@ const ProfileCurrent = (props:{profile:Usered}) => {
     const [save,setSave]=useState(false);
     const router = useRouter()
     const queryClient = useQueryClient();
-    const {toast} = useToast();
     const user = useContext(DataContext);
     const [follower,setFollower]=useState( props.profile.followers ? props.profile.followers.length : 0)
     const [following,setFollowing]=useState(props.profile.following ? props.profile.following.length :0)

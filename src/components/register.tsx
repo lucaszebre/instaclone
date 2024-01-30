@@ -23,13 +23,12 @@ import { z } from "zod"
 import { Icons } from "./icons"
 import React, { SetStateAction, useState } from "react"
 import axios from "axios"
-import { useToast } from "./ui/use-toast"
 import { register } from "@/actions/register"
+import toast from "react-hot-toast"
 
 
 export function Register() {
     const [isLoading,setIsLoading] = useState(false)
-    const {toast} = useToast()
     const form = useForm<z.infer<typeof SchemaRegister>>({
         resolver: zodResolver(SchemaRegister),
         defaultValues: {
@@ -49,29 +48,18 @@ export function Register() {
     
             // If registration is successful
             if (response === 'Registration successful') {
-                toast({
-                    title: 'Register successfully.',
-                    description: 'Please Login now.',
-                    // Other properties for the toast can be added here
-                });
+                toast.success("Register successfully");
+                
             }
     
         } catch (error) {
             if (error instanceof Error) {
-                toast({
-                    title:error.message ,
-                    description:'Registration failed' , // Now error.message is safely accessed
-                    variant: 'destructive',
-                    // Other properties for the toast can be added here
-                });
+                toast.error('Registration failed');
+
+                
             } else {
                 // Handle non-Error objects
-                toast({
-                    title: 'Registration failed',
-                    description: 'An unknown error occurred',
-                    variant: 'destructive',
-                    // Other properties for the toast can be added here
-                });
+              toast.error('Registration failed');
             }
         } finally {
             setIsLoading(false);

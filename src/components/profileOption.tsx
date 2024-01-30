@@ -5,10 +5,10 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.type';
 import { useRouter } from 'next/navigation';
 import { copyCurrentURL } from '@/lib/copyLink';
-import { useToast } from './ui/use-toast';
 import AlertBlock from './alertBlock';
 import AboutThisAccount from './aboutThisAccount';
 import QRCodeDialog from './qrcode';
+import toast from 'react-hot-toast';
 
 interface Props {
     children: ReactNode;
@@ -22,7 +22,6 @@ const ProfileOption: React.FC<Props> = ({    children,current,username,uploadDat
 }) => {
     const supabase = createClientComponentClient<Database>()
     const router = useRouter()
-    const {toast} = useToast()
 
     if(current){
         return (
@@ -41,10 +40,8 @@ const ProfileOption: React.FC<Props> = ({    children,current,username,uploadDat
                     
                     <Button onClick={()=>{
                         copyCurrentURL()
-                        toast({
-                            title: "Link copied!",
-                            // Other properties for the toast can be added here
-                        });
+                        toast.success("Link copied");
+                        
                         }} variant="ghost">
                         Share
                     </Button>

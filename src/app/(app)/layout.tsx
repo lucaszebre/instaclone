@@ -1,7 +1,6 @@
 'use client'
 
 import '../globals.css'
-import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from 'next-themes';
 import React from 'react'
 import { useStore } from '@/store/zus'
@@ -12,6 +11,7 @@ import {
 } from '@tanstack/react-query'
 import { Next13ProgressBar } from 'next13-progressbar';
 import { usePathname } from 'next/navigation';
+import { Toaster } from 'react-hot-toast';
 
 
 
@@ -63,7 +63,10 @@ const path = new RegExp(
         </div>
         </div>
     </main>
-      <Toaster />
+    <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
     </body>
     </QueryClientProvider>
     </ThemeProvider>

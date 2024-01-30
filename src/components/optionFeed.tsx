@@ -12,8 +12,7 @@ import Link from 'next/link';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Usered } from '@/types';
 import axios from 'axios';
-import toast from 'react-hot-toast';
-import { DeletePost } from '@/actions/deletePost';
+import toast, {  Toaster } from 'react-hot-toast';
 
 interface Props {
     children: ReactNode;
@@ -56,12 +55,11 @@ const FeedOption: React.FC<Props> = ({  id,userId,  children,follow,post,filekey
             await axios.delete('/api/post', { data: { id, filekey } });
         },
         onMutate: () => {
-            toast.loading("Deleting the post");
+            
         },
         onSuccess:()=>{
             toast.success("Just delete the post")
-            queryClient.resetQueries({ queryKey: [`post${id}`] })
-            queryClient.resetQueries({ queryKey: [`user`] })
+            queryClient.refetchQueries({ queryKey: [`user`] })
         },
         onError:()=>{
             toast.error("error to delete the post")
@@ -118,6 +116,10 @@ const FeedOption: React.FC<Props> = ({  id,userId,  children,follow,post,filekey
     return (
         
             <Dialog>
+                <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
                 <DialogTrigger> 
                     {children}
     

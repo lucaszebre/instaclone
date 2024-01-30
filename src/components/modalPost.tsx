@@ -13,13 +13,13 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { Like,Comment } from '@/types'
-import { toast } from './ui/use-toast';
 import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
 import InputEmoji from 'react-input-emoji'
 import { pusherClient } from '@/lib/pusher'
 import { toPusherKey } from '@/lib/utils'
 import CommentCard from './commentCard'
 import FeedOption from './optionFeed'
+import toast from 'react-hot-toast'
 
   interface ModalPostProps {
     id:string
@@ -161,22 +161,18 @@ import FeedOption from './optionFeed'
 
         // },
        onError:()=>{
-        toast({
-            title: "Problem -_-",
-            description: 'Error to add a comment',
-            variant:'destructive'
+        toast.error( 'Error to add a comment')
             // Other properties for the toast can be added here
-        });
-       },
+        }
+       ,
         onSuccess:()=>{
-            toast({
-                title: "just add a new comment",
-                // Other properties for the toast can be added here
-            });
+            toast.success( 'Just add a comment')
+            // Other properties for the toast can be added here
+        
             setContent("");
             queryClient.resetQueries({ queryKey: [`post${props.id}`] })
-        }
-    })
+        }})
+    
     const [like, setLike] = useState(props.like.some((i)=>i.userId==props.userId));
   return (
         <Dialog>

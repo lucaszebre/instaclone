@@ -15,12 +15,12 @@ import ModalFollowing from './modalFollowing'
 import ModalFollower from './modalFollower'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
+import toast from 'react-hot-toast'
 
 const Profile = (props:{profile:Usered}) => {
 
     const [save,setSave]=useState(false);
     const queryClient = useQueryClient();
-    const {toast} = useToast();
 
     const {
         isFetching,
@@ -63,11 +63,8 @@ const Profile = (props:{profile:Usered}) => {
             setIsFollow(false)
               // reset current vote
             setFollower(prev => prev-1)
-            return toast({
-                title: 'Something went wrong.',
-                description: 'Your follower was not registered. Please try again.',
-                variant: 'destructive',
-            })
+            toast.error("Something went wrong.")
+
             },
             onMutate: () => {
                 setIsFollow(true)
@@ -77,10 +74,9 @@ const Profile = (props:{profile:Usered}) => {
             onSuccess:()=>{
                 queryClient.invalidateQueries({ queryKey: ['followerslist',] })
                 queryClient.refetchQueries({queryKey:['followerslist']})
-                return toast({
-                    title: `You now follow ${props.profile.username}`,
-                    description: 'Your follow was  registered. ',
-                })
+                toast.success(`You now follow ${props.profile.username}`)
+
+                
             }
           }) 
         
@@ -93,11 +89,8 @@ const Profile = (props:{profile:Usered}) => {
             setFollower(prev=>prev+1)
 
               // reset current vote
-            return toast({
-                title: 'Something went wrong.',
-                description: 'Your follower was not registered. Please try again.',
-                variant: 'destructive',
-            })
+              toast.error("Something went wrong.")
+
             },
             onMutate: () => {
                 setIsFollow(false)
@@ -106,11 +99,9 @@ const Profile = (props:{profile:Usered}) => {
 
             },
             onSuccess:()=>{
+                toast.success(`You dont't follow ${props.profile.username} anymore!`)
+
                 
-                return toast({
-                    title: `You dont't follow ${props.profile.username} anymore!`,
-                    description: 'Your unfollow was  registered. ',
-                })
             }
           })
 

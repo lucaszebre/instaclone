@@ -10,16 +10,16 @@ import {
 import { ReactNode } from "react";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
-import { useToast } from "./ui/use-toast"
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from "@/lib/database.type";
 import type { FileWithPath } from "@uploadthing/react";
 import { useDropzone } from "@uploadthing/react/hooks";
 import { generateClientDropzoneAccept } from "uploadthing/client";
- 
 import { useUploadThing } from "@/lib/uploadthing";
 import { useState, useCallback } from "react";
 import axios from "axios";
+import { useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 interface Props {
     children: ReactNode;
@@ -31,7 +31,8 @@ interface Props {
     const onDrop = useCallback((acceptedFiles: FileWithPath[]) => {
       setFiles(acceptedFiles);
     }, []);
-   
+    const queryClient = useQueryClient()
+
     const { startUpload, permittedFileInfo, } = useUploadThing(
       "imageUploader",
       {
@@ -43,27 +44,19 @@ interface Props {
             await axios.post('/api/post/',{
               url:res[0].url,filekey:res[0].key
             })
-          toast({
-            title: "Upload of the image completed",
-            // Other properties for the toast can be added here
-        });
+            toast.success("Just post a post '_'")
+        queryClient.refetchQueries({ queryKey: [`user`] })
+
         }}
         ,
         onUploadError: () => {
-          toast({
-            // title: error.message,
-            description: 'Error to upload the image',
-            variant:'destructive'
-            // Other properties for the toast can be added here
-        });
+          
+        toast.error("Error to upload the image")
+
         },
         onUploadBegin: () => {
-           toast({
-            title: "Image is starting to upload",
-            description: 'just a few seconds',
-            
-            // Other properties for the toast can be added here
-        });
+          toast.loading("Image is starting to upload")
+          
         },
       },
     );
@@ -77,7 +70,6 @@ interface Props {
       accept: fileTypes ? generateClientDropzoneAccept(fileTypes) : undefined,
     });
   
-    const {toast} = useToast()
     const supabase = createClientComponentClient<Database>()
     
   return (

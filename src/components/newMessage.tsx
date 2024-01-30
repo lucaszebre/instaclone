@@ -15,9 +15,9 @@ import { useOnClickOutside } from '@/hooks/useClickOutside';
 import { CardProfileLoader } from './loader/cardProfile';
 import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { toast } from './ui/use-toast';
 import { useRouter } from 'next/navigation';
 import { Search } from '@/lib/validator/search';
+import toast from 'react-hot-toast';
 
 interface NewMessageProps {
     children: ReactNode;
@@ -76,10 +76,8 @@ interface NewMessageProps {
       await axios.post(`/api/conversation?id=${id}`)
       },
       onError: () => {
-      return toast({
-          title: 'Something went wrong.',
-          variant: 'destructive',
-      })
+      return toast.error("Something went wrong.");
+          
       },
       onSuccess:()=>{
           router.push('/direct/t/idChat')

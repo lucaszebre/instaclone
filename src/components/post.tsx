@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-undef */
 "use client"
 import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
@@ -11,12 +12,12 @@ import FeedOption from './optionFeed'
 import { Like } from '@/types'
 import { useQueryClient } from '@tanstack/react-query'
 import { Comment } from '@/types'
-import { toast } from './ui/use-toast';
 import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
 import InputEmoji from 'react-input-emoji'
 import { pusherClient } from '@/lib/pusher'
 import { toPusherKey } from '@/lib/utils'
 import CommentCard from './commentCard'
+import toast, { Toaster } from 'react-hot-toast'
 
 const Post = (props:{
   image:string,
@@ -158,12 +159,8 @@ const Post = (props:{
 
         // },
        onError:()=>{
-        toast({
-            title: "Problem -_-",
-            description: 'Error to add a comment',
-            variant:'destructive'
-            // Other properties for the toast can be added here
-        });
+       
+        toast.error("Something went wrong.")
        },
         onSuccess:()=>{
             queryClient.resetQueries({ queryKey: [`post${props.id}`] })
@@ -174,6 +171,10 @@ const Post = (props:{
     const [content,setContent]=useState("");
   return (
     <div className='flex flex-row border-1 border-gray-100 gap-3 justify-between w-full relative max-w-[800px] h-full  max-h-[600px]'>
+                    <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
       <div className='w-full h-full relative max-w-[65%]'>
       <Image src={props.image} alt={props.alt} fill  />
       </div>

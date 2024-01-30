@@ -5,7 +5,6 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.type';
 import { useRouter } from 'next/navigation';
 import { copyCurrentURL } from '@/lib/copyLink';
-import { useToast } from './ui/use-toast';
 import AlertBlock from './alertBlock';
 import Link from 'next/link';
 

@@ -24,13 +24,12 @@ import { Icons } from "./icons"
 import React, {  useState } from "react"
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import type { Database } from '@/lib/database.type'
-import { useToast } from "./ui/use-toast"
 import { useRouter } from 'next/navigation'
+import toast from "react-hot-toast"
 
 export function Login() {
   const [isLoading,setIsLoading] = useState(false)
   const supabase = createClientComponentClient<Database>()
-  const {toast} = useToast()
   const router = useRouter()
 
   const form = useForm<z.infer<typeof SchemaLogin>>({
@@ -49,12 +48,10 @@ export function Login() {
           email:values.email,
           password:values.password,})  
         if(data.error){
-          toast({
-            title: data.error.message,
-            description: 'Error to login',
-            variant:'destructive'
+          toast.error('Error to login'
+           
             // Other properties for the toast can be added here
-        });
+        );
         }
         router.refresh()
           setIsLoading(false)
