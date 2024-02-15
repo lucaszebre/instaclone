@@ -1,15 +1,17 @@
-'use server'
 import prisma from '@/lib/db';
-import { SchemaRegister } from '@/types';
-import { z } from 'zod';
 import { cookies } from 'next/headers'
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '@/lib/database.type';
+import { SchemaRegister } from '@/lib/validator/register';
 
-export async function register(name: string, email: string, password: string) {
+
+export async function POST(req: Request) {
+    
     try {
         // Validate input
-        const validatedData = SchemaRegister.parse({ name, email, password });
+        let datad = await req.json();
+
+        const validatedData = SchemaRegister.parse(datad);
 
         // Check if user already exists
         const existingUser = await prisma.user.findUnique({ where: { email: validatedData.email } });
@@ -27,20 +29,21 @@ export async function register(name: string, email: string, password: string) {
 
         if (error){
             console.error(error)
-            throw new Error(error.message);
+            return new Response(error.message, { status: 400 })
         }
         // Hash password and create user
         await prisma.user.create({
             data: { email: validatedData.email,  username: validatedData.name,id:data.user?.id }
         });
-
-        return 'Registration successful';
+        return new Response('Registration sucessfull', { status: 200 })
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(error.message);
+            return new Response(error.message, { status: 400 })
+
         }
     }
-}
 
+  
+}
 
 

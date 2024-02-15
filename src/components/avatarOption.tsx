@@ -7,6 +7,7 @@ import { DeleteAvatar } from '@/actions/deleteAvatar';
 import { UploadButton } from "@uploadthing/react";
 import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
 interface Props {
     children: ReactNode;
     url:string,
@@ -31,7 +32,11 @@ const AvatarOption: React.FC<Props> = ({children,url,username,avatarkey}) => {
                   endpoint="imageUploader"
                   onClientUploadComplete={async (res) => {
                   if(res){
-                    await NewAvatar(res[0].url,res[0].key)
+                    await axios.post('/api/avatar',{
+                      url:res[0].url,
+                      Avatarkey:res[0].key
+                    })
+                    // await NewAvatar(res[0].url,res[0].key)
 
                   toast({
                     title: "Upload of the image completed",

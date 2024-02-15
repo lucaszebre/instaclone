@@ -20,6 +20,7 @@ import { UploadButton } from "@uploadthing/react";
 import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { editProfile } from '@/actions/editProfile'
+import axios from 'axios'
 
 const Edit = (props:{
   urlavatar?:string,
@@ -79,7 +80,11 @@ const Edit = (props:{
                   endpoint="imageUploader"
                   onClientUploadComplete={async (res) => {
                   if(res){
-                    await NewAvatar(res[0].url,res[0].key)
+                    await axios.post('/api/avatar',{
+                      url:res[0].url,
+                      Avatarkey:res[0].key
+                    })
+                    // await NewAvatar(res[0].url,res[0].key)
 
                   toast({
                     title: "Upload of the image completed",
