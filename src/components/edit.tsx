@@ -17,7 +17,6 @@ import React, { ReactNode, useState } from 'react'
 import { UploadButton } from "@uploadthing/react";
 import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { editProfile } from '@/actions/editProfile'
 import axios from 'axios'
 
 const Edit = (props:{
@@ -33,7 +32,10 @@ const Edit = (props:{
 
   const Edit = useMutation({
     mutationFn: async () => {
-    await editProfile(bio,gender);
+      await axios.post("/api/profile",{
+        bio,gender
+      })
+    // await editProfile(bio,gender);
     },
     onError: () => {
       toast.error('Error to edit the profile');
