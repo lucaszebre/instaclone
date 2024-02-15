@@ -91,6 +91,7 @@ interface Props {
     const [zoom, setZoom] = useState(1);
     const [value, setValue] = useState(0);
     const [aspect, setAspect] = useState(1/1);
+    const [step,setStep]=useState(1);
  
     const onCropComplete = (croppedArea:number, croppedAreaPixels:number) => {
       console.log(croppedArea, croppedAreaPixels)
