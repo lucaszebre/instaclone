@@ -1,13 +1,12 @@
 import React, { ReactNode } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
-import { NewAvatar } from '@/actions/newAvatar';
-import { toast } from './ui/use-toast';
+// import { toast } from './ui/use-toast';
 import { Button } from './ui/button';
-import { DeleteAvatar } from '@/actions/deleteAvatar';
 import { UploadButton } from "@uploadthing/react";
 import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 interface Props {
     children: ReactNode;
     url:string,
@@ -37,29 +36,24 @@ const AvatarOption: React.FC<Props> = ({children,url,username,avatarkey}) => {
                       Avatarkey:res[0].key
                     })
                     // await NewAvatar(res[0].url,res[0].key)
+                    toast.success("Upload of the image completed");
 
-                  toast({
-                    title: "Upload of the image completed",
-                    // Other properties for the toast can be added here
-                });
+                  
                 queryClient.resetQueries({ queryKey: ['user',] })
                 }
               }}
                 
                 onUploadError={(error: Error) => {
-                  toast({
-                    title: error.message,
-                    description: 'Error to upload the image',
-                    variant:'destructive'
-                    // Other properties for the toast can be added here
-                });
+                  toast.error('Error to upload the image');
+
+                 
                 }}
 
                 onUploadBegin={()=>{
-                  toast({
-                    title: "Upload of the image just started",
-                    description: '-_-',
-                });
+                //   toast({
+                //     title: "Upload of the image just started",
+                //     description: '-_-',
+                // });
                 }
               }
               
@@ -68,16 +62,11 @@ const AvatarOption: React.FC<Props> = ({children,url,username,avatarkey}) => {
           
         <Button onClick={async ()=>{
           try {
-            await DeleteAvatar(avatarkey || "")
+            await axios.delete(`/api/avatar?fileKey=${avatarkey}`)
             queryClient.resetQueries({ queryKey: ['user',] })
-            toast({
-              title: "The avatar been deleted sucessfully",
-          });
+            toast.success("The avatar been deleted sucessfully"); 
           } catch (error) {
-            toast({
-              title: "Problem to delete the avatar",
-              description: '-_-',
-          });
+            toast.error("Problem to delete the avatar");
           }
           
         }} variant="ghost">

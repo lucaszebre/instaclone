@@ -11,11 +11,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useToast } from './ui/use-toast'
-import { NewAvatar } from '@/actions/newAvatar';
+import toast from 'react-hot-toast';
 import { uploadFiles } from '@/lib/uploadthing'
 import React, { ReactNode, useState } from 'react'
-import { DeleteAvatar } from '@/actions/deleteAvatar';
 import { UploadButton } from "@uploadthing/react";
 import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -29,7 +27,6 @@ const Edit = (props:{
   bio?:string
   gender?:string
 }) => {
-  const {toast} = useToast()
   const queryClient = useQueryClient();
   const [gender,setGender]=useState(props.gender)
   const [bio,setBio]=useState(props.bio)
@@ -39,21 +36,15 @@ const Edit = (props:{
     await editProfile(bio,gender);
     },
     onError: () => {
-      toast({
-        title: "Problem -_-",
-        description: 'Error to edit the profile',
-        variant:'destructive'
-        // Other properties for the toast can be added here
-    });
+      toast.error('Error to edit the profile');
+
     },
    
     onSuccess:()=>{
         queryClient.invalidateQueries({ queryKey: [`user`] })
-        toast({
-          title: "The profile has been edit sucessfully",
-          description: 'Error to edit the profile',
-          // Other properties for the toast can be added here
-      });    }
+        toast.success("The profile has been edit sucessfully");
+
+          }
     
     
 })
@@ -86,28 +77,21 @@ const Edit = (props:{
                     })
                     // await NewAvatar(res[0].url,res[0].key)
 
-                  toast({
-                    title: "Upload of the image completed",
-                    // Other properties for the toast can be added here
-                });
+                    toast.success("Upload of the image completed");
+
                 queryClient.resetQueries({ queryKey: ['user',] })
                 }
               }}
                 
                 onUploadError={(error: Error) => {
-                  toast({
-                    title: error.message,
-                    description: 'Error to upload the image',
-                    variant:'destructive'
-                    // Other properties for the toast can be added here
-                });
+                  toast.error('Error to upload the image');
                 }}
 
                 onUploadBegin={()=>{
-                  toast({
-                    title: "Upload of the image just started",
-                    description: '-_-',
-                });
+                //   toast({
+                //     title: "Upload of the image just started",
+                //     description: '-_-',
+                // });
                 }
               }
               
