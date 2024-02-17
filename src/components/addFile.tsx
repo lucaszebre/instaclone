@@ -86,7 +86,7 @@ interface Props {
       });
       
 
-      console.log(files);
+      // console.log(files);
     const supabase = createClientComponentClient<Database>()
 
     const [step,setStep]=useState(1);

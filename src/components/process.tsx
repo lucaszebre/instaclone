@@ -12,12 +12,12 @@ import AddBio from './addBio';
 const StepComponent = (props:{ step: number,  preview: string  }) => {
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState(2);
     const [aspect, setAspect] = useState(1/1);
-    const [croppedImage, setCroppedImage] = useState(null);
+    const [croppedImage, setCroppedImage] = useState("");
  
     const onCropComplete = async (croppedArea:number, croppedAreaPixels:number) => {
-        console.log(croppedArea, croppedAreaPixels)
+        // console.log(croppedArea, croppedAreaPixels)
 
         const croppedImage = await getCroppedImg(
             props.preview,
@@ -47,7 +47,7 @@ const StepComponent = (props:{ step: number,  preview: string  }) => {
       </div>
       </PopoverTrigger>
       <PopoverContent className="relative">
-        <Slider onValueChange={(e)=>{setValue(e)}} defaultValue={[0]} max={30} step={1} />
+        <Slider onValueChange={(e)=>{setValue([e])}} defaultValue={[value]} max={30} step={1} />
       </PopoverContent>
     </Popover>
     <Popover >
@@ -81,7 +81,7 @@ const StepComponent = (props:{ step: number,  preview: string  }) => {
     );
   } else if (props.step === 2) {
     return (
-       <Filter  src={croppedImage||""} />
+       <Filter setCroppedImage={setCroppedImage}  src={croppedImage||""} />
     )
   } else if(props.step==3) {
     return (
