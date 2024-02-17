@@ -17,6 +17,7 @@ import { Message } from 'postcss';
 import { Toaster,toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { Button } from './ui/button';
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Feed = (props:{userId:string}) => {
 
@@ -119,6 +120,42 @@ const Feed = (props:{userId:string}) => {
             </span>
         </div>
         <div className='flex  flex-col w-full h-screen justify-start items-center content-center gap-10'>
+        <InfiniteScroll
+        dataLength={articles ? articles.length : 0}
+        next={() => fetchNextPage()}
+        hasMore={hasNextPage}
+        loading={   <>
+            <FeedPostLoader />
+            <FeedPostLoader />
+            <FeedPostLoader />
+            <FeedPostLoader />
+        </>}
+      >
+           <>
+{
+articles && articles.map((post: Posted, i: any) => {
+            return  (
+                <div ref={ref} key={`${i}`}>
+                    <FeedPost
+                        filekey={post.filekey?post.filekey:""}
+                        userId={props.userId}
+                        id={post.id}
+                        image={post.imageUrl}
+                        username={post.user? post.user?.username:""}
+                        date={timeSince(post.postedAt)}
+                        likes={post.likes? post.likes.length: 0}
+                        comment={post.comments? post.comments.length.toString() : "0"}
+                        avatarurl={post.user?.profilePictureUrl? post.user?.profilePictureUrl : ''}
+                        like={post.likes? post.likes :[]}
+                    />
+                </div>
+            ) 
+        })}
+        </>
+      </InfiniteScroll>
+      
+      
+{/*       
         {
     isFetching ? (
         <>
@@ -151,7 +188,7 @@ articles.map((post: Posted, i: any) => {
         </>
        
                
-                )};
+                )} */}
             
 
         </div>
