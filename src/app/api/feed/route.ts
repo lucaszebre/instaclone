@@ -47,10 +47,13 @@ const limited = parseInt(limit)
         take: limited,
         skip: (paged - 1) * limited,
         orderBy: { postedAt: 'desc' },
+        
     });
 
+    const count = await prisma.post.count();
 
-    return new Response(JSON.stringify(posts),{status:200}) 
+
+    return new Response(JSON.stringify({posts,"count":count}),{status:200}) 
     } catch (error) {
         return new Response('Server error', { status: 500 })
     }

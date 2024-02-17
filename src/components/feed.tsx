@@ -59,20 +59,28 @@ const Feed = (props:{userId:string}) => {
         hasNextPage,
     } = useInfiniteQuery({
         queryKey: ['feed'],
-        queryFn: async ({ pageParam = 1 }) => {
+        queryFn: async ({ pageParam = 0 }) => {
             const posts = (await axios.get(`/api/feed?page=${pageParam}&limit=5}`)).data
-            return posts as Posted[];
+            let data= posts as Posted[];
+            return {...data,prevOffset:pageParam}
         },
-        getNextPageParam: (lastPage, allPages) => {
-            if (lastPage.length < POSTS_PER_PAGE) {
+        getNextPageParam: (lastPage) => {
+            if (lastPage.prevOffset + 5 > lastPage.count) {
                 // No more pages left to load
-                return 1;
+                return false ;
             }
             // Return the next page number
-            return allPages.length + 1;
+            return lastPage.prevOffset + 5;
         },
         initialPageParam: 1, // Initial page parameter
     });
+
+    
+     const articles = data?.pages.reduce((acc:any, page:any) => {
+         return [...acc, ...page.posts] ;
+       }, []) as Posted[];
+
+    // console.log(articles )
 
     useEffect(() => {
         if (entry?.isIntersecting) {
@@ -120,44 +128,31 @@ const Feed = (props:{userId:string}) => {
             <FeedPostLoader />
         </>
     ) : (
-        
-        data?.pages.map((group, i) => (
-            group.map((post, index) => {
-                const isLastPost = i === data.pages.length - 1 && index === group.length - 1;
-                return isLastPost ? (
-                    <div ref={ref} key={`${i}-${index}`}>
-                        <FeedPost
-                            filekey={post.filekey?post.filekey:""}
-                            userId={props.userId}
-                            id={post.id}
-                            image={post.imageUrl}
-                            username={post.user? post.user?.username:""}
-                            date={timeSince(post.postedAt)}
-                            likes={post.likes? post.likes.length: 0}
-                            comment={post.comments? post.comments.length.toString() : "0"}
-                            avatarurl={post.user?.profilePictureUrl? post.user?.profilePictureUrl : ''}
-                            like={post.likes? post.likes :[]}
-                        />
-                    </div>
-                ) : (
-                    <FeedPost 
+        <>
+{
+articles.map((post: Posted, i: any) => {
+            return  (
+                <div ref={ref} key={`${i}`}>
+                    <FeedPost
                         filekey={post.filekey?post.filekey:""}
                         userId={props.userId}
                         id={post.id}
-                        key={`${i}-${index}`} 
                         image={post.imageUrl}
                         username={post.user? post.user?.username:""}
                         date={timeSince(post.postedAt)}
                         likes={post.likes? post.likes.length: 0}
                         comment={post.comments? post.comments.length.toString() : "0"}
                         avatarurl={post.user?.profilePictureUrl? post.user?.profilePictureUrl : ''}
-                        like={post.likes ? post.likes : []}
+                        like={post.likes? post.likes :[]}
                     />
-                );
-            })
-        ))
-    )
-}
+                </div>
+            ) 
+        })}
+        </>
+       
+               
+                )};
+            
 
         </div>
     </div>
