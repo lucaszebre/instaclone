@@ -127,7 +127,7 @@ const Feed = (props:{userId:string}) => {
                 return isLastPost ? (
                     <div ref={ref} key={`${i}-${index}`}>
                         <FeedPost
-                            filekey={post.filekey}
+                            filekey={post.filekey?post.filekey:""}
                             userId={props.userId}
                             id={post.id}
                             image={post.imageUrl}
@@ -141,7 +141,7 @@ const Feed = (props:{userId:string}) => {
                     </div>
                 ) : (
                     <FeedPost 
-                        filekey={post.filekey}
+                        filekey={post.filekey?post.filekey:""}
                         userId={props.userId}
                         id={post.id}
                         key={`${i}-${index}`} 
