@@ -44,7 +44,7 @@ const FeedOption: React.FC<Props> = ({  id,userId,  children,follow,post,filekey
         onMutate: () => {
         },
         onSuccess:()=>{
-            toast("Hello World")
+            toast("post save")
             queryClient.resetQueries({ queryKey: [`post${id}`] })
             queryClient.resetQueries({ queryKey: [`user`] })
         }
@@ -88,8 +88,7 @@ const FeedOption: React.FC<Props> = ({  id,userId,  children,follow,post,filekey
               </Button>
               <Link href={`p/${id}`} >
               <Button onClick={()=>{
-                copyCurrentURL()
-                toast.success("link copied")
+                
                 setOpen(false);
 
               }} asChild variant="ghost">
@@ -99,16 +98,14 @@ const FeedOption: React.FC<Props> = ({  id,userId,  children,follow,post,filekey
               </Button>
               </Link>
                <Button onClick={()=>{
-                copyCurrentURL();
+                copyCurrentURL(`p/${id}`);
                 toast.success("link copied");
                 setOpen(false);
 
               }}  variant="ghost">
                   Copy the link
               </Button>
-              <Button  variant="ghost">
-                 About this account
-              </Button>
+             
           </DialogContent>
       </Dialog>
         )
@@ -149,16 +146,14 @@ const FeedOption: React.FC<Props> = ({  id,userId,  children,follow,post,filekey
                         Delete the post
                     </Button>:null}
                      <Button onClick={()=>{
-                copyCurrentURL()
-                toast.success("link copied");
+               copyCurrentURL(`p/${id}`)
+               toast.success("link copied")
                 setOpen(false);
 
               }} variant="ghost">
                         Copy the link
                     </Button>
-                    <Button  variant="ghost">
-                       About this acount
-                    </Button>
+                 
                 </DialogContent>
             </Dialog>
     )
