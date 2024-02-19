@@ -30,11 +30,11 @@ const Filter = (props:{src:string,setCroppedImage: Dispatch<SetStateAction<strin
 
       useEffect(() => {
         handleDownloadImage();
+        localStorage.setItem('filter', JSON.stringify(imageStyle));
         return () => {
-                handleDownloadImage();
-            
+          handleDownloadImage();
         };
-    }, [imageStyle]);
+      }, [imageStyle]);
 
     const handleDownloadImage = () => {
         console.log(imageRef.current)
@@ -42,7 +42,6 @@ const Filter = (props:{src:string,setCroppedImage: Dispatch<SetStateAction<strin
             console.log("wala")
             html2canvas(imageRef.current).then( canvas => {
                 const dataUrl =  canvas.toDataURL('image/png');
-                console.log(dataUrl)
                 props.setCroppedImage(dataUrl);
               }).catch(error => {
                 console.error('Oops, something went wrong!', error);

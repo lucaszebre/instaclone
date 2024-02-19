@@ -54,6 +54,8 @@ model Post {
   tags        PostTag[]
   taggedUsers UserTag[]
   savePostId  String?
+  filter String?
+  bio String?
 }
 
 

@@ -8,7 +8,9 @@ import { cookies } from "next/headers";
 
 type Payload = {
     url: string;
-    filekey:string
+    filekey:string;
+    filter:string
+    bio:string
   }
 
 
@@ -17,7 +19,7 @@ export async function POST(req:Request){
         const body: Payload = await req.json();
   
         // This doesn't work
-        const { url,filekey } = body;
+        const { url,filekey,filter,bio } = body;
         const cookieStore = cookies()
 
         const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
@@ -34,6 +36,8 @@ export async function POST(req:Request){
                 imageUrl: url,
                 filekey,
                 user: { connect: { id: data.data.session?.user.id} },
+                filter,
+                bio
             },
         });
 

@@ -39,36 +39,7 @@ interface Props {
     const [files, setFiles] = useState<File[]>([]);
 
 
-
-    const queryClient = useQueryClient()
-
-    const { startUpload, permittedFileInfo, } = useUploadThing(
-      "imageUploader",
-      {
-        
-        onClientUploadComplete: async (res) => {
-          // Do something with the response
-          if(res){
-          
-            await axios.post('/api/post/',{
-              url:res[0].url,filekey:res[0].key
-            })
-            toast.success("Just post a post '_'")
-        queryClient.refetchQueries({ queryKey: [`user`] })
-
-        }}
-        ,
-        onUploadError: () => {
-          
-        toast.error("Error to upload the image")
-
-        },
-        onUploadBegin: () => {
-          // toast.loading("Image is starting to upload")
-          
-        },
-      },
-    );
+    
 
     
    
@@ -110,12 +81,16 @@ interface Props {
                }} aria-label="Back" className="cursor-pointer x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Back</title><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="2.909" x2="22.001" y1="12.004" y2="12.004"></line><polyline fill="none" points="9.276 4.726 2.001 12.004 9.276 19.274" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline></svg>  
               <DialogTitle>Crop</DialogTitle>
 
-              <span className="cursor-pointer" onClick={()=>{
+              <span className="cursor-pointer" 
+              onClick={()=>{
+                if(step==3){
+
+                }
                 setStep(prev=>prev+1)
-              }}>Next</span>
+              }}>{step==3 ? "Publish" :"Next"}</span>
               </DialogHeader>
               <div className="relative h-[90%] w-full">
-                <StepComponent step={step} preview={files[0].preview}  />
+                <StepComponent step={step}   preview={files[0].preview}  />
               
               
           
@@ -132,7 +107,7 @@ interface Props {
                 <input className="cursor-pointer" {...getInputProps()} />
                 <div>
                   { (
-                    <Button  onClick={() => startUpload(files)}>
+                    <Button  >
                       Upload  
                     </Button>
                   )}
