@@ -11,19 +11,8 @@ import {
 import { ReactNode } from "react";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from "@/lib/database.type";
-import type { FileWithPath } from "@uploadthing/react";
 import { useDropzone } from "@uploadthing/react/hooks";
-import { generateClientDropzoneAccept } from "uploadthing/client";
-import { useUploadThing } from "@/lib/uploadthing";
 import { useState, useCallback } from "react";
-import axios from "axios";
-import { useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
-import Cropper from "react-easy-crop";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Slider } from "./ui/slider";
 import StepComponent from "./process";
 
 interface Props {
@@ -38,13 +27,22 @@ interface Props {
 
     const [files, setFiles] = useState<File[]>([]);
 
-
     
+      
+    function Title(){
 
+      if(step==1){
+      return "Crop";
+    }else if(step==2){
+      return "Filter"
+    }else{
+      return "Publish"
+    }
+    }
     
    
     
-   
+   // we  get the image here , from the input 
       const {getRootProps, getInputProps} = useDropzone({
         accept: {
           'image/*': []
@@ -55,16 +53,14 @@ interface Props {
           })));
         }
       });
-      
-
-      // console.log(files);
-    const supabase = createClientComponentClient<Database>()
 
     const [step,setStep]=useState(1);
- 
+    const [open, setOpen] = useState(false);
+
+    // when the image is cropped we need too create a new image from it and assign
 
   return (
-    <Dialog >
+    <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger className="flex w-full">
             {children}
         </DialogTrigger>
@@ -79,21 +75,21 @@ interface Props {
                 }
                 setStep(prev=>prev-1)
                }} aria-label="Back" className="cursor-pointer x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Back</title><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="2.909" x2="22.001" y1="12.004" y2="12.004"></line><polyline fill="none" points="9.276 4.726 2.001 12.004 9.276 19.274" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline></svg>  
-              <DialogTitle>Crop</DialogTitle>
+              <DialogTitle>
+               
+            {Title()}
+            </DialogTitle>
 
               <span className="cursor-pointer" 
               onClick={()=>{
-                if(step==3){
-
+                if(step==4){
+                  setOpen(false)
                 }
                 setStep(prev=>prev+1)
-              }}>{step==3 ? "Publish" :"Next"}</span>
+              }}>{step>=3 ? "Publish" :"Next"}</span>
               </DialogHeader>
               <div className="relative h-[90%] w-full">
-                <StepComponent step={step}   preview={files[0].preview}  />
-              
-              
-          
+                <StepComponent step={step}    setFiles={setFiles}  preview={files[0].preview}  />
               </div>
              
               </>
@@ -107,7 +103,7 @@ interface Props {
                 <input className="cursor-pointer" {...getInputProps()} />
                 <div>
                   { (
-                    <Button  >
+                    <Button >
                       Upload  
                     </Button>
                   )}

@@ -37,14 +37,11 @@ const Filter = (props:{src:string,setCroppedImage: Dispatch<SetStateAction<strin
       }, [imageStyle]);
 
     const handleDownloadImage = () => {
-        console.log(imageRef.current)
         if(imageRef.current){
-            console.log("wala")
             html2canvas(imageRef.current).then( canvas => {
                 const dataUrl =  canvas.toDataURL('image/png');
                 props.setCroppedImage(dataUrl);
               }).catch(error => {
-                console.error('Oops, something went wrong!', error);
               });
         }
      

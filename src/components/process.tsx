@@ -1,24 +1,25 @@
-import { FC, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 import Cropper from 'react-easy-crop';
 import Filter from './filter';
 import getCroppedImg from '@/lib/crop'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Slider } from './ui/slider';
-import addBio from './addBio';
 import AddBio from './addBio';
+import { UploadFileResponse } from 'uploadthing/client';
 
 
 
-const StepComponent = (props:{ step: number,  preview: string  }) => {
+const StepComponent = (props:{ step: number,  preview: string ,setBio:Dispatch<SetStateAction<string>>,bio:string , startUpload:(files: File[], input?: undefined) => Promise<UploadFileResponse[] | undefined>}) => {
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
     const [value, setValue] = useState(2);
     const [aspect, setAspect] = useState(1/1);
-    const [croppedImage, setCroppedImage] = useState("");
+    const [croppedImage, setCroppedImage] = useState<string>("");
  
     const onCropComplete = async (croppedArea:number, croppedAreaPixels:number) => {
         // console.log(croppedArea, croppedAreaPixels)
 
+        // can the new image cropped here 
         const croppedImage = await getCroppedImg(
             props.preview,
             croppedAreaPixels,
@@ -27,6 +28,7 @@ const StepComponent = (props:{ step: number,  preview: string  }) => {
           setCroppedImage(croppedImage)
 
       }
+
 
     if (props.step === 1) {
     return (
@@ -85,7 +87,7 @@ const StepComponent = (props:{ step: number,  preview: string  }) => {
     )
   } else if(props.step==3) {
     return (
-    <AddBio src={croppedImage||""}  />
+    <AddBio src={croppedImage||""} preview={croppedImage} setBio={props.setBio} bio={props.bio} step={props.step}   />
     ) 
   }
 };
