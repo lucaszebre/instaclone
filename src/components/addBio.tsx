@@ -117,8 +117,11 @@ const AddBio = (props:{src:string,preview:string,setBio:Dispatch<SetStateAction<
 
  useEffect(()=>{
   return(
-    beginUpload.mutate()
-
+    ()=>{
+        console.log("here 4")
+        beginUpload.mutate()
+  
+    }
   )
  },[])
 

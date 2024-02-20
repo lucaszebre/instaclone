@@ -7,19 +7,20 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import domtoimage from 'dom-to-image';
 import html2canvas from 'html2canvas';
 import { modifyImageProperties } from "@/lib/modifyImage";
+import { useMutation } from "@tanstack/react-query";
+import { json } from "stream/consumers";
 
 
 
 
 const Filter = (props:{src:string,setCroppedImage: Dispatch<SetStateAction<string>>}) => {
 
-    const [luminosity, setLuminosity] = useState([33]);
-    const [contrast, setContrast] = useState([33]);
-    const [fade, setFade] = useState([33]);
-    const [saturation, setSaturation] = useState([33]);
-    const [temp, setTemp] = useState([33]);
-    const [vignette, setVignette] = useState([33]);
-    const imageRef = useRef<HTMLImageElement>(null);
+    const [luminosity, setLuminosity] = useState([100]);
+    const [contrast, setContrast] = useState([100]);
+    const [fade, setFade] = useState([0]);
+    const [saturation, setSaturation] = useState([100]);
+    const [temp, setTemp] = useState([0]);
+    const [vignette, setVignette] = useState([0]);
 
 
 
@@ -30,31 +31,35 @@ const Filter = (props:{src:string,setCroppedImage: Dispatch<SetStateAction<strin
 
 
       useEffect(() => {
-        handleDownloadImage();
-        localStorage.setItem('filter', JSON.stringify(imageStyle));
         return () => {
-          handleDownloadImage();
-        };
-      }, [imageStyle]);
+           insertFilter.mutate();
+           const style = localStorage.setItem('filter',JSON.stringify(imageStyle));
 
-    const handleDownloadImage = () => {
-        if(imageRef.current){
-            html2canvas(imageRef.current).then( async canvas => {
-                const dataUrl =  canvas.toDataURL('image/png');
-                const urlWithFilter =await modifyImageProperties(dataUrl,imageStyle.filter);
-                props.setCroppedImage(urlWithFilter?urlWithFilter:"");
-              }).catch(error => {
-              });
+        };
+      }, []);
+
+ 
+
+
+      const insertFilter = useMutation({
+        mutationFn: async () => {
+          const urlWithFilter =await modifyImageProperties(props.src,imageStyle.filter);
+          props.setCroppedImage(urlWithFilter?urlWithFilter:"");
+        },
+        onError: () => {
+        
+        },
+        onSuccess:()=>{
+
         }
-     
-      };
+      }) 
 
   
 
   return (
     <div className='flex flex-row h-full gap-4 justiy-between w-full '>
         <div  className="w-[50%] h-full relative">
-        <Image id="image"   fill={true}                  ref={imageRef}
+        <Image id="image"   fill={true}                  
 
           style={{ objectFit: 'cover', ...imageStyle }}
           className="w-full h-full" src={props.src} alt="" />

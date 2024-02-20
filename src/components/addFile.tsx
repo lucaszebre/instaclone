@@ -8,12 +8,13 @@ import {
     DialogTitle,
     DialogTrigger,
   } from "@/components/ui/dialog"
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { useDropzone } from "@uploadthing/react/hooks";
 import { useState, useCallback } from "react";
 import StepComponent from "./process";
+import { setSeconds } from "date-fns";
 
 interface Props {
     children: ReactNode;
@@ -57,10 +58,23 @@ interface Props {
     const [step,setStep]=useState(1);
     const [open, setOpen] = useState(false);
 
+    
+
+    function handleChange(){
+      if(open!){
+          setOpen(false)
+          setStep(1)
+          setFiles([])
+        
+      }else{
+        setOpen(true)
+      }
+    }
+
     // when the image is cropped we need too create a new image from it and assign
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleChange}>
         <DialogTrigger className="flex w-full">
             {children}
         </DialogTrigger>

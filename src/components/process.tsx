@@ -83,7 +83,7 @@ const StepComponent = (props:{ step: number,  preview: string ,setBio:Dispatch<S
     );
   } else if (props.step === 2) {
     return (
-       <Filter setCroppedImage={setCroppedImage}  src={croppedImage||""} />
+       <Filter setCroppedImage={setCroppedImage}   src={croppedImage||""} />
     )
   } else if(props.step==3) {
     return (
