@@ -15,6 +15,10 @@ import { useDropzone } from "@uploadthing/react/hooks";
 import { useState, useCallback } from "react";
 import StepComponent from "./process";
 import { setSeconds } from "date-fns";
+import toast from "react-hot-toast";
+import { useUploadThing } from "@/lib/uploadthing";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 
 interface Props {
     children: ReactNode;
@@ -26,7 +30,10 @@ interface Props {
   
   const AddFile: React.FC<Props> =   ({ children }) => {
 
+    const [bio,setBio]=useState("");
+
     const [files, setFiles] = useState<File[]>([]);
+    const [croppedImage, setCroppedImage] = useState<string>("");
 
     
       
@@ -71,6 +78,77 @@ interface Props {
       }
     }
 
+    const queryClient = useQueryClient()
+
+
+
+    const { startUpload, permittedFileInfo, } = useUploadThing(
+      "imageUploader",
+      {
+        
+        onClientUploadComplete: async (res) => {
+          // Do something with the response
+          if(res){
+          
+            await axios.post('/api/post/',{
+              url:res[0].url,filekey:res[0].key,bio
+            })
+            toast.success("Just post a post '_'")
+        queryClient.refetchQueries({ queryKey: [`user`] })
+  
+        }}
+        ,
+        onUploadError: () => {
+          
+        toast.error("Error to upload the image")
+          // console.error(error)
+        },
+        onUploadBegin: () => {
+          // toast.loading("Image is starting to upload")
+          
+        },
+      },
+    );
+  
+    async function fetchImageAsBlob(url:string) {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error('Failed to fetch image');
+        }
+        const blob = await response.blob();
+        return blob;
+      } catch (error) {
+        console.error('Error fetching image:', error);
+        return null;
+      }
+    }
+  
+    const beginUpload = useMutation({
+      mutationFn: async () => {
+        fetchImageAsBlob(croppedImage)
+        .then(async blob => {
+          if (blob) {
+            // Now you have the blob object, you can upload it to the server
+            let data = new File([blob], "haha.png", { type: "image/png" });
+            console.log(data)
+            await startUpload([data]); // here
+          } else {
+            console.log('Failed to fetch image as blob.');
+          }
+        });
+  
+      
+      },
+      onError: () => {
+  
+      console.log("errors")
+      },
+      onSuccess:()=>{
+  
+      }
+    }) 
+  
     // when the image is cropped we need too create a new image from it and assign
 
   return (
@@ -96,14 +174,16 @@ interface Props {
 
               <span className="cursor-pointer" 
               onClick={()=>{
-                if(step==4){
+                if(step>3){
+                  console.log("here 4")
+                  beginUpload.mutate()
                   setOpen(false)
                 }
                 setStep(prev=>prev+1)
               }}>{step>=3 ? "Publish" :"Next"}</span>
               </DialogHeader>
               <div className="relative h-[90%] w-full">
-                <StepComponent step={step}    setFiles={setFiles}  preview={files[0].preview}  />
+                <StepComponent step={step}  croppedImage={croppedImage} setCroppedImage={setCroppedImage} bio={bio} setBio={setBio}  setFiles={setFiles}  preview={files[0].preview}  />
               </div>
              
               </>

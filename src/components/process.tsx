@@ -9,12 +9,11 @@ import { UploadFileResponse } from 'uploadthing/client';
 
 
 
-const StepComponent = (props:{ step: number,  preview: string ,setBio:Dispatch<SetStateAction<string>>,bio:string , startUpload:(files: File[], input?: undefined) => Promise<UploadFileResponse[] | undefined>}) => {
+const StepComponent = (props:{ step: number,  preview: string ,croppedImage:string,setCroppedImage:Dispatch<SetStateAction<string>>,setBio:Dispatch<SetStateAction<string>>,bio:string , startUpload:(files: File[], input?: undefined) => Promise<UploadFileResponse[] | undefined>}) => {
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
     const [value, setValue] = useState(2);
     const [aspect, setAspect] = useState(1/1);
-    const [croppedImage, setCroppedImage] = useState<string>("");
  
     const onCropComplete = async (croppedArea:number, croppedAreaPixels:number) => {
         // console.log(croppedArea, croppedAreaPixels)
@@ -25,7 +24,7 @@ const StepComponent = (props:{ step: number,  preview: string ,setBio:Dispatch<S
             croppedAreaPixels,
             0
           )
-          setCroppedImage(croppedImage)
+          props.setCroppedImage(croppedImage)
 
       }
 
@@ -83,11 +82,11 @@ const StepComponent = (props:{ step: number,  preview: string ,setBio:Dispatch<S
     );
   } else if (props.step === 2) {
     return (
-       <Filter setCroppedImage={setCroppedImage}   src={croppedImage||""} />
+       <Filter setCroppedImage={props.setCroppedImage}   src={props.croppedImage||""} />
     )
-  } else if(props.step==3) {
+  } else if(props.step==3 || props.step==4) {
     return (
-    <AddBio src={croppedImage||""} preview={croppedImage} setBio={props.setBio} bio={props.bio} step={props.step}   />
+    <AddBio src={props.croppedImage||""} preview={props.croppedImage} setBio={props.setBio} bio={props.bio} step={props.step}   />
     ) 
   }
 };

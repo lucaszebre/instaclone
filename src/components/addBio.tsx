@@ -13,45 +13,7 @@ import { Usered } from "@/types";
 const AddBio = (props:{src:string,preview:string,setBio:Dispatch<SetStateAction<string>>,bio:string,step:number}) => {
 
   const [imageStyle, setImageStyle] = useState({});
-
-  const [files, setFiles] = useState<File[]>([]);
-
-  const [bio,setBio]=useState("");
-
-  const queryClient = useQueryClient()
-
-
- 
-
-
-  const { startUpload, permittedFileInfo, } = useUploadThing(
-    "imageUploader",
-    {
-      
-      onClientUploadComplete: async (res) => {
-        // Do something with the response
-        if(res){
-        
-          await axios.post('/api/post/',{
-            url:res[0].url,filekey:res[0].key,bio
-          })
-          toast.success("Just post a post '_'")
-      queryClient.refetchQueries({ queryKey: [`user`] })
-
-      }}
-      ,
-      onUploadError: () => {
-        
-      toast.error("Error to upload the image")
-        // console.error(error)
-      },
-      onUploadBegin: () => {
-        // toast.loading("Image is starting to upload")
-        
-      },
-    },
-  );
-
+  
   useEffect(() => {
     const style = localStorage.getItem('filter');
     if (style) {
@@ -76,54 +38,13 @@ const AddBio = (props:{src:string,preview:string,setBio:Dispatch<SetStateAction<
     enabled:true
   })
 
-  async function fetchImageAsBlob(url:string) {
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error('Failed to fetch image');
-      }
-      const blob = await response.blob();
-      return blob;
-    } catch (error) {
-      console.error('Error fetching image:', error);
-      return null;
-    }
-  }
 
-  const beginUpload = useMutation({
-    mutationFn: async () => {
-      fetchImageAsBlob(props.src)
-      .then(async blob => {
-        if (blob) {
-          // Now you have the blob object, you can upload it to the server
-          let data = new File([blob], "haha.png", { type: "image/png" });
-          console.log(data)
-          await startUpload([data]); // here
-        } else {
-          console.log('Failed to fetch image as blob.');
-        }
-      });
-
-    
-    },
-    onError: () => {
-
-    console.log("errors")
-    },
-    onSuccess:()=>{
-
-    }
-  }) 
-
- useEffect(()=>{
-  return(
-    ()=>{
-        console.log("here 4")
-        beginUpload.mutate()
+ 
+      
+      
   
-    }
-  )
- },[])
+      
+
 
   
   return (
@@ -146,7 +67,7 @@ const AddBio = (props:{src:string,preview:string,setBio:Dispatch<SetStateAction<
                                     </Avatar>
                                     <span>{data?.username}</span>
                                 </div>
-        <Textarea value={bio} cols={20} rows={14}  onChange={(e)=>{setBio(e.target.value)}}></Textarea>
+        <Textarea value={props.bio} cols={20} rows={14}  onChange={(e)=>{props.setBio(e.target.value)}}></Textarea>
             
             
         </div>
