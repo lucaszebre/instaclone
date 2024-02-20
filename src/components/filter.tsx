@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import domtoimage from 'dom-to-image';
 import html2canvas from 'html2canvas';
+import { modifyImageProperties } from "@/lib/modifyImage";
 
 
 
@@ -38,9 +39,10 @@ const Filter = (props:{src:string,setCroppedImage: Dispatch<SetStateAction<strin
 
     const handleDownloadImage = () => {
         if(imageRef.current){
-            html2canvas(imageRef.current).then( canvas => {
+            html2canvas(imageRef.current).then( async canvas => {
                 const dataUrl =  canvas.toDataURL('image/png');
-                props.setCroppedImage(dataUrl);
+                const urlWithFilter =await modifyImageProperties(dataUrl,imageStyle.filter);
+                props.setCroppedImage(urlWithFilter?urlWithFilter:"");
               }).catch(error => {
               });
         }

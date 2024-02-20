@@ -64,7 +64,7 @@ interface Props {
         <DialogTrigger className="flex w-full">
             {children}
         </DialogTrigger>
-        <DialogContent className={`flex ${step==2? 'max-w-[1000px]':''} ${step==3? 'max-w-[900px]':''}  flex-col h-[80%] w-full justify-start items-center content-center text-center`}>
+        <DialogContent className={`flex ${step==2? 'max-w-[1000px]':''} ${step==3? 'max-w-[900px]':''}  flex-col  ${files.length==0 ? 'h-[40%]' : 'h-[80%]'} w-full justify-start items-center content-center text-center`}>
             {
               files.length>0 ? 
               <>
