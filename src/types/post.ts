@@ -32,6 +32,7 @@ export const PostSchema = z.object({
     likes: z.array(LikeSchema).optional(),
     comments: z.array(CommentSchema).optional(),
     user: z.lazy(() => UserSchemaPost).optional(),
-    count:z.string()
+    count:z.string(),
+    bio:z.string()
   });
   

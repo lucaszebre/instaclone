@@ -22,6 +22,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 const Feed = (props:{userId:string}) => {
 
     const [feed,setFeed] = useState(0);
+    const [count,setCount]=useState(0);
 
     useEffect(() => {
         pusherClient.subscribe(
@@ -31,7 +32,7 @@ const Feed = (props:{userId:string}) => {
         const feedHandler = (feed:number) => {
           setFeed((prev) => prev+feed)
         }
-    
+        
     
     
         pusherClient.bind('incoming-post', feedHandler)
@@ -63,10 +64,12 @@ const Feed = (props:{userId:string}) => {
         queryFn: async ({ pageParam = 0 }) => {
             const posts = (await axios.get(`/api/feed?page=${pageParam}&limit=5}`)).data
             let data= posts as Posted[];
+            setCount(data.count)
+            console.log(count)
             return {...data,prevOffset:pageParam}
         },
         getNextPageParam: (lastPage) => {
-            if (lastPage.prevOffset + 5 > lastPage.count) {
+            if (lastPage.prevOffset + 5 > count) {
                 // No more pages left to load
                 return false ;
             }
@@ -89,22 +92,10 @@ const Feed = (props:{userId:string}) => {
         }
       }, [entry, fetchNextPage])
       const router = useRouter()
+    
 
-      useEffect(()=>{
-        if(feed){
-            toast((t) => (
-                <span>
-                New post is here
-                <Button onClick={() => router.refresh()}>
-                    Refresh
-                </Button>
-                </span>
-          ));
-        }
-        
+      // console.log(articles ? articles.length : 0)
 
-        
-      },[feed])
       
   return (
     <>
@@ -124,12 +115,20 @@ const Feed = (props:{userId:string}) => {
         dataLength={articles ? articles.length : 0}
         next={() => fetchNextPage()}
         hasMore={hasNextPage}
-        loading={   <>
+        loading={ 
+            <>
             <FeedPostLoader />
             <FeedPostLoader />
             <FeedPostLoader />
             <FeedPostLoader />
-        </>}
+        </>
+          
+          }
+          endMessage={
+            <p style={{ textAlign: 'center' }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
       >
            <>
 {
@@ -146,6 +145,7 @@ articles && articles.map((post: Posted) => {
                         comment={post.comments? post.comments.length.toString() : "0"}
                         avatarurl={post.user?.profilePictureUrl? post.user?.profilePictureUrl : ''}
                         like={post.likes? post.likes :[]}
+                        bio={post.bio?post.bio:""}
                     />
             ) 
         })}

@@ -15,7 +15,7 @@ import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
 import InputEmoji from 'react-input-emoji'
 
 
-const FeedPost = (props:{id:string,userId:string,filekey:string,image:string,username:string,date:string , likes:number,comment:string,avatarurl:string,like:Like[]}) => {
+const FeedPost = (props:{id:string,bio:string,userId:string,filekey:string,image:string,username:string,date:string , likes:number,comment:string,avatarurl:string,like:Like[]}) => {
     const queryClient = useQueryClient()
     const [ text, setText ] = useState('')
 
@@ -165,6 +165,9 @@ const FeedPost = (props:{id:string,userId:string,filekey:string,image:string,use
             {props.username}
         </a>
 
+    </div>
+    <div>
+        <p>{props.bio}</p>
     </div>
     <div className='flex w-full flex-row justify-between items-center gap-8'>
     <InputEmoji
