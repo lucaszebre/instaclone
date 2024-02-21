@@ -19,21 +19,15 @@ export async function GET(req: Request) {
 
     const url = new URL(req.url)
 
-  const page = url.searchParams.get("page")
-  const limit = url.searchParams.get("limit")
+  const page = parseInt(url.searchParams.get("page"))
+  const limit = parseInt(url.searchParams.get("limit"))
 
 
-  if (!page) {
-    throw new Error("Need to specify a page");
-}  
 
-if (!limit) {
-    throw new Error("Need to specify a limit");
-
-    
+  if (isNaN(page) || isNaN(limit)) {
+    return new Response("Invalid page or limit", { status: 400 });
 }
-const paged = parseInt(page)
-const limited = parseInt(limit)
+
     // Calculate the number of posts to skip
 
     const posts = await prisma.post.findMany({
@@ -44,8 +38,8 @@ const limited = parseInt(limit)
             user:true,
             taggedUsers:true
         },
-        take: limited,
-        skip: (paged - 1) * limited,
+        take: limit,
+        skip: page  * limit,
         orderBy: { postedAt: 'desc' },
         
     });
@@ -53,9 +47,9 @@ const limited = parseInt(limit)
     const count = await prisma.post.count();
 
 
-    return new Response(JSON.stringify({posts,"count":count}),{status:200}) 
+    return new Response(JSON.stringify({posts,"count":count,offset:page}),{status:200}) 
     } catch (error) {
-        return new Response('Server error', { status: 500 })
+        return new Response("Server error", { status: 500 })
     }
     
 }
