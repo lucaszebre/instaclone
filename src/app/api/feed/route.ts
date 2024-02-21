@@ -39,7 +39,7 @@ export async function GET(req: Request) {
             taggedUsers:true
         },
         take: limit,
-        skip: page  * limit,
+        skip: (page-1)  * limit,
         orderBy: { postedAt: 'desc' },
         
     });

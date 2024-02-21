@@ -20,7 +20,7 @@ const Feed = ({ userId }: { userId: string }) => {
         isFetchingNextPage
     } = useInfiniteQuery({
         queryKey: ['feed'],
-        queryFn: async ({ pageParam = 0 }) => {
+        queryFn: async ({ pageParam = 1 }) => {
             const response = await axios.get(`/api/feed?page=${pageParam}&limit=5`);
             const { data } = response;
             setCount(data.count); // Assuming count is present in the response data
@@ -31,14 +31,18 @@ const Feed = ({ userId }: { userId: string }) => {
             return nextPage < count ? lastPage.offset+1 : false;
         },
         
-        initialPageParam: 0,
+        initialPageParam: 1,
     });
 
     const articles = data?.pages.reduce((acc: any, page: any) => {
         return [...acc, ...page.posts];
     }, []) as Posted[];
 
+    console.log(count);
     const lastPostRef = useRef<HTMLDivElement>(null);
+    useEffect(()=>{
+        console.log(hasNextPage)
+    },[hasNextPage])
 
     useEffect(() => {
         const options = {
@@ -47,6 +51,7 @@ const Feed = ({ userId }: { userId: string }) => {
             threshold: 1.0,
         };
 
+      
         const observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting && hasNextPage) {
                 fetchNextPage();

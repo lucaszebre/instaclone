@@ -19,8 +19,7 @@ import toast from "react-hot-toast";
 import { useUploadThing } from "@/lib/uploadthing";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { randomUUID } from "crypto";
-
+import { v4 as uuidv4 } from 'uuid';
 interface Props {
     children: ReactNode;
   }
@@ -65,7 +64,6 @@ interface Props {
 
     const [step,setStep]=useState(1);
     const [open, setOpen] = useState(false);
-    const [upload,setUpload]=useState(false);
     
 
     function handleChange(){
@@ -97,7 +95,7 @@ interface Props {
             await axios.post('/api/post/',{
               url:res[0].url,filekey:res[0].key,bio
             })
-            toast.success("Just post a post '_'")
+            toast.success("post sucess")
         queryClient.refetchQueries({ queryKey: [`user`] })
   
         }}
@@ -134,7 +132,7 @@ interface Props {
         .then(async blob => {
           if (blob) {
             // Now you have the blob object, you can upload it to the server
-            let data = new File([blob], `${randomUUID}.png`, { type: "image/png" });
+            let data = new File([blob], `${uuidv4()}.png`, { type: "image/png" });
             console.log(data)
             await startUpload([data]); // here
           } else {
@@ -153,13 +151,12 @@ interface Props {
       }
     }) 
 
-    useEffect(()=>{
-      if(step>3){
-        beginUpload.mutate()
-      }
-    },[])
+    // useEffect(()=>{
+    //   if(step>3){
+    //     beginUpload.mutate()
+    //   }
+    // },[step])
     
-    console.log(step)
     // when the image is cropped we need too create a new image from it and assign
 
   return (
@@ -173,6 +170,7 @@ interface Props {
               <>
               <DialogHeader className=" font-normal  flex-row justify-between w-full text-xs from-neutral-50">
               <svg  onClick={()=>{
+                
                 if(step==1){
                   setFiles([])
                 }
@@ -185,7 +183,7 @@ interface Props {
 
               <span id="publish" className="cursor-pointer" 
               onClick={()=>{
-                if(document.getElementById('publish')?.textContent=="Pnpublish"){
+                if(document.getElementById('publish')?.textContent=="Publish"){
                   beginUpload.mutate();
                   setOpen(false)
                   
