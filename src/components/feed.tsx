@@ -73,24 +73,7 @@ const Feed = ({ userId }: { userId: string }) => {
                     </span>
                 </div>
                 <div className='flex flex-col w-full h-screen justify-start items-center content-center gap-10'>
-                    <InfiniteScroll
-                        dataLength={articles?articles.length:0}
-                        next={fetchNextPage}
-                        hasMore={hasNextPage}
-                        loader={
-                            <>
-                                <FeedPostLoader />
-                                <FeedPostLoader />
-                                <FeedPostLoader />
-                                <FeedPostLoader />
-                            </>
-                        }
-                        endMessage={
-                            <p style={{ textAlign: 'center' }}>
-                                <b>Yay! You have seen it all</b>
-                            </p>
-                        }
-                    >
+                    
                         {articles && articles.map((post: Posted, index) => (
                             <div key={post.id} ref={index === articles.length - 1 ? lastPostRef : null}>
                                 <FeedPost
@@ -108,7 +91,6 @@ const Feed = ({ userId }: { userId: string }) => {
                                 />
                             </div>
                         ))}
-                    </InfiniteScroll>
                 </div>
             </div>
         </>

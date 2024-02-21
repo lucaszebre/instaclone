@@ -81,39 +81,53 @@ const Filter = (props:{src:string,setCroppedImage: Dispatch<SetStateAction<strin
         </div>
         <div className="flex cursor-pointer flex-col justify-center items-center">
             <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
-            <span>Aden</span>
+            <span>Clarendon</span>
         </div>
         <div className="flex cursor-pointer flex-col justify-center items-center">
             <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
-            <span>Aden</span>
+            <span>Crema</span>
         </div>
     </div>
     <div className="flex w-full gap-2 flex-row justify-between">
         <div className="flex cursor-pointer flex-col justify-start items-center">
             <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
-            <span>Aden</span>
+            <span>Gingham</span>
         </div>
         <div className="flex cursor-pointer flex-col justify-center items-center">
             <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
-            <span>Aden</span>
+            <span>Juno</span>
         </div>
         <div className="flex cursor-pointer flex-col justify-center items-center">
             <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
-            <span>Aden</span>
+            <span>Lark</span>
         </div>
     </div>
     <div className="flex w-full gap-2 flex-row justify-between">
         <div className="flex cursor-pointer flex-col justify-start items-center">
             <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
-            <span>Aden</span>
+            <span>Ludwig</span>
         </div>
         <div className="flex cursor-pointer flex-col justify-center items-center">
             <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
-            <span>Aden</span>
+            <span>Moon</span>
         </div>
         <div className="flex cursor-pointer flex-col justify-center items-center">
             <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
-            <span>Aden</span>
+            <span>Original</span>
+        </div>
+    </div>
+    <div className="flex w-full gap-2 flex-row justify-between">
+        <div className="flex cursor-pointer flex-col justify-start items-center">
+            <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
+            <span>Perpetua</span>
+        </div>
+        <div className="flex cursor-pointer flex-col justify-center items-center">
+            <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
+            <span>Reyes</span>
+        </div>
+        <div className="flex cursor-pointer flex-col justify-center items-center">
+            <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
+            <span>Slumber</span>
         </div>
     </div>
 </div>

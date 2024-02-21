@@ -39,7 +39,7 @@ const StepComponent = (props:{ step: number,  preview: string ,croppedImage:stri
         aspect={aspect}
         onCropChange={setCrop}
         onCropComplete={onCropComplete}
-        onZoomChange={setZoom}
+        onZoomChange={setValue}
       />
       <Popover >
       <PopoverTrigger>
