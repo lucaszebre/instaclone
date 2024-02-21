@@ -31,11 +31,25 @@ interface Props {
   const AddFile: React.FC<Props> =   ({ children }) => {
 
     const [bio,setBio]=useState("");
-
     const [files, setFiles] = useState<File[]>([]);
     const [croppedImage, setCroppedImage] = useState<string>("");
-
+    const [step,setStep]=useState(1);
+    const [open, setOpen] = useState(false);
     
+
+
+    // when we unmount the components we reset the state inside
+    useEffect(()=>{
+      return(
+        ()=>{
+          setBio("");
+          setFiles([]);
+          setCroppedImage("");
+          setOpen(false);
+          setStep(1);
+        } 
+      )
+    },[])
       
     function Title(){
 
@@ -51,7 +65,7 @@ interface Props {
    
     
    // we  get the image here , from the input 
-      const {getRootProps, getInputProps} = useDropzone({
+      const {getRootProps, getInputProps,fileRejections} = useDropzone({
         accept: {
           'image/*': []
         },
@@ -62,9 +76,16 @@ interface Props {
         }
       });
 
-    const [step,setStep]=useState(1);
-    const [open, setOpen] = useState(false);
-    
+   useEffect(()=>{
+    if(fileRejections.length>0){
+      toast.error("File is not accepted");
+      setStep(1);
+      setFiles([]);
+      setOpen(false)
+    }
+   },[fileRejections])
+
+
 
     function handleChange(){
       if(open!){

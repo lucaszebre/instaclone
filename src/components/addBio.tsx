@@ -38,7 +38,13 @@ const AddBio = (props:{src:string,preview:string,setBio:Dispatch<SetStateAction<
     enabled:true
   })
 
-
+  useEffect(()=>{
+    return(
+      ()=>{
+        setImageStyle({})
+      }
+    )
+  },[])
  
       
       

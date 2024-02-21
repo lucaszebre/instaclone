@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import Cropper from 'react-easy-crop';
 import Filter from './filter';
 import getCroppedImg from '@/lib/crop'
@@ -15,6 +15,20 @@ const StepComponent = (props:{ step: number,  preview: string ,croppedImage:stri
     const [zoom, setZoom] = useState(1);
     const [value, setValue] = useState(2);
     const [aspect, setAspect] = useState(1/1);
+
+
+  // when the components unmount  we reset the state 
+    useEffect(()=>{
+      return(
+        ()=>{
+          setCrop({x:0,y:0})
+          setZoom(1);
+          setValue(2);
+          setAspect(1/1);
+        }
+      )
+    },[])
+   
  
     const onCropComplete = async (croppedArea:number, croppedAreaPixels:number) => {
         // console.log(croppedArea, croppedAreaPixels)

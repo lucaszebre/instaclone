@@ -24,7 +24,63 @@ const Filter = (props:{src:string,setCroppedImage: Dispatch<SetStateAction<strin
 
 
 
+    // when the compoment unmont we reset the state 
+    useEffect(()=>{
+      return(
+        ()=>{
+          setContrast([100]);
+          setFade([0]);
+          setSaturation([100]);
+          setTemp([0]);
+          setVignette([0]);
+        }
+      )
+    },[])
+
+
     const imageStyle = {
+        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
+        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
+      };  
+      const Aden = {
+        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
+        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
+      };  
+      const Clarendon = {
+        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
+        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
+      };  
+      const Crema = {
+        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
+        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
+      };  
+      const Gingham = {
+        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
+        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
+      };  
+      const Juno = {
+        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
+        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
+      };
+      const Lark = {
+        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
+        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
+      }; const Ludwig = {
+        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
+        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
+      }; const Moon = {
+        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
+        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
+      }; const Original = {
+        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
+        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
+      }; const Perpetua = {
+        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
+        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
+      }; const Reyes = {
+        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
+        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
+      }; const Slumber = {
         filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
         // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
       };
