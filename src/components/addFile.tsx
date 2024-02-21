@@ -185,7 +185,7 @@ interface Props {
 
               <span id="publish" className="cursor-pointer" 
               onClick={()=>{
-                if(document.getElementById('publish')?.textContent=="Publish"){
+                if(document.getElementById('publish')?.textContent=="Pnpublish"){
                   beginUpload.mutate();
                   setOpen(false)
                   

@@ -17,6 +17,7 @@ const Feed = ({ userId }: { userId: string }) => {
         data,
         fetchNextPage,
         hasNextPage,
+        isFetchingNextPage
     } = useInfiniteQuery({
         queryKey: ['feed'],
         queryFn: async ({ pageParam = 0 }) => {
@@ -29,6 +30,7 @@ const Feed = ({ userId }: { userId: string }) => {
             const nextPage = lastPage.offset * 5;
             return nextPage < count ? lastPage.offset+1 : false;
         },
+        
         initialPageParam: 0,
     });
 
@@ -73,7 +75,8 @@ const Feed = ({ userId }: { userId: string }) => {
                     </span>
                 </div>
                 <div className='flex flex-col w-full h-screen justify-start items-center content-center gap-10'>
-                    
+              
+                        <>
                         {articles && articles.map((post: Posted, index) => (
                             <div key={post.id} ref={index === articles.length - 1 ? lastPostRef : null}>
                                 <FeedPost
@@ -91,6 +94,17 @@ const Feed = ({ userId }: { userId: string }) => {
                                 />
                             </div>
                         ))}
+
+                        {isFetchingNextPage && hasNextPage &&
+                         <>
+                         <FeedPostLoader />
+                         <FeedPostLoader />
+                         <FeedPostLoader />
+                        </>}
+                        </>
+                        
+                   
+                        
                 </div>
             </div>
         </>
