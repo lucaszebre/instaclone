@@ -19,6 +19,7 @@ import toast from "react-hot-toast";
 import { useUploadThing } from "@/lib/uploadthing";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { randomUUID } from "crypto";
 
 interface Props {
     children: ReactNode;
@@ -74,9 +75,12 @@ interface Props {
           setFiles([])
         
       }else{
+        setFiles([])
         setOpen(true)
       }
     }
+
+
 
     const queryClient = useQueryClient()
 
@@ -130,7 +134,7 @@ interface Props {
         .then(async blob => {
           if (blob) {
             // Now you have the blob object, you can upload it to the server
-            let data = new File([blob], "haha.png", { type: "image/png" });
+            let data = new File([blob], `${randomUUID}.png`, { type: "image/png" });
             console.log(data)
             await startUpload([data]); // here
           } else {
@@ -174,8 +178,9 @@ interface Props {
 
               <span className="cursor-pointer" 
               onClick={()=>{
+                
                 if(step>3){
-                  console.log("here 4")
+                  toast("lancer");
                   beginUpload.mutate()
                   setOpen(false)
                 }

@@ -6,6 +6,7 @@ import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Slider } from './ui/slider';
 import AddBio from './addBio';
 import { UploadFileResponse } from 'uploadthing/client';
+import LastStepPublish from './lastStepPublish';
 
 
 
@@ -84,10 +85,17 @@ const StepComponent = (props:{ step: number,  preview: string ,croppedImage:stri
     return (
        <Filter setCroppedImage={props.setCroppedImage}   src={props.croppedImage||""} />
     )
-  } else if(props.step==3 || props.step==4) {
+  } else if(props.step==3 ) {
     return (
     <AddBio src={props.croppedImage||""} preview={props.croppedImage} setBio={props.setBio} bio={props.bio} step={props.step}   />
     ) 
+  }else if (
+    props.step==4
+  ){
+    return(
+      <LastStepPublish/>
+
+    )
   }
 };
 

@@ -64,18 +64,18 @@ const Filter = (props:{src:string,setCroppedImage: Dispatch<SetStateAction<strin
           style={{ objectFit: 'cover', ...imageStyle }}
           className="w-full h-full" src={props.src} alt="" />
             </div>
-        <div className="w-[50%]">
+        <div className="w-[50%] overflow-y-scroll mb-4 p-4">
 
                
-        <Tabs defaultValue="register" className="max-w-full w-full">
+        <Tabs defaultValue="filter" className=" w-full">
   <TabsList>
     <TabsTrigger value="filter">Filter</TabsTrigger>
     <TabsTrigger value="setting">Setting</TabsTrigger>
   </TabsList>
-  <TabsContent className="w-full" value='filter'>
-    <div className="flex w-full flex-col justify-start" >
+  <TabsContent className="w-full   relative" value='filter'>
+    <div className="flex w-full flex-col  relative	 justify-start" >
     <div className="flex w-full gap-2 flex-row justify-between">
-        <div className="flexcursor-pointer cursor-pointer flex-col justify-start items-center">
+        <div className="flex cursor-pointer cursor-pointer flex-col justify-start items-center">
             <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
             <span>Aden</span>
         </div>
