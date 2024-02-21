@@ -65,7 +65,7 @@ interface Props {
 
     const [step,setStep]=useState(1);
     const [open, setOpen] = useState(false);
-
+    const [upload,setUpload]=useState(false);
     
 
     function handleChange(){
@@ -152,7 +152,14 @@ interface Props {
   
       }
     }) 
-  
+
+    useEffect(()=>{
+      if(step>3){
+        beginUpload.mutate()
+      }
+    },[])
+    
+    console.log(step)
     // when the image is cropped we need too create a new image from it and assign
 
   return (
@@ -160,7 +167,7 @@ interface Props {
         <DialogTrigger className="flex w-full">
             {children}
         </DialogTrigger>
-        <DialogContent className={`flex ${step==2? 'max-w-[1000px]':''} ${step==3? 'max-w-[900px]':''}  flex-col  ${files.length==0 ? 'h-[40%]' : 'h-[80%]'} w-full justify-start items-center content-center text-center`}>
+        <DialogContent className={`flex ${step==2? 'max-w-[1000px]':''} ${step==3? 'max-w-[900px]':''} ${step==4? 'max-w-[300px]':''}  flex-col  ${files.length==0 ? 'h-[40%]' : 'h-[80%]'} w-full justify-start items-center content-center text-center`}>
             {
               files.length>0 ? 
               <>
@@ -176,14 +183,14 @@ interface Props {
             {Title()}
             </DialogTitle>
 
-              <span className="cursor-pointer" 
+              <span id="publish" className="cursor-pointer" 
               onClick={()=>{
-                
-                if(step>3){
-                  toast("lancer");
-                  beginUpload.mutate()
+                if(document.getElementById('publish')?.textContent=="Publish"){
+                  beginUpload.mutate();
                   setOpen(false)
+                  
                 }
+                
                 setStep(prev=>prev+1)
               }}>{step>=3 ? "Publish" :"Next"}</span>
               </DialogHeader>

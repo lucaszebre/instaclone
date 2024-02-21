@@ -89,13 +89,6 @@ const StepComponent = (props:{ step: number,  preview: string ,croppedImage:stri
     return (
     <AddBio src={props.croppedImage||""} preview={props.croppedImage} setBio={props.setBio} bio={props.bio} step={props.step}   />
     ) 
-  }else if (
-    props.step==4
-  ){
-    return(
-      <LastStepPublish/>
-
-    )
   }
 };
 
