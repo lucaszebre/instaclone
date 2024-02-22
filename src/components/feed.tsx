@@ -11,11 +11,11 @@ import MenuMobile from './menuMobile';
 import { Posted } from '@/types';
 
 const Feed = ({ userId }: { userId: string }) => {
-    const [count, setCount] = useState(0);
 
     const {
         data,
         fetchNextPage,
+        error,
         hasNextPage,
         isFetchingNextPage
     } = useInfiniteQuery({
@@ -23,26 +23,23 @@ const Feed = ({ userId }: { userId: string }) => {
         queryFn: async ({ pageParam = 1 }) => {
             const response = await axios.get(`/api/feed?page=${pageParam}&limit=5`);
             const { data } = response;
-            setCount(data.count); // Assuming count is present in the response data
             return data;
         },
         getNextPageParam: (lastPage) => {
-            const nextPage = lastPage.offset * 5;
-            return nextPage < count ? lastPage.offset+1 : false;
+          
+            return lastPage.nextCursor !== null ? lastPage.nextCursor : undefined;
         },
         
         initialPageParam: 1,
     });
 
+
     const articles = data?.pages.reduce((acc: any, page: any) => {
         return [...acc, ...page.posts];
     }, []) as Posted[];
 
-    console.log(count);
     const lastPostRef = useRef<HTMLDivElement>(null);
-    useEffect(()=>{
-        console.log(hasNextPage)
-    },[hasNextPage])
+ 
 
     useEffect(() => {
         const options = {
@@ -50,25 +47,22 @@ const Feed = ({ userId }: { userId: string }) => {
             rootMargin: '0px',
             threshold: 1.0,
         };
-
-      
         const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && hasNextPage) {
+            if (entries[0].isIntersecting && hasNextPage &&!isFetchingNextPage) {
                 fetchNextPage();
             }
         }, options);
-
-        if (lastPostRef.current) {
+    
+        if (lastPostRef.current && hasNextPage) {
             observer.observe(lastPostRef.current);
         }
-
+    
         return () => {
             if (lastPostRef.current) {
                 observer.unobserve(lastPostRef.current);
             }
         };
-    }, [lastPostRef.current, hasNextPage, fetchNextPage]);
-
+    }, [lastPostRef.current, hasNextPage, fetchNextPage, isFetchingNextPage]);
     return (
         <>
             <Toaster position="top-center" reverseOrder={false} />

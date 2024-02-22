@@ -8,50 +8,56 @@ import { FeedValidator } from '@/lib/validator/feed';
 export async function GET(req: Request) {
     try {
         const cookieStore = cookies();
-    const supabase = createServerActionClient<Database>({ cookies: () => cookieStore });
+        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore });
 
-    const { data: sessionData } = await supabase.auth.getSession();
-    const currentUserId = sessionData.session?.user.id;
-    if (!currentUserId) {
-        throw new Error("User is not authenticated");
-    }
+        const { data: sessionData } = await supabase.auth.getSession();
+        const currentUserId = sessionData.session?.user.id;
+        if (!currentUserId) {
+            throw new Error("User is not authenticated");
+        }
 
+        const url = new URL(req.url)
 
-    const url = new URL(req.url)
+        const pageParam = url.searchParams.get("page");
+        const limitParam = url.searchParams.get("limit");
 
-  const page = parseInt(url.searchParams.get("page"))
-  const limit = parseInt(url.searchParams.get("limit"))
+        // Check if parameters are null or not
+        if (!pageParam || !limitParam) {
+            return new Response("Page or limit parameter is missing", { status: 400 });
+        }
 
+        const page = parseInt(pageParam);
+        const limit = parseInt(limitParam);
 
+        if (isNaN(page) || isNaN(limit)) {
+            return new Response("Invalid page or limit", { status: 400 });
+        }
 
-  if (isNaN(page) || isNaN(limit)) {
-    return new Response("Invalid page or limit", { status: 400 });
-}
+        // Calculate the number of posts to skip
+        const posts = await prisma.post.findMany({
+            include:{
+                comments:true,
+                likes:true,
+                tags:true,
+                user:true,
+                taggedUsers:true
+            },
+            take: limit,
+            skip: (page - 1) * limit,
+            orderBy: { postedAt: 'desc' },
+        });
 
-    // Calculate the number of posts to skip
+        const count = await prisma.post.count();
+        const remainingPosts = count - (page * limit);
 
-    const posts = await prisma.post.findMany({
-        include:{
-            comments:true,
-            likes:true,
-            tags:true,
-            user:true,
-            taggedUsers:true
-        },
-        take: limit,
-        skip: (page-1)  * limit,
-        orderBy: { postedAt: 'desc' },
-        
-    });
+        // Calculate nextCursor
+        let nextCursor = null;
+        if (remainingPosts > 0) {
+            nextCursor = page + 1;
+        }
 
-    const count = await prisma.post.count();
-
-
-    return new Response(JSON.stringify({posts,"count":count,offset:page}),{status:200}) 
+        return new Response(JSON.stringify({ posts, count, offset: page, nextCursor }), { status: 200 });
     } catch (error) {
-        return new Response("Server error", { status: 500 })
+        return new Response("Server error", { status: 500 });
     }
-    
 }
-
-
