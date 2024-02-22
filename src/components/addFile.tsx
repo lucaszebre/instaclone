@@ -75,10 +75,12 @@ interface Props {
           })));
         }
       });
+    
 
+      // if we input a file that not accepted we manage it
    useEffect(()=>{
     if(fileRejections.length>0){
-      toast.error("File is not accepted");
+      toast.error("This type of File is not accepted");
       setStep(1);
       setFiles([]);
       setOpen(false)

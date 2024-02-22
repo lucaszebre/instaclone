@@ -21,7 +21,10 @@ const Filter = (props:{src:string,setCroppedImage: Dispatch<SetStateAction<strin
     const [saturation, setSaturation] = useState([100]);
     const [temp, setTemp] = useState([0]);
     const [vignette, setVignette] = useState([0]);
-
+    const [imageStyle, setImageStyle] = useState({
+      objectFit: "cover",
+      filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
+    });
 
 
     // when the compoment unmont we reset the state 
@@ -35,56 +38,63 @@ const Filter = (props:{src:string,setCroppedImage: Dispatch<SetStateAction<strin
           setVignette([0]);
         }
       )
-    },[])
-
-
-    const imageStyle = {
+    },[]) 
+   
+    useEffect(() => {
+      setImageStyle({
+        ...imageStyle,
         filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
-        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
-      };  
+      });
+    }, [luminosity, contrast, fade, saturation, temp, vignette]);
+
+   
       const Aden = {
-        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
-        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
-      };  
-      const Clarendon = {
-        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
-        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
-      };  
-      const Crema = {
-        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
-        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
-      };  
-      const Gingham = {
-        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
-        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
-      };  
-      const Juno = {
-        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
-        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
+        filter: `sepia(.2) brightness(1.15) saturate(1.4)`,
       };
+      
+      const Clarendon = {
+        filter: `sepia(.15) contrast(1.25) brightness(1.25) hue-rotate(5deg)`,
+      };
+      
+      const Crema = {
+        filter: `sepia(.5) contrast(1.25) brightness(1.15) saturate(.9) hue-rotate(-2deg)`,
+      };
+      
+      const Gingham = {
+        filter: `contrast(1.1) brightness(1.1)`,
+      };
+      
+      const Juno = {
+        filter: `sepia(.35) contrast(1.15) brightness(1.15) saturate(1.8)`,
+      };
+      
       const Lark = {
-        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
-        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
-      }; const Ludwig = {
-        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
-        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
-      }; const Moon = {
-        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
-        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
-      }; const Original = {
-        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
-        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
-      }; const Perpetua = {
-        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
-        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
-      }; const Reyes = {
-        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
-        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
-      }; const Slumber = {
-        filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
-        // boxShadow: `0 0 10px rgba(0, 0, 0, ${vignette[0] / 100})`
+        filter: `sepia(.25) contrast(1.2) brightness(1.3) saturate(1.25)`,
+      };
+      
+      const Ludwig = {
+        filter: `sepia(.25) contrast(1.05) brightness(1.05) saturate(2)`,
+      };
+      
+      const Moon = {
+        filter: `brightness(1.4) contrast(.95) saturate(0) sepia(.35)`,
+      };
+      
+      const Perpetua = {
+        filter: `contrast(1.1) brightness(1.25) saturate(1.1)`,
+      };
+      
+      const Reyes = {
+        filter: `sepia(.75) contrast(.75) brightness(1.25) saturate(1.4)`,
+      };
+      
+      const Slumber = {
+        filter: `sepia(.35) contrast(1.25) saturate(1.25)`,
       };
 
+      const applyFilter = (filterStyle:any) => {
+        setImageStyle({ objectFit: "cover", ...filterStyle });
+      };
 
       useEffect(() => {
         return () => {
@@ -117,7 +127,7 @@ const Filter = (props:{src:string,setCroppedImage: Dispatch<SetStateAction<strin
         <div  className="w-[50%] h-full relative">
         <Image id="image"   fill={true}                  
 
-          style={{ objectFit: 'cover', ...imageStyle }}
+          style={{  ...imageStyle }}
           className="w-full h-full" src={props.src} alt="" />
             </div>
         <div className="w-[50%] overflow-y-scroll mb-4 p-4">
@@ -131,40 +141,74 @@ const Filter = (props:{src:string,setCroppedImage: Dispatch<SetStateAction<strin
   <TabsContent className="w-full   relative" value='filter'>
     <div className="flex w-full flex-col  relative	 justify-start" >
     <div className="flex w-full gap-2 flex-row justify-between">
-        <div className="flex cursor-pointer cursor-pointer flex-col justify-start items-center">
-            <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
+        <div 
+        onClick={
+          ()=>{
+          applyFilter(Aden)
+        }
+        } 
+        className="flex cursor-pointer cursor-pointer flex-col justify-start items-center">
+            <img style={{ objectFit: 'cover', ...Aden }}  width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
             <span>Aden</span>
         </div>
-        <div className="flex cursor-pointer flex-col justify-center items-center">
-            <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
+        <div   onClick={
+          ()=>{
+          applyFilter(Clarendon)
+        }
+        }  className="flex cursor-pointer flex-col justify-center items-center">
+            <img style={{ objectFit: 'cover', ...Clarendon }}  width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
             <span>Clarendon</span>
         </div>
-        <div className="flex cursor-pointer flex-col justify-center items-center">
-            <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
+        <div onClick={
+          ()=>{
+          applyFilter(Crema)
+        }
+        }  className="flex cursor-pointer flex-col justify-center items-center">
+            <img style={{ objectFit: 'cover', ...Crema }}  width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
             <span>Crema</span>
         </div>
     </div>
     <div className="flex w-full gap-2 flex-row justify-between">
-        <div className="flex cursor-pointer flex-col justify-start items-center">
-            <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
+        <div onClick={
+          ()=>{
+          applyFilter(Gingham)
+        }
+        }  className="flex cursor-pointer flex-col justify-start items-center">
+            <img style={{ objectFit: 'cover', ...Gingham }}  width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
             <span>Gingham</span>
         </div>
-        <div className="flex cursor-pointer flex-col justify-center items-center">
-            <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
+        <div onClick={
+          ()=>{
+          applyFilter(Juno)
+        }
+        }  className="flex cursor-pointer flex-col justify-center items-center">
+            <img style={{ objectFit: 'cover', ...Juno }} width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
             <span>Juno</span>
         </div>
-        <div className="flex cursor-pointer flex-col justify-center items-center">
-            <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
+        <div onClick={
+          ()=>{
+          applyFilter(Lark)
+        }
+        }  className="flex cursor-pointer flex-col justify-center items-center">
+            <img style={{ objectFit: 'cover', ...Lark }} width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
             <span>Lark</span>
         </div>
     </div>
-    <div className="flex w-full gap-2 flex-row justify-between">
+    <div onClick={
+          ()=>{
+          applyFilter(Ludwig)
+        }
+        }  className="flex w-full gap-2 flex-row justify-between">
         <div className="flex cursor-pointer flex-col justify-start items-center">
-            <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
+            <img style={{ objectFit: 'cover', ...Ludwig }} width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
             <span>Ludwig</span>
         </div>
-        <div className="flex cursor-pointer flex-col justify-center items-center">
-            <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
+        <div onClick={
+          ()=>{
+          applyFilter(Moon)
+        }
+        }  className="flex cursor-pointer flex-col justify-center items-center">
+            <img width={150} style={{ objectFit: 'cover', ...Moon }} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
             <span>Moon</span>
         </div>
         <div className="flex cursor-pointer flex-col justify-center items-center">
@@ -173,16 +217,28 @@ const Filter = (props:{src:string,setCroppedImage: Dispatch<SetStateAction<strin
         </div>
     </div>
     <div className="flex w-full gap-2 flex-row justify-between">
-        <div className="flex cursor-pointer flex-col justify-start items-center">
-            <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
+        <div onClick={
+          ()=>{
+          applyFilter(Perpetua)
+        }
+        }  className="flex cursor-pointer flex-col justify-start items-center">
+            <img width={150} style={{ objectFit: 'cover', ...Perpetua }} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
             <span>Perpetua</span>
         </div>
-        <div className="flex cursor-pointer flex-col justify-center items-center">
-            <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
+        <div onClick={
+          ()=>{
+          applyFilter(Reyes)
+        }
+        }  className="flex cursor-pointer flex-col justify-center items-center">
+            <img width={150} style={{ objectFit: 'cover', ...Reyes }} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
             <span>Reyes</span>
         </div>
-        <div className="flex cursor-pointer flex-col justify-center items-center">
-            <img width={150} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
+        <div onClick={
+          ()=>{
+          applyFilter(Slumber)
+        }
+        }  className="flex cursor-pointer flex-col justify-center items-center">
+            <img width={150} style={{ objectFit: 'cover', ...Slumber }} height={150} src="https://mesinfos.fr/content/articles/383/A181383/initial-shutterstock-1082448128.jpg" alt="" />
             <span>Slumber</span>
         </div>
     </div>
