@@ -13,6 +13,7 @@ import { Like } from '@/types'
 import { useQueryClient } from '@tanstack/react-query'
 import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
 import InputEmoji from 'react-input-emoji'
+import toast from 'react-hot-toast'
 
 
 const FeedPost = (props:{id:string,bio:string,userId:string,filekey:string,image:string,username:string,date:string , likes:number,comment:string,avatarurl:string,like:Like[]}) => {
@@ -99,19 +100,31 @@ const FeedPost = (props:{id:string,bio:string,userId:string,filekey:string,image
     
     const postedComment = useMutation({
         mutationFn: async (id:string) => {
-            console.log(text,"ici")
-        await axios.post('/api/comment',
-        {
-            postId:id,
-            content:text
-        });
+            await axios.post('/api/comment',
+            {
+                postId:id,
+                content:text,
+                user:user.data
+            });
         },
-        onSuccess:()=>{
-            alert("comment add");
-            setText('')
-            queryClient.resetQueries({ queryKey: [`post${props.id}`] })
+        // onError: () => {
+        // setLike(true)
+        // setLikeCount(prev=>prev+1)
+
+        // },
+       onError:()=>{
+        toast.error( 'Error to add a comment')
+            // Other properties for the toast can be added here
         }
-    })
+       ,
+        onSuccess:()=>{
+            toast.success( 'Just add a comment')
+            // Other properties for the toast can be added here
+        
+            setText("");
+            queryClient.resetQueries({ queryKey: [`post${props.id}`] })
+        }})
+    
     
 
     const [like, setLike] = useState(props.like.some((i)=>i.userId==props.userId));
@@ -126,9 +139,13 @@ const FeedPost = (props:{id:string,bio:string,userId:string,filekey:string,image
                             <AvatarImage src={props.avatarurl} />
                             <AvatarFallback>{props.username}</AvatarFallback>
                         </Avatar>
-                        <span>
-                            {props.username} . {props.date}
-                        </span>
+                        <div className='flex gap-3 text-4xlbold flex-row '>
+                           <span className='font-bold'>
+                           {props.username}
+                            </span> <span className='font-bold text-xl'>  . </span><span>
+                            {props.date}
+                                </span> 
+                        </div>
                     </div>
                 </Link>
                 
@@ -160,14 +177,12 @@ const FeedPost = (props:{id:string,bio:string,userId:string,filekey:string,image
         
     <span>{likeCount} likes</span>
 
-    </div><div className='flex w-full flex-row justify-start'>
-        <a href="">
+    </div><div className='flex w-full flex-row gap-2 justify-start'>
+        <a className='font-bold' href="">
             {props.username}
         </a>
-
-    </div>
-    <div>
         <p>{props.bio}</p>
+
     </div>
     <div className='flex w-full flex-row justify-between items-center gap-8'>
     <InputEmoji

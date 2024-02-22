@@ -7,6 +7,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Usered } from "@/types";
+import InputEmoji from 'react-input-emoji'
 
 
 
@@ -74,7 +75,12 @@ const AddBio = (props:{src:string,preview:string,setBio:Dispatch<SetStateAction<
                                     <span>{data?.username}</span>
                                 </div>
         <Textarea value={props.bio} cols={20} rows={14}  onChange={(e)=>{props.setBio(e.target.value)}}></Textarea>
-            
+        {/* <InputEmoji
+                            inputClass=''
+                            value={props.bio}
+                            onChange={props.setBio}
+                            placeholder="Type a message"
+                        /> */}
             
         </div>
     </div>
