@@ -41,7 +41,7 @@ const path = new RegExp(
         >
               <QueryClientProvider  client={queryClient} >
 
-    <body>
+    <body suppressHydrationWarning>
     <Next13ProgressBar height="4px" color="linear-gradient(to right, 
               red, 
               orange, 

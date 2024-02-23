@@ -21,8 +21,8 @@ export default async function Page() {
   return (
     <>
      
-     <div className='flex flex-row justify-between w-full'>
-      <Feed userId={session.user.id}/>
+     <div suppressHydrationWarning={true} className='flex flex-row justify-between w-full'>
+      <Feed  userId={session.user.id}/>
       <SideProfile />
     </div>
      
