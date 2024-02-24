@@ -67,7 +67,7 @@ const Feed = ({ userId }: { userId: string }) => {
         <>
             <Toaster position="top-center" reverseOrder={false} />
             <MenuMobile />
-            <div className='max-w-[630px] mt-[60px] md:mt-0 h-screen relative flex flex-col gap-8 mb-[50px] w-full'>
+            <div suppressHydrationWarning className='max-w-[630px] mt-[60px] md:mt-0 h-screen relative flex flex-col gap-8 mb-[50px] w-full'>
                 <div className='h-[48px]  w-full justify-start flex flex-row'>
                     <span>
                         For you
