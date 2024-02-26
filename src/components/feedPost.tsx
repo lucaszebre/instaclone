@@ -155,7 +155,7 @@ const FeedPost = (props:{id:string,bio:string,userId:string,filekey:string,image
                 </FeedOption>
             
         </header>
-      <div className='flex flex-col relative w-full md:w-screen h-screen md:max-w-[468px] max-h-[468px] '>
+      <div className='flex flex-col relative w-full h-full  max-h-[468px] '>
         <Link href={`p/${props.id}`}>
             <Image className='rounded-sm w-full h-full' layout='fill'  src={props.image} fill objectFit='contain'  alt={''}/>
         </Link>

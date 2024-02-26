@@ -77,7 +77,7 @@ const Feed = ({ userId }: { userId: string }) => {
               
                         <>
                         {articles && articles.map((post: Posted, index) => (
-                            <div key={post.id} ref={index === articles.length - 1 ? lastPostRef : null}>
+                            <div className='w-full flex flex-row justify-center ' key={post.id} ref={index === articles.length - 1 ? lastPostRef : null}>
                                 <FeedPost
                                     filekey={post.filekey || ""}
                                     userId={userId}
