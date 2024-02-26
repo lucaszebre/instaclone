@@ -131,7 +131,7 @@ const FeedPost = (props:{id:string,bio:string,userId:string,filekey:string,image
 
     return (
 
-    <div className='flex flex-col  w-full h-screen gap-5 max-h-[800px]  max-w-[470px]'>
+    <div className='flex flex-col  w-full h-screen gap-5 max-h-[800px]  p-5  relative max-w-[470px]'>
         <header className='flex flex-row justify-between content-center h-[32px]'>
                 <Link href={`/${props.username}`}>
                     <div className='flex flex-row justify-start content-center gap-2'>
@@ -155,9 +155,9 @@ const FeedPost = (props:{id:string,bio:string,userId:string,filekey:string,image
                 </FeedOption>
             
         </header>
-      <div className='flex flex-col relative  w-screen h-screen max-w-[468px] max-h-[468px] '>
+      <div className='flex flex-col relative w-full md:w-screen h-screen md:max-w-[468px] max-h-[468px] '>
         <Link href={`p/${props.id}`}>
-            <Image className='rounded-sm'  src={props.image} fill style={{objectFit: "contain"}} alt={''}/>
+            <Image className='rounded-sm w-full h-full' layout='fill'  src={props.image} fill objectFit='contain'  alt={''}/>
         </Link>
       </div>
     <div className='flex h-[40px] flex-row w-full content-center justify-between'>
