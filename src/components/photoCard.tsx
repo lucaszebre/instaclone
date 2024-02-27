@@ -9,8 +9,8 @@ const PhotoCard = (props: { id:string,comment:Comment[],filekey:string, userId:s
   return (
     <>
     <ModalPost filekey={props.filekey} id={props.id} userId={props.userId} uploadDate={''} avatar={props.avatar} like={props.likes} username={props.username} likes={parseInt(props.like)} image={props.image} imgdescription={props.imgdescription} name={'ddd'} date={''} comment={props.comment}   >
-    <div className="cursor-pointer relative w-full  md:h-[200px] h-full lg:h-[300px]  ">
-    <Image priority={true} src={props.image} alt={props.imgdescription} fill={true} style={{ objectFit: 'contain'}} placeholder='blur' blurDataURL={'<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">'} />
+    <div className="cursor-pointer relative w-full   h-full h-[300px]  ">
+    <Image priority={true} src={props.image} alt={props.imgdescription} fill={true} objectFit='cover' placeholder='blur' blurDataURL={'<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">'} />
 
       <div className="absolute inset-0 h-full flex flex-row justify-center gap-2 items-center opacity-0 hover:opacity-100 transition-opacity duration-300">
         <span className="text-white text-xl content-center gap-2">

@@ -31,7 +31,7 @@ const ProfileOption: React.FC<Props> = ({    children,current,username,uploadDat
                     {children}
     
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className='w-[80%] md:w-full'>
                     <AlertBlock username={username||""} >
                         <Button className='w-full' variant="ghost">
                             Block
@@ -63,7 +63,7 @@ const ProfileOption: React.FC<Props> = ({    children,current,username,uploadDat
                     {children}
     
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className='w-[80%] md:w-full'>
                     <QRCodeDialog url='ddd'>
                         <Button className='w-full' variant="ghost">
                             Code qr

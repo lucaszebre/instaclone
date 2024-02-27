@@ -113,7 +113,7 @@ const Profile = (props:{profile:Usered}) => {
        
     return (
         <>
-        <MenuMobile profile={true} />
+        <MenuMobile username={props.profile.username} profile={true} />
         <div className='  max-w-[975px] pt-[60px] md:pt-[0px] h-full w-screen md:w-full'>
             <div className=' w-full justify-between flex flex-row h-[190px]'>
                 <div className='w-[290px] h-full flex justify-center content-center items-center md:mr-7'>
@@ -161,17 +161,17 @@ const Profile = (props:{profile:Usered}) => {
 
                     </div>
                     <div className='flex flex-row justify-start content-center text-center items-cente gap-8 w-full'>
-                        <span>
+                        <span className='text-xs sm:text-base'>
                             {props.profile.posts ? props.profile.posts.length: 0} publications
                         </span>
                         <ModalFollower id={props.profile.id}>
-                            <span>
+                            <span className='text-xs sm:text-base'>
                                 {follower} followers
                             </span>
                             </ModalFollower>
 
                             <ModalFollowing  id={props.profile.id}>
-                                <span className='cursor-pointer'>
+                                <span className='cursor-pointer text-xs sm:text-base'>
                                     {following} following
                                 </span>
                             </ModalFollowing>
@@ -193,7 +193,7 @@ const Profile = (props:{profile:Usered}) => {
 
             <Separator className='mt-10 mb-5' />
             <nav
-        className={"flex  w-full gap-4 justify-center placeholder:items-center "}
+        className={"flex  mb-4 w-full gap-4 justify-center placeholder:items-center "}
         >
         <Button
             onClick={()=>{setSave(false)}}
