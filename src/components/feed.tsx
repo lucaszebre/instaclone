@@ -73,7 +73,7 @@ const Feed = ({ userId }: { userId: string }) => {
                         For you
                     </span>
                 </div>
-                <div className='flex flex-col w-full h-screen justify-start items-center content-center gap-10'>
+                <div className='flex flex-col lg:w-full w-screen h-screen justify-start items-center content-center gap-10'>
               
                         <>
                         {articles && articles.map((post: Posted, index) => (

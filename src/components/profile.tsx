@@ -125,7 +125,7 @@ const Profile = (props:{profile:Usered}) => {
                 </OptionProfile>
                     
                 </div>
-                <div className=' h-full flex flex-col justify-center gap-4 content-center w-full'>
+                <div className=' h-full flex flex-col justify-center p-8 md:p-0 gap-4 content-center w-full'>
                     <div className='flex flex-row justify-start content-center text-center items-center gap-8 w-full'>
                         <h2 className='text-[20px]'>{props.profile.username}</h2>
                         {isFollow ? 
