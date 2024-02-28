@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { Usered } from '@/types'
 
-const MenuMobile = (props:{profile?:boolean,username:string}) => {
+const MenuMobile = (props:{profile?:boolean,username?:string}) => {
 
 
 
