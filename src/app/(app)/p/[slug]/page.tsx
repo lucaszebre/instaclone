@@ -35,7 +35,7 @@ const page = async ({ params }: PageProps) => {
 
   return (
     <div className='flex flex-row justify-center h-full items-center w-full'>
-      <Post filekey={post.filekey} userId={post.userId} image={post.imageUrl} alt={post.author} username={post.user.username} id={post.id} comments={post.comments} likes={post.likes} avatar={post.user.profilePictureUrl||""} fullName={post.user.fullName||""} city={"Paris"} randomPeopleWhoLike={''} like={post.likes.length}   />
+      <Post filekey={post.filekey ? post.filekey:""} userId={post.userId} image={post.imageUrl} alt={post.author} username={post.user.username} id={post.id} comments={post.comments} likes={post.likes} avatar={post.user.profilePictureUrl||""} fullName={post.user.fullName? post.user.fullName:""} city={"Paris"} randomPeopleWhoLike={''} like={post.likes.length}   />
     </div>
   )
 }
