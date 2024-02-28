@@ -161,7 +161,7 @@ export async function GET(req: Request) {
         })
 
         if(!savepost){
-            return []
+            return new Response(JSON.stringify([]), { status: 200 });
         }
 
         const listFollowing = await Promise.all(savepost.savePost.map(async (post) => {
