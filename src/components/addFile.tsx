@@ -24,14 +24,16 @@ interface Props {
     children: ReactNode;
   }
 
-
+  interface CustomFile extends File {
+    preview?: string;
+  }
 
 
   
   const AddFile: React.FC<Props> =   ({ children }) => {
 
     const [bio,setBio]=useState("");
-    const [files, setFiles] = useState<File[]>([]);
+    const [files, setFiles] = useState<CustomFile[]>([]);
     const [croppedImage, setCroppedImage] = useState<string>("");
     const [step,setStep]=useState(1);
     const [open, setOpen] = useState(false);
@@ -216,7 +218,7 @@ interface Props {
               }}>{step>=3 ? "Publish" :"Next"}</span>
               </DialogHeader>
               <div className="relative h-[90%] w-full">
-                <StepComponent step={step}  croppedImage={croppedImage} setCroppedImage={setCroppedImage} bio={bio} setBio={setBio}    preview={files[0].preview}  startUpload={startUpload} />
+                <StepComponent step={step}  croppedImage={croppedImage} setCroppedImage={setCroppedImage} bio={bio} setBio={setBio}    preview={files[0].preview?files[0].preview:""}  startUpload={startUpload} />
               </div>
              
               </>
