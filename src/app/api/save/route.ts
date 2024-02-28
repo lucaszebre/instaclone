@@ -17,7 +17,8 @@ export async function POST(req: Request) {
         // Get the session
         const { data: session } = await supabase.auth.getSession();
         if (!session.session?.user.id) {
-            throw new Error("User is not authenticated");
+            return new Response("User is not authenticated", { status:401})
+
         }
 
         const post = await prisma.post.findFirst({
@@ -27,7 +28,8 @@ export async function POST(req: Request) {
         })
 
         if(!post){
-            throw new Error("The post do not exist");
+            return new Response("The post do not exist", { status:401})
+
         }
 
         // Check if the post is already saved by the user
@@ -41,7 +43,7 @@ export async function POST(req: Request) {
         });
 
         if (user?.savePost.some((p)=>p==id)) {
-            return 'The post is already saved';
+            return new Response('The post is already saved', { status:200 })
         }
 
         // Update the user's avatar to null or an empty string
@@ -84,7 +86,8 @@ export async function DELETE(req: Request) {
         // Get the session
         const { data: session } = await supabase.auth.getSession();
         if (!session.session?.user.id) {
-            throw new Error("User is not authenticated");
+            return new Response("User is not authenticated", { status: 401 });
+
         }
 
         const post = await prisma.post.findFirst({
@@ -94,7 +97,8 @@ export async function DELETE(req: Request) {
         })
 
         if(!post){
-            throw new Error("The post do not exist");
+            return new Response("The post do not exist", { status: 401 });
+
         }
 
         const Savepost = await prisma.user.findFirst({
