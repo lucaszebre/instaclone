@@ -35,7 +35,7 @@ const supabase = createServerComponentClient({ cookies: () => cookieStore })
      
  
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
-      return { uploadedBy: metadata.userId,url:file.url };
+      // return { uploadedBy: metadata.userId,url:file.url };
     }),
 } satisfies FileRouter;
  
