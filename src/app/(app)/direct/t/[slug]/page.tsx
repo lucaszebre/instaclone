@@ -96,7 +96,8 @@ const Page = ({ params }: PageProps) => {
         </div>
 
         <>
-            <Chat   sessionId={slug} sessionImg={conv.data?.recipient?.profilePictureUrl || "/default-profile-image.jpg"} username={conv.data?.recipient?.username || ""} initialMessages={ conv.data?.message || []} chatId={`${conv.data?.initiator?.id}--${conv.data?.recipient?.id}`||""}         chatPartner={conv.data?.initiator}/>
+            <Chat   sessionId={slug} sessionImg={conv.data?.recipient?.profilePictureUrl || "/default-profile-image.jpg"} username={conv.data?.recipient?.username || ""} initialMessages={ conv.data?.message || []} chatId={`${conv.data?.initiator?.id}--${conv.data?.recipient?.id}`||""}         chatPartner={conv.data?.initiator}/> 
+            {/* error here */}
             </>
              
     </div>
