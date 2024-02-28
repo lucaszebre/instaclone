@@ -22,7 +22,7 @@ const Filter = (props:{src:string,setCroppedImage: Dispatch<SetStateAction<strin
     const [temp, setTemp] = useState([0]);
     const [vignette, setVignette] = useState([0]);
     const [imageStyle, setImageStyle] = useState({
-      objectFit: "cover",
+     
       filter: `brightness(${luminosity[0]}%) contrast(${contrast[0]}%) saturate(${saturation[0]}%) sepia(${fade[0]}%) hue-rotate(${temp[0]}deg)`,
     });
 
