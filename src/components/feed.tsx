@@ -5,7 +5,6 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { timeSince } from '@/lib/time';
 import { FeedPostLoader } from './loader/feedPost';
 import { Toaster } from 'react-hot-toast';
-import InfiniteScroll from "react-infinite-scroll-component";
 import FeedPost from './feedPost';
 import MenuMobile from './menuMobile';
 import { Posted } from '@/types';
