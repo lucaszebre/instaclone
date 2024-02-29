@@ -15,7 +15,7 @@ export const GallerySchema = z.object({
   id: z.string(),
   userId: z.string(),
   imageUrl: z.string(),
-  filekey:z.string().nullable(),
+  filekey:z.string().nullable().optional(),
   caption: z.string().nullable(),
   location: z.string().nullable(),
   postedAt: z.date(),
