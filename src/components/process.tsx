@@ -7,6 +7,7 @@ import { Slider } from './ui/slider';
 import AddBio from './addBio';
 import { UploadFileResponse } from 'uploadthing/client';
 import LastStepPublish from './lastStepPublish';
+import { Area } from 'react-easy-crop'; 
 
 
 
@@ -30,7 +31,7 @@ const StepComponent = (props:{ step: number,  preview: string ,croppedImage:stri
     },[])
    
  
-    const onCropComplete = async (croppedArea:number, croppedAreaPixels:number) => {
+    const onCropComplete = async (croppedArea: Area, croppedAreaPixels: Area) => {
         // console.log(croppedArea, croppedAreaPixels)
 
         // can the new image cropped here 
@@ -63,7 +64,7 @@ const StepComponent = (props:{ step: number,  preview: string ,croppedImage:stri
       </div>
       </PopoverTrigger>
       <PopoverContent className="relative">
-        <Slider onValueChange={(e)=>{setValue([e])}} defaultValue={[value]} max={30} step={1} />
+        <Slider onValueChange={(e) => setValue(e[0])}  defaultValue={[value]} max={30} step={1} /> // error here
       </PopoverContent>
     </Popover>
     <Popover >

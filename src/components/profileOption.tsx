@@ -39,7 +39,7 @@ const ProfileOption: React.FC<Props> = ({    children,current,username,uploadDat
                     </AlertBlock>
                     
                     <Button onClick={()=>{
-                        copyCurrentURL()
+                        // copyCurrentURL()
                         toast.success("Link copied");
                         
                         }} variant="ghost">
