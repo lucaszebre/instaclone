@@ -13,7 +13,7 @@ import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { useDropzone } from "@uploadthing/react/hooks";
 import { useState, useCallback } from "react";
-import StepComponent from "./process";
+import Process from "./process";
 import { setSeconds } from "date-fns";
 import toast from "react-hot-toast";
 import { useUploadThing } from "@/lib/uploadthing";
@@ -218,7 +218,7 @@ interface Props {
               }}>{step>=3 ? "Publish" :"Next"}</span>
               </DialogHeader>
               <div className="relative h-[90%] w-full">
-                <StepComponent step={step}  croppedImage={croppedImage} setCroppedImage={setCroppedImage} bio={bio} setBio={setBio}    preview={files[0].preview?files[0].preview:""}  startUpload={startUpload} />
+                <Process step={step}  croppedImage={croppedImage} setCroppedImage={setCroppedImage} bio={bio} setBio={setBio}    preview={files[0].preview?files[0].preview:""}  startUpload={startUpload} />
               </div>
              
               </>

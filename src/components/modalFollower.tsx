@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-no-undef */
 import { Dialog, DialogTrigger, DialogContent } from './ui/dialog'
-import React, { ReactNode, useEffect } from 'react'
+import React, { ReactNode } from 'react'
 import { Input } from './ui/input'
 import { DialogHeader } from './ui/dialog'
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { CardProfileLoader } from './loader/cardProfile';
 import CardSideProfile from './cardSideProfile';
@@ -14,7 +14,6 @@ interface ModalFollow {
 }
 
 const ModalFollower = (props:ModalFollow) => {
-    const queryClient = useQueryClient();
 
 
     const {

@@ -1,13 +1,7 @@
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
 import { Button } from './ui/button'
 import React, { ReactNode, useState } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Database } from '@/lib/database.type';
-import { useRouter } from 'next/navigation';
 import { copyCurrentURL } from '@/lib/copyLink';
-import { useToast } from './ui/use-toast';
-import AlertBlock from './alertBlock';
-
 import Link from 'next/link';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Usered } from '@/types';

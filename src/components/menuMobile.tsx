@@ -1,15 +1,8 @@
 import React from 'react'
 import { Input } from './ui/input'
 import Search from './search'
-import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
-import { Usered } from '@/types'
 
 const MenuMobile = (props:{profile?:boolean,username?:string}) => {
-
-
-
-
 
   if(props.profile){
     return (

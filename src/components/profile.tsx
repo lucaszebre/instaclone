@@ -2,11 +2,9 @@
 import React, {  useEffect, useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from './ui/button'
-
 import Gallery from './gallery'
 import { Separator } from "@/components/ui/separator"
 import MenuMobile from './menuMobile'
-import { useToast } from './ui/use-toast'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import OptionProfile from './avatarOption'
 import ProfileOption from './profileOption'
@@ -14,7 +12,7 @@ import axios from 'axios'
 import ModalFollowing from './modalFollowing'
 import ModalFollower from './modalFollower'
 import { ReloadIcon } from '@radix-ui/react-icons'
-import { CurrentUserValidator, Usered } from '@/lib/validator/currentUser'
+import {  Usered } from '@/lib/validator/currentUser'
 import toast from 'react-hot-toast'
 
 const Profile = (props:{profile:Usered}) => {

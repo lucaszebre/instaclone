@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch,  SetStateAction, useEffect, useState } from 'react';
 import Cropper from 'react-easy-crop';
 import Filter from './filter';
 import getCroppedImg from '@/lib/crop'
@@ -6,12 +6,11 @@ import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Slider } from './ui/slider';
 import AddBio from './addBio';
 import { UploadFileResponse } from 'uploadthing/client';
-import LastStepPublish from './lastStepPublish';
 import { Area } from 'react-easy-crop'; 
 
 
-
-const StepComponent = (props:{ step: number,  preview: string ,croppedImage:string,setCroppedImage:Dispatch<SetStateAction<string>>,setBio:Dispatch<SetStateAction<string>>,bio:string , startUpload:(files: File[], input?: undefined) => Promise<UploadFileResponse[] | undefined>}) => {
+// components for the process of publishing a image
+const Process = (props:{ step: number,  preview: string ,croppedImage:string,setCroppedImage:Dispatch<SetStateAction<string>>,setBio:Dispatch<SetStateAction<string>>,bio:string , startUpload:(files: File[], input?: undefined) => Promise<UploadFileResponse[] | undefined>}) => {
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
     const [value, setValue] = useState(2);
@@ -107,6 +106,6 @@ const StepComponent = (props:{ step: number,  preview: string ,croppedImage:stri
   }
 };
 
-export default StepComponent;
+export default Process;
 
   

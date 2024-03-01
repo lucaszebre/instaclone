@@ -2,37 +2,24 @@
 
 
 
-import React, { useContext, useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from './ui/button'
-
 import Gallery from './gallery'
 import { Separator } from "@/components/ui/separator"
 import MenuMobile from './menuMobile'
-import { useToast } from './ui/use-toast'
-
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import type { Database } from '@/lib/database.type'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import OptionProfile from './avatarOption'
+import {  useQuery} from '@tanstack/react-query'
 import ProfileOption from './profileOption'
 import AvatarOption from './avatarOption'
-import ModalFollow from './modalFollower'
 import axios from 'axios'
 import ModalFollowing from './modalFollowing'
 import ModalFollower from './modalFollower'
-import { ReloadIcon } from '@radix-ui/react-icons'
 import { useRouter } from 'next/navigation';
-import { DataContext } from '@/store/datacontext'
-import Link from 'next/link'
 import { Usered } from '@/lib/validator/currentUser'
-import { GallerySchema } from '@/lib/validator/gallery'
 
 const ProfileCurrent = (props:{profile:Usered}) => {
     const [save,setSave]=useState(false);
     const router = useRouter()
-    const queryClient = useQueryClient();
-    const user = useContext(DataContext);
     const [follower,setFollower]=useState( props.profile.followers ? props.profile.followers.length : 0)
     const [following,setFollowing]=useState(props.profile.following ? props.profile.following.length :0)
     
@@ -103,7 +90,6 @@ const ProfileCurrent = (props:{profile:Usered}) => {
                 </div>
     
                 <Separator className='mt-10 mb-10' />
-                {/* <ProfileStats publications={props.publications} followers={props.followers} following={props.following}  /> */}
                 <nav
                     className={"flex mb-4 w-full gap-4 justify-center placeholder:items-center "}
                     >
