@@ -12,9 +12,8 @@ import { ReactNode, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { useDropzone } from "@uploadthing/react/hooks";
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import Process from "./process";
-import { setSeconds } from "date-fns";
 import toast from "react-hot-toast";
 import { useUploadThing } from "@/lib/uploadthing";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -126,9 +125,7 @@ interface Props {
         }}
         ,
         onUploadError: () => {
-          
         toast.error("Error to upload the image")
-          // console.error(error)
         },
         onUploadBegin: () => {
           // toast.loading("Image is starting to upload")
@@ -176,11 +173,7 @@ interface Props {
       }
     }) 
 
-    // useEffect(()=>{
-    //   if(step>3){
-    //     beginUpload.mutate()
-    //   }
-    // },[step])
+ 
     
     // when the image is cropped we need too create a new image from it and assign
 

@@ -1,13 +1,12 @@
 'use client'
 
 
-import React, { useRef, useState } from 'react'
+import React, {  useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from 'next/link'
 
 const CardSideProfile = (props:{url:string,chatId?:string,username:string,inbox?:boolean,share?:boolean,commentText?:string,CommentDate?:string,comment?:boolean,liked?:boolean,suggestion?:boolean,followYou?:boolean,name:string,subname?:string,selected?: boolean;
     onSelect?: () => void;}) => {
-    const [Select,setSelect] = useState(false);
     if(props.suggestion){
         return (
             <div className='flex flex-row h-[50px] justify-center'>
@@ -27,7 +26,7 @@ const CardSideProfile = (props:{url:string,chatId?:string,username:string,inbox?
                 </div>
                 <div className='flex flex-col h-[100%] justify-center text-center items-center'>
                     <span className='text-[#0ea5e9]'>
-                        Suivre
+                        Follow
                     </span>
                 </div>
           </div>

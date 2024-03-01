@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
-// import { toast } from './ui/use-toast';
 import { Button } from './ui/button';
 import { UploadButton } from "@uploadthing/react";
 import { OurFileRouter } from "@/app/api/uploadthing/core";
@@ -24,7 +23,7 @@ const AvatarOption: React.FC<Props> = ({children,url,username,avatarkey}) => {
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader className='flex flex-row w-full text-center'>
-                <DialogTitle className='text-center w-full'>Modifier la photo de profil</DialogTitle>
+                <DialogTitle className='text-center w-full'>Edit the current photo</DialogTitle>
             </DialogHeader>
           
               <UploadButton<OurFileRouter>
@@ -35,7 +34,6 @@ const AvatarOption: React.FC<Props> = ({children,url,username,avatarkey}) => {
                       url:res[0].url,
                       Avatarkey:res[0].key
                     })
-                    // await NewAvatar(res[0].url,res[0].key)
                     toast.success("Upload of the image completed");
 
                   
@@ -50,10 +48,7 @@ const AvatarOption: React.FC<Props> = ({children,url,username,avatarkey}) => {
                 }}
 
                 onUploadBegin={()=>{
-                //   toast({
-                //     title: "Upload of the image just started",
-                //     description: '-_-',
-                // });
+               
                 }
               }
               
@@ -70,10 +65,10 @@ const AvatarOption: React.FC<Props> = ({children,url,username,avatarkey}) => {
           }
           
         }} variant="ghost">
-            Supprimer la photo actuelle
+            Delete the current photo
         </Button>
         <Button variant="ghost">
-            Annuler
+            Cancel
         </Button>
     </DialogContent>
 </Dialog>

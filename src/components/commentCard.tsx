@@ -3,8 +3,8 @@ import React from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu'
 import { timeSince } from '@/lib/time'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from './ui/use-toast'
 import axios from 'axios'
+import toast from 'react-hot-toast'
 
 const CommentCard = (props:{
     avatarUrl:string,
@@ -24,19 +24,11 @@ const CommentCard = (props:{
         await axios.delete(`/api/comment?id=${props.id}&postid=${props.postId}`);
         },
         onError: () => {
-          toast({
-            title: "Problem -_-",
-            description: 'Error to delete the comment',
-            variant:'destructive'
-            // Other properties for the toast can be added here
-        });
+          toast.error('Error to delete the comment');
         },
        
         onSuccess:()=>{
              queryClient.invalidateQueries({ queryKey: [`user`] })
-            
-        
-        
      }
 
     }

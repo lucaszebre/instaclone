@@ -1,7 +1,7 @@
 "use client"
 
 /* eslint-disable react/jsx-no-undef */
-import { Button, buttonVariants } from './ui/button'
+import { Button } from './ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Textarea } from './ui/textarea'
 import {
@@ -12,8 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import toast from 'react-hot-toast';
-import { uploadFiles } from '@/lib/uploadthing'
-import React, { ReactNode, useState } from 'react'
+import React, {  useState } from 'react'
 import { UploadButton } from "@uploadthing/react";
 import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -35,7 +34,6 @@ const Edit = (props:{
       await axios.post("/api/profile",{
         bio,gender
       })
-    // await editProfile(bio,gender);
     },
     onError: () => {
       toast.error('Error to edit the profile');
@@ -90,10 +88,7 @@ const Edit = (props:{
                 }}
 
                 onUploadBegin={()=>{
-                //   toast({
-                //     title: "Upload of the image just started",
-                //     description: '-_-',
-                // });
+              
                 }
               }
               

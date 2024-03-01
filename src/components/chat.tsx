@@ -1,6 +1,5 @@
 "use client"
 import React, { FC, useEffect, useRef, useState } from 'react'
-import { Input } from './ui/input'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { pusherClient } from '@/lib/pusher'
 import { cn, toPusherKey } from '@/lib/utils'
@@ -92,8 +91,6 @@ const Chat: FC<MessagesProps> = ({
     }
   }
 
-  console.log((sessionImg as string) )
-  console.log(chatPartner?.profilePictureUrl )
   
   return (
     <div className='flex relative  flex-col w-[100%] h-[100%]'>

@@ -2,7 +2,6 @@ import Image from "next/image";
 import { Textarea } from "./ui/textarea";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useUploadThing } from "@/lib/uploadthing";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";

@@ -5,7 +5,6 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.type';
 import { useRouter } from 'next/navigation';
 import { copyCurrentURL } from '@/lib/copyLink';
-import AlertBlock from './alertBlock';
 import AboutThisAccount from './aboutThisAccount';
 import QRCodeDialog from './qrcode';
 import toast from 'react-hot-toast';
@@ -32,11 +31,7 @@ const ProfileOption: React.FC<Props> = ({    children,current,username,uploadDat
     
                 </DialogTrigger>
                 <DialogContent className='w-[80%] md:w-full'>
-                    <AlertBlock username={username||""} >
-                        <Button className='w-full' variant="ghost">
-                            Block
-                        </Button>
-                    </AlertBlock>
+                   
                     
                     <Button onClick={()=>{
                         // copyCurrentURL()

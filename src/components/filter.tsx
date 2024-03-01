@@ -1,14 +1,10 @@
 // import AnotherComponent from './AnotherComponent'; // Import AnotherComponent if needed
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Slider } from "@/components/ui/slider"
-import { cn } from "@/lib/utils"
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import domtoimage from 'dom-to-image';
-import html2canvas from 'html2canvas';
 import { modifyImageProperties } from "@/lib/modifyImage";
 import { useMutation } from "@tanstack/react-query";
-import { json } from "stream/consumers";
 
 
 
@@ -99,7 +95,7 @@ const Filter = (props:{src:string,setCroppedImage: Dispatch<SetStateAction<strin
       useEffect(() => {
         return () => {
            insertFilter.mutate();
-           const style = localStorage.setItem('filter',JSON.stringify(imageStyle));
+            localStorage.setItem('filter',JSON.stringify(imageStyle));
 
         };
       }, []);
