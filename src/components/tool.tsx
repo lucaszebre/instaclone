@@ -10,6 +10,7 @@ interface Props {
     children: ReactNode;
     name:string
 }
+// toottip is the components that gonna show the name when being over 
 const Tool: React.FC<Props> = ({ children , name }) => {
 
 return (
