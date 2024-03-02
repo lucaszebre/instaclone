@@ -1,9 +1,8 @@
 import Edit from '@/components/edit';
 import React from 'react';
 import { useQuery } from 'react-query';
-import notFound from '../not-found';
 import getUserProfile from '@/lib/getUserProfile';
-
+import { notFound } from 'next/navigation';
 const Page = () => {
   const { data: profile, isLoading, isError } = useQuery('userProfile', getUserProfile);
 
