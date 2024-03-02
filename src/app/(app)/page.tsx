@@ -31,6 +31,14 @@ function Page() {
       return <p>Loading...</p>;
   }
 
+  if(!sessionData.user.id){
+    return (
+      <div>
+        Error feed
+      </div>
+    )
+  }
+
   // if (sessionData) {
   //     router.push('/');
   //     return null; // No need to render anything if redirecting
@@ -40,7 +48,7 @@ function Page() {
     <>
      
      <div suppressHydrationWarning={true} className='flex flex-row justify-between w-full'>
-      <Feed  userId={sessionData.user?.id}/>
+      <Feed  userId={sessionData.user.id}/>
       <SideProfile />
     </div>
      
