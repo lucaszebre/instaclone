@@ -21,5 +21,5 @@ const Gallery = (props:{photos?: GalleryType[]} ) => {
 
 
 
-export default dynamic (() => Promise.resolve(Gallery), {ssr: false})
+export default Gallery
 

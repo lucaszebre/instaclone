@@ -82,4 +82,4 @@ const CommentCard = (props:{
 
 
 
-export default dynamic (() => Promise.resolve(CommentCard), {ssr: false})
+export default CommentCard

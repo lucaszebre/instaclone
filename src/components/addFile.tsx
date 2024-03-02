@@ -240,6 +240,4 @@ interface Props {
   );
 };
 
-
-
-export default dynamic (() => Promise.resolve(AddFile), {ssr: false})
+export default AddFile

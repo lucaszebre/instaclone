@@ -130,5 +130,5 @@ interface NewMessageProps {
 };
 
 
-export default dynamic (() => Promise.resolve(NewMessage), {ssr: false})
+export default NewMessage
 

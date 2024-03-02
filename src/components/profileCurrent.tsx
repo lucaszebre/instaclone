@@ -119,5 +119,4 @@ const ProfileCurrent = (props:{profile:Usered}) => {
 
 
 
-export default dynamic (() => Promise.resolve(ProfileCurrent), {ssr: false})
-
+  export default ProfileCurrent

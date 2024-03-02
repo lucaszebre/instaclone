@@ -80,4 +80,4 @@ const AvatarOption: React.FC<Props> = ({children,url,username,avatarkey}) => {
 
 
 
-export default dynamic (() => Promise.resolve(AvatarOption), {ssr: false})
+export default AvatarOption

@@ -30,6 +30,5 @@ const PhotoCard = (props: { id:string,comment:Comment[],filekey:string, userId:s
 
 
 
-export default dynamic (() => Promise.resolve(PhotoCard), {ssr: false})
-
+export default PhotoCard
 

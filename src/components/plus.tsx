@@ -60,4 +60,4 @@ interface Props {
 
 
 
-export default dynamic (() => Promise.resolve(Plus), {ssr: false})
+export default Plus

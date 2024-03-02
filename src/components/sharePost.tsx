@@ -105,5 +105,4 @@ const SharePost: React.FC<Props> = ({children}) =>  {
 
 
 
-export default dynamic (() => Promise.resolve(SharePost), {ssr: false})
-
+export default SharePost

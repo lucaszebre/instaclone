@@ -30,4 +30,4 @@ return (
 
 
 
-export default dynamic (() => Promise.resolve(Tool), {ssr: false})
+export default Tool

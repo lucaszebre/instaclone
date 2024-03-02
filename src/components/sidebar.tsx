@@ -151,4 +151,4 @@ const path = new RegExp(
 }
 
 
-export default dynamic (() => Promise.resolve(Sidebar), {ssr: false})
+export default Sidebar

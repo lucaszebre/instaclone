@@ -223,4 +223,4 @@ const Profile = (props:{profile:Usered}) => {
 
 
 
-export default dynamic (() => Promise.resolve(Profile), {ssr: false})
+export default Profile

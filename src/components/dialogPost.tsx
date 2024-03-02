@@ -131,5 +131,5 @@ const DialogPost: React.FC<Props> = ({children,id,likes,avatarurl,username,image
 }
 
 
-export default dynamic (() => Promise.resolve(DialogPost), {ssr: false})
+export default DialogPost
 

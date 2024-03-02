@@ -112,4 +112,4 @@ const Feed = ({ userId }: { userId: string }) => {
 
 
 
-export default dynamic (() => Promise.resolve(Feed), {ssr: false})
+export default Feed

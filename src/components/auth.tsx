@@ -43,5 +43,5 @@ function Auth() {
 }
 
 
+export default Auth
 
-export default dynamic (() => Promise.resolve(Auth), {ssr: false})

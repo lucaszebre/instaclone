@@ -21,5 +21,5 @@ const InboxCard = (props:{username:string,last:string,avatar:string}) => {
 
 
 
-export default dynamic (() => Promise.resolve(InboxCard), {ssr: false})
+export default InboxCard
 

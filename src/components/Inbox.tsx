@@ -49,4 +49,4 @@ const Inbox = (props:{
 }
 
 
-export default dynamic (() => Promise.resolve(Inbox), {ssr: false})
+export default Inbox

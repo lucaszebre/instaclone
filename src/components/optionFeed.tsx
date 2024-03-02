@@ -156,5 +156,5 @@ const FeedOption: React.FC<Props> = ({  id,userId,  children,follow,post,filekey
 }
 
 
-export default dynamic (() => Promise.resolve(FeedOption), {ssr: false})
+export default FeedOption
 

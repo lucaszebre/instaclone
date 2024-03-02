@@ -205,4 +205,4 @@ const CardSideProfile = (props:{url:string,chatId?:string,username:string,inbox?
 
 
 
-export default dynamic (() => Promise.resolve(CardSideProfile), {ssr: false})
+export default CardSideProfile

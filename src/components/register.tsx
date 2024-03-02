@@ -142,4 +142,4 @@ import dynamic from "next/dynamic"
 }
 
 
-export default dynamic (() => Promise.resolve(Register), {ssr: false})
+export default Register

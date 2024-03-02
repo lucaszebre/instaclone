@@ -12,10 +12,8 @@ import { useQueryClient } from '@tanstack/react-query'
 import {  Usered } from '@/lib/validator/currentUser'
 import InputEmoji from 'react-input-emoji'
 import toast from 'react-hot-toast'
-import dynamic from 'next/dynamic'
 
-
-const FeedPost = (props:{id:string,bio:string,userId:string,filekey:string,image:string,username:string,date:string , likes:number,comment:string,avatarurl:string,like:Like[]}) => {
+ const FeedPost = (props:{id:string,bio:string,userId:string,filekey:string,image:string,username:string,date:string , likes:number,comment:string,avatarurl:string,like:Like[]}) => {
     const queryClient = useQueryClient()
     const [ text, setText ] = useState('')
 
@@ -189,5 +187,5 @@ const FeedPost = (props:{id:string,bio:string,userId:string,filekey:string,image
 }
 
 
+export default FeedPost
 
-export default dynamic (() => Promise.resolve(FeedPost), {ssr: false})

@@ -90,4 +90,4 @@ interface Props {
 };
 
 
-export default dynamic (() => Promise.resolve(Search), {ssr: false})
+export default Search

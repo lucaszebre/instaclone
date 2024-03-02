@@ -32,4 +32,4 @@ const MenuMobile = (props:{profile?:boolean,username?:string}) => {
 
 
 
-export default dynamic (() => Promise.resolve(MenuMobile), {ssr: false})
+export default MenuMobile

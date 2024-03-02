@@ -61,5 +61,5 @@ const ModalFollower = (props:ModalFollow) => {
 
 
 
-export default dynamic (() => Promise.resolve(ModalFollower), {ssr: false})
+export default ModalFollower
 

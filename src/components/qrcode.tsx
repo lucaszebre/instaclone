@@ -42,4 +42,4 @@ const QRCodeDialog: React.FC<Props> = ({ children,url}) => {
 
 
 
-export default dynamic (() => Promise.resolve(QRCodeDialog), {ssr: false})
+export default QRCodeDialog

@@ -123,4 +123,4 @@ export function Login() {
 }
 
 
-export default dynamic (() => Promise.resolve(Login), {ssr: false})
+export default Login

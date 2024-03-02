@@ -250,4 +250,4 @@ function ModalPost(props: ModalPostProps) {
 }
 
 
-export default dynamic (() => Promise.resolve(ModalPost), {ssr: false})
+export default ModalPost

@@ -242,4 +242,4 @@ const Post = (props:{
 
 
 
-export default dynamic (() => Promise.resolve(Post), {ssr: false})
+export default Post

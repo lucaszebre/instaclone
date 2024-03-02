@@ -88,4 +88,4 @@ const AddBio = (props:{src:string,preview:string,setBio:Dispatch<SetStateAction<
 
 
 
-export default dynamic (() => Promise.resolve(AddBio), {ssr: false})
+export default AddBio

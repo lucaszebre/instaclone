@@ -136,4 +136,4 @@ const Edit = (props:{
 
 
 
-export default dynamic (() => Promise.resolve(Edit), {ssr: false})
+export default Edit

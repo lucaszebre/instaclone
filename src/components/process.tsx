@@ -110,7 +110,6 @@ const Process = (props:{ step: number,  preview: string ,croppedImage:string,set
 
 
 
-export default dynamic (() => Promise.resolve(Process), {ssr: false})
-
+export default Process
 
   

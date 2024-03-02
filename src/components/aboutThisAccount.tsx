@@ -8,7 +8,6 @@ import {
     DialogTrigger,
   } from "@/components/ui/dialog"
 import { DialogHeader } from './ui/dialogInbox'
-import dynamic from "next/dynamic";
 
   interface ModalPostProps {
     name: string;
@@ -51,6 +50,6 @@ import dynamic from "next/dynamic";
   )
 }
 
+export default AboutThisAccount
 
-export default dynamic (() => Promise.resolve(AboutThisAccount), {ssr: false})
 

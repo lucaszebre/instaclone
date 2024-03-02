@@ -197,4 +197,4 @@ const Chat: FC<MessagesProps> = ({
 
 
 
-export default dynamic (() => Promise.resolve(Chat), {ssr: false})
+export default Chat

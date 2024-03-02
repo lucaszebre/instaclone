@@ -280,4 +280,4 @@ const Filter = (props:{src:string,setCroppedImage: Dispatch<SetStateAction<strin
 
 
 
-export default dynamic (() => Promise.resolve(Filter), {ssr: false})
+export default Filter

@@ -15,6 +15,6 @@ const CurrentAvatar = (props:{user:User}) => {
 
 
 
-export default dynamic (() => Promise.resolve(CurrentAvatar), {ssr: false})
+export default CurrentAvatar
 
 

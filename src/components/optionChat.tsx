@@ -48,5 +48,5 @@ const ChatOption: React.FC<Props> = ({  id,  children
 }
 
 
-export default dynamic (() => Promise.resolve(ChatOption), {ssr: false})
+export default ChatOption
 

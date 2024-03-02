@@ -84,4 +84,4 @@ const ProfileOption: React.FC<Props> = ({    children,current,username,uploadDat
 
 
 
-export default dynamic (() => Promise.resolve(ProfileOption), {ssr: false})
+export default ProfileOption

@@ -81,5 +81,4 @@ const SideProfile = () => {
 
 
 
-export default dynamic (() => Promise.resolve(SideProfile), {ssr: false})
-
+export default SideProfile
