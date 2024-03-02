@@ -29,7 +29,7 @@ const path = new RegExp(
 );
 
   return (
-  <html lang="en">
+  <html suppressHydrationWarning lang="en">
     <head />
     <ThemeProvider
           attribute="class"

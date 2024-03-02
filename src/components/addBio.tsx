@@ -64,9 +64,7 @@ const AddBio = (props:{src:string,preview:string,setBio:Dispatch<SetStateAction<
         <div className="w-[50%]">
 
                
-        <div>
-
-        </div>
+       
      
         <div className='flex flex-row mb-4 justify-start gap-2'>
                                     <Avatar className='max-w-[200px] max-h-[200px]'>
