@@ -1,5 +1,5 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 
+/* eslint-disable react-hooks/rules-of-hooks */
 import Edit from '@/components/edit'
 import React from 'react'
 import { cookies } from 'next/headers'
