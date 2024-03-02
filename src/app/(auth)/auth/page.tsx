@@ -1,4 +1,8 @@
 "use client"
+export const dynamic = 'force-dynamic'
+export const revalidate = 0;
+export const dynamicParams = true
+
 import React from 'react';
 import Auth from '@/components/auth';
 import supabaSingleton from '@/lib/supabaSingleton';

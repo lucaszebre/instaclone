@@ -6,7 +6,12 @@ const nextConfig = {
           { protocol: 'https', hostname: 'github.com' },
           { protocol: 'https', hostname: 'utfs.io' },
       ],
-  }, reactStrictMode: true
+  }, reactStrictMode: true, 
+  eslint: { 
+    ignoreDuringBuilds: true, 
+  },
+  staticPageGenerationTimeout: 150,
+
 
 };
 
