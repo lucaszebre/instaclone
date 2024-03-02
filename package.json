@@ -43,8 +43,6 @@
     "date-fns": "^3.0.6",
     "dom-to-image": "^2.6.0",
     "html2canvas": "^1.4.1",
-    "js-cookie": "^3.0.5",
-    "js-cookies": "^1.0.4",
     "jsonwebtoken": "^9.0.2",
     "lodash.debounce": "^4.0.8",
     "nanoid": "^5.0.2",
@@ -94,7 +92,8 @@
     "prisma": "^5.9.1",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
-  } ,"resolutions": {
+  },
+  "resolutions": {
     "react-countup/countup.js": "2.5.0"
   }
 }

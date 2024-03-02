@@ -9,8 +9,7 @@ const nextConfig = {
   }, reactStrictMode: true, 
   eslint: { 
     ignoreDuringBuilds: true, 
-  },
-  staticPageGenerationTimeout: 100000,
+  }
 
 
 };
