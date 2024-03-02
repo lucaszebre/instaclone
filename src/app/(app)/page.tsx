@@ -1,29 +1,45 @@
 /* eslint-disable react/jsx-no-undef */
+"use client"
 
-export const dynamic = 'force-dynamic'
-export const revalidate = 0;
+
+
 import React from 'react';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+
+import {  useRouter } from 'next/navigation';
 import SideProfile from '@/components/sideProfile';
 import Feed from '@/components/feed';
+import supabaSingleton from '@/lib/supabaSingleton';
+import { useQuery } from '@tanstack/react-query';
 
-export default async function Page() {
-  const supabase = createServerComponentClient({ cookies });
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+export default  function Page() {
+  const router = useRouter();
+  const supabase = supabaSingleton();
 
-  if (!session) {
-    redirect("/auth");
+
+
+  const { isLoading, data: sessionData } =useQuery({
+    queryFn: async () => {
+      
+        const { data: { session } } = await supabase.auth.getSession();
+        return session as any;
+    },
+    queryKey: [`session`]
+    })
+
+  if (isLoading) {
+      return <p>Loading...</p>;
   }
- 
+
+  // if (sessionData) {
+  //     router.push('/');
+  //     return null; // No need to render anything if redirecting
+  // }
+
   return (
     <>
      
      <div suppressHydrationWarning={true} className='flex flex-row justify-between w-full'>
-      <Feed  userId={session.user.id}/>
+      <Feed  userId={sessionData.user.id}/>
       <SideProfile />
     </div>
      

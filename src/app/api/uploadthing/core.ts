@@ -1,4 +1,7 @@
 export const dynamic = 'force-dynamic'
+export const revalidate = 0;
+export const dynamicParams = true
+
 
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { cookies } from 'next/headers'

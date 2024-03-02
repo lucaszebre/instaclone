@@ -1,5 +1,9 @@
 "use server"
 export const dynamic = 'force-dynamic'
+export const revalidate = 0;
+export const dynamicParams = true
+
+
 import { cookies } from 'next/headers';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import prisma from '@/lib/db';

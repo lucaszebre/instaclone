@@ -1,20 +1,30 @@
 export const dynamic = 'force-dynamic'
 export const revalidate = 0;
+export const dynamicParams = true
+export const runtime = 'nodejs'
+
 import Edit from '@/components/edit'
 import React from 'react'
-import { cookies } from 'next/headers'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import prisma from '@/lib/db'
 import { notFound } from 'next/navigation'
+import supabaSingleton from '@/lib/supabaSingleton';
+import { useQuery } from '@tanstack/react-query';
 const Page = async () => {
-  
-  const cookieStore = cookies()
-  const supabase = createServerComponentClient({ cookies: () => cookieStore })
-        // This code runs on your server before upload
-        const {
-          data: { session },
-        } = await supabase.auth.getSession()
-  
+  const supabase = supabaSingleton();
+
+
+
+  const { isLoading, data: session } =useQuery({
+    queryFn: async () => {
+      
+        const { data: { session } } = await supabase.auth.getSession();
+        return session;
+    },
+    
+    queryKey: [`session`]
+    
+    })
+
   const userId=session?.user.id;
   
   // if user not auth can't acces and get redirect 

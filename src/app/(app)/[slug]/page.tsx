@@ -1,4 +1,5 @@
 'use client'
+
 import Profile from '@/components/profile'
 import { useQuery } from '@tanstack/react-query'
 import ProfileCurrent from '@/components/profileCurrent'
@@ -10,7 +11,6 @@ interface PageProps {
     slug: string
   }
 }
-export const dynamic = 'force-dynamic'
 
 const Page = ({ params }: PageProps) => {
   const { slug } = params

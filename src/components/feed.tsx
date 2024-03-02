@@ -11,6 +11,7 @@ import { Posted } from '@/types';
 
 const Feed = ({ userId }: { userId: string }) => {
 
+    console.log(userId)
     const {
         data,
         fetchNextPage,

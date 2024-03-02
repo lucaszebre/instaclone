@@ -1,4 +1,7 @@
 "use client"
+export const dynamic = 'force-dynamic'
+export const revalidate = 0;
+export const dynamicParams = true
 
 import Chat from '@/components/chat'
 import { Conversation } from '@/lib/validator/convertation'
@@ -16,7 +19,7 @@ interface PageProps {
     }
 }
 
-export const dynamic = 'force-dynamic'
+
 
 
 const Page = ({ params }: PageProps) => {

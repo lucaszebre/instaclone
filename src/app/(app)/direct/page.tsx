@@ -1,5 +1,9 @@
 "use client"
 export const dynamic = 'force-dynamic'
+export const revalidate = 0;
+export const dynamicParams = true
+
+
 import NewMessage from '@/components/newMessage'
 import { Button } from '@/components/ui/button'
 import CardSideProfile from '@/components/cardSideProfile';

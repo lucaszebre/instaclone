@@ -1,4 +1,7 @@
 export const dynamic = 'force-dynamic'
+export const revalidate = 0;
+export const dynamicParams = true
+
 
 import { Database } from '@/lib/database.type';
 import prisma from '@/lib/db';

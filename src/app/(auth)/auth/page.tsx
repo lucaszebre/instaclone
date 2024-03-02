@@ -1,23 +1,41 @@
-'use server'
-
+"use client"
 import React from 'react';
 import Auth from '@/components/auth';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
-export default async function Home() {
-    const supabase = createServerComponentClient({ cookies });
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-  
-    if (session) {
-      redirect("/");
+import supabaSingleton from '@/lib/supabaSingleton';
+import { useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+
+export default function Home() {
+    const router = useRouter();
+    const supabase = supabaSingleton();
+
+
+
+    const { isLoading, data: sessionData } =useQuery({
+      queryFn: async () => {
+        
+          const { data: { session } } = await supabase.auth.getSession();
+          return session;
+      },
+      
+      queryKey: [`session`]
+      
+      })
+
+    if (isLoading) {
+        return <p>Loading...</p>;
     }
-return (
-   
-    <>
-        <Auth />
-    </>
+
+    
+
+    if (sessionData) {
+      router.push('/');
+  }
+
+
+    return (
+        <>
+            <Auth />
+        </>
     );
 }

@@ -26,11 +26,13 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import type { Database } from '@/lib/database.type'
 import { useRouter } from 'next/navigation'
 import toast from "react-hot-toast"
+import { QueryClient } from "@tanstack/react-query"
 
 export function Login() {
   const [isLoading,setIsLoading] = useState(false)
   const supabase = createClientComponentClient<Database>()
   const router = useRouter()
+  const queryClient = new QueryClient()
 
   const form = useForm<z.infer<typeof SchemaLogin>>({
     resolver: zodResolver(SchemaLogin),
@@ -53,6 +55,8 @@ export function Login() {
             // Other properties for the toast can be added here
         );
         }
+        queryClient.refetchQueries({ queryKey: [`session`] })
+        router.push('/')
         router.refresh()
           setIsLoading(false)
 

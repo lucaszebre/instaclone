@@ -1,5 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 export const dynamic = 'force-dynamic'
+export const revalidate = 0;
+export const dynamicParams = true
+
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'

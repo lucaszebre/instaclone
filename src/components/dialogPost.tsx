@@ -1,5 +1,5 @@
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar'
-import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from './ui/dialog'
+import { Dialog, DialogTrigger, DialogContent } from './ui/dialog'
 import { ScrollArea } from './ui/scroll-area'
 import React, { ReactNode, useState } from 'react'
 import SharePost from './sharePost'
