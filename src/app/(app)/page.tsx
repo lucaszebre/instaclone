@@ -40,7 +40,7 @@ function Page() {
     <>
      
      <div suppressHydrationWarning={true} className='flex flex-row justify-between w-full'>
-      <Feed  userId={sessionData.user.id}/>
+      <Feed  userId={sessionData.user?.id}/>
       <SideProfile />
     </div>
      
