@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { fetchRedis } from '@/lib/utils'
 import { Database } from '@/lib/database.type'
 import prisma, { db } from '@/lib/db'

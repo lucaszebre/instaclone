@@ -1,4 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+export const dynamic = 'force-dynamic'
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import type { Database } from '@/lib/database.type'

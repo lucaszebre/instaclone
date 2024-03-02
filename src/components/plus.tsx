@@ -1,4 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
+export const dynamic = 'force-dynamic'
+
 import {
     DropdownMenu,
     DropdownMenuContent,

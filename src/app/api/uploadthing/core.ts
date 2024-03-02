@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'

@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import prisma, { db } from '@/lib/db';
 import { cookies } from 'next/headers'
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
