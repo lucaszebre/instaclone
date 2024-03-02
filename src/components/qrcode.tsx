@@ -1,8 +1,10 @@
+"use client"
 /* eslint-disable react/jsx-no-undef */
 import Image from 'next/image';
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
 import React, { ReactNode, useEffect, useState } from 'react'
 import QRCode from "qrcode";
+import dynamic from 'next/dynamic';
 
 
 interface Props {
@@ -38,4 +40,6 @@ const QRCodeDialog: React.FC<Props> = ({ children,url}) => {
     )
 }
 
-export default QRCodeDialog
+
+
+export default dynamic (() => Promise.resolve(QRCodeDialog), {ssr: false})

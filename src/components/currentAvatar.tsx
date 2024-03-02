@@ -1,6 +1,8 @@
+"use client"
 import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { User } from '@/types'
+import dynamic from 'next/dynamic';
 
 const CurrentAvatar = (props:{user:User}) => {
     return (
@@ -11,5 +13,8 @@ const CurrentAvatar = (props:{user:User}) => {
     );
 };
 
-export default CurrentAvatar;
+
+
+export default dynamic (() => Promise.resolve(CurrentAvatar), {ssr: false})
+
 

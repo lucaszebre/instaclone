@@ -1,9 +1,4 @@
 "use client"
-export const dynamic = 'force-dynamic'
-export const revalidate = 0;
-export const dynamicParams = true
-
-
 import CardSideProfile from '@/components/cardSideProfile';
 import NewMessage from '@/components/newMessage';
 import { Conversation } from '@/lib/validator/convertation';
@@ -13,6 +8,7 @@ import axios from 'axios';
 import React from 'react'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
 
  const Page = () => {
 
@@ -100,7 +96,9 @@ import { useState } from 'react';
   )
 }
 
-export default Page
+
+export default dynamic (() => Promise.resolve(Page), {ssr: false})
+
 
 
 

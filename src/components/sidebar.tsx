@@ -14,8 +14,9 @@ import {  useQuery } from "@tanstack/react-query"
 import Link from "next/link"
 import axios from "axios"
 import {  Usered } from "@/lib/validator/currentUser"
+import dynamic from "next/dynamic"
 
-export function Sidebar() {
+ function Sidebar() {
   
   const { setSide, side,short,setShort } = useStore()
   const [search,setSearch]=useState(false)
@@ -148,3 +149,6 @@ const path = new RegExp(
 </div>
     )
 }
+
+
+export default dynamic (() => Promise.resolve(Sidebar), {ssr: false})

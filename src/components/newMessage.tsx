@@ -1,3 +1,4 @@
+"use client"
 import React, { ReactNode, useCallback, useRef, useState } from 'react';
     import {
     Dialog,
@@ -18,6 +19,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { Search } from '@/lib/validator/search';
 import toast from 'react-hot-toast';
+import dynamic from 'next/dynamic';
 
 interface NewMessageProps {
     children: ReactNode;
@@ -127,4 +129,6 @@ interface NewMessageProps {
   );
 };
 
-export default NewMessage;
+
+export default dynamic (() => Promise.resolve(NewMessage), {ssr: false})
+

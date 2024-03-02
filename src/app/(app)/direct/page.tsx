@@ -1,7 +1,5 @@
 "use client"
-export const dynamic = 'force-dynamic'
-export const revalidate = 0;
-export const dynamicParams = true
+
 
 
 import NewMessage from '@/components/newMessage'
@@ -13,6 +11,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import React from 'react'
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
 
  const Page = () => {
     const Conv =useQuery({
@@ -98,7 +97,9 @@ import { useState } from 'react';
   )
 }
 
-export default Page
+
+
+export default dynamic (() => Promise.resolve(Page), {ssr: false})
 
 
 

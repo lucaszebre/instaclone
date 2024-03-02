@@ -1,15 +1,14 @@
 "use client"
-export const dynamic = 'force-dynamic'
-export const revalidate = 0;
-export const dynamicParams = true
+
 
 import React from 'react';
 import Auth from '@/components/auth';
 import supabaSingleton from '@/lib/supabaSingleton';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
+import dynamic from 'next/dynamic';
 
-export default function Home() {
+ function Home() {
     const router = useRouter();
     const supabase = supabaSingleton();
 
@@ -43,3 +42,6 @@ export default function Home() {
         </>
     );
 }
+
+
+export default dynamic (() => Promise.resolve(Home), {ssr: false})

@@ -3,7 +3,6 @@
 import '../globals.css'
 import { ThemeProvider } from 'next-themes';
 import React from 'react'
-import { Sidebar } from '@/components/sidebar';
 import {
   QueryClient,
   QueryClientProvider,
@@ -11,6 +10,7 @@ import {
 import { Next13ProgressBar } from 'next13-progressbar';
 import { usePathname } from 'next/navigation';
 import { Toaster } from 'react-hot-toast';
+import Sidebar from '@/components/sidebar';
 
 
 
@@ -71,3 +71,5 @@ const path = new RegExp(
   </html>
   )
 }
+
+

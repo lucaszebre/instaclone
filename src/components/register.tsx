@@ -24,9 +24,10 @@ import { Icons } from "./icons"
 import React, { SetStateAction, useState } from "react"
 import axios from "axios"
 import toast, { Toaster } from "react-hot-toast"
+import dynamic from "next/dynamic"
 
 
-export function Register() {
+ function Register() {
     const [isLoading,setIsLoading] = useState(false)
     const form = useForm<z.infer<typeof SchemaRegister>>({
         resolver: zodResolver(SchemaRegister),
@@ -139,3 +140,6 @@ export function Register() {
         
     )
 }
+
+
+export default dynamic (() => Promise.resolve(Register), {ssr: false})

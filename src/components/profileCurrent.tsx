@@ -16,6 +16,7 @@ import ModalFollowing from './modalFollowing'
 import ModalFollower from './modalFollower'
 import { useRouter } from 'next/navigation';
 import { Usered } from '@/lib/validator/currentUser'
+import dynamic from 'next/dynamic'
 
 const ProfileCurrent = (props:{profile:Usered}) => {
     const [save,setSave]=useState(false);
@@ -116,4 +117,7 @@ const ProfileCurrent = (props:{profile:Usered}) => {
             </>
   )}
 
-export default ProfileCurrent
+
+
+export default dynamic (() => Promise.resolve(ProfileCurrent), {ssr: false})
+

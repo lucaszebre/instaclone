@@ -1,3 +1,4 @@
+"use client"
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
 import { Button } from './ui/button'
 import React, { ReactNode } from 'react'
@@ -8,6 +9,7 @@ import { copyCurrentURL } from '@/lib/copyLink';
 import AboutThisAccount from './aboutThisAccount';
 import QRCodeDialog from './qrcode';
 import toast from 'react-hot-toast';
+import dynamic from 'next/dynamic';
 
 interface Props {
     children: ReactNode;
@@ -80,4 +82,6 @@ const ProfileOption: React.FC<Props> = ({    children,current,username,uploadDat
     )
 }
 
-export default ProfileOption
+
+
+export default dynamic (() => Promise.resolve(ProfileOption), {ssr: false})

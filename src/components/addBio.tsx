@@ -1,3 +1,4 @@
+'use client'
 import Image from "next/image";
 import { Textarea } from "./ui/textarea";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
@@ -7,6 +8,7 @@ import toast from "react-hot-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Usered } from "@/types";
 import InputEmoji from 'react-input-emoji'
+import dynamic from "next/dynamic";
 
 
 
@@ -86,4 +88,6 @@ const AddBio = (props:{src:string,preview:string,setBio:Dispatch<SetStateAction<
   ) 
 };
 
-export default AddBio;
+
+
+export default dynamic (() => Promise.resolve(AddBio), {ssr: false})

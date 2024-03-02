@@ -1,3 +1,4 @@
+"use client"
 /* eslint-disable react/jsx-no-undef */
 import { Dialog, DialogTrigger, DialogContent } from './ui/dialog'
 import React, { ReactNode } from 'react'
@@ -7,6 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { CardProfileLoader } from './loader/cardProfile';
 import CardSideProfile from './cardSideProfile';
+import dynamic from 'next/dynamic'
 
 interface ModalFollow {
     children: ReactNode;
@@ -57,4 +59,7 @@ const ModalFollower = (props:ModalFollow) => {
     )
 }
 
-export default ModalFollower
+
+
+export default dynamic (() => Promise.resolve(ModalFollower), {ssr: false})
+

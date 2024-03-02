@@ -10,8 +10,9 @@ import SideProfile from '@/components/sideProfile';
 import Feed from '@/components/feed';
 import supabaSingleton from '@/lib/supabaSingleton';
 import { useQuery } from '@tanstack/react-query';
+import dynamic from 'next/dynamic';
 
-export default  function Page() {
+function Page() {
   const router = useRouter();
   const supabase = supabaSingleton();
 
@@ -47,3 +48,6 @@ export default  function Page() {
     </>
   );
 }
+
+
+export default dynamic (() => Promise.resolve(Page), {ssr: false})

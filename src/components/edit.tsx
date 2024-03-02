@@ -17,6 +17,7 @@ import { UploadButton } from "@uploadthing/react";
 import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios'
+import dynamic from 'next/dynamic'
 
 const Edit = (props:{
   urlavatar?:string,
@@ -133,4 +134,6 @@ const Edit = (props:{
   )
 }
 
-export default Edit
+
+
+export default dynamic (() => Promise.resolve(Edit), {ssr: false})

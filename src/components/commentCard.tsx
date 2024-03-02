@@ -1,3 +1,4 @@
+"use client"
 import { Avatar, AvatarImage, AvatarFallback } from '@radix-ui/react-avatar'
 import React from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu'
@@ -5,6 +6,7 @@ import { timeSince } from '@/lib/time'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import toast from 'react-hot-toast'
+import dynamic from 'next/dynamic'
 
 const CommentCard = (props:{
     avatarUrl:string,
@@ -78,4 +80,6 @@ const CommentCard = (props:{
   )
 }
 
-export default CommentCard
+
+
+export default dynamic (() => Promise.resolve(CommentCard), {ssr: false})

@@ -1,7 +1,5 @@
 'use client'
-export const dynamic = 'force-dynamic'
-export const revalidate = 0;
-export const dynamicParams = true
+
 
 import Profile from '@/components/profile'
 import { useQuery } from '@tanstack/react-query'
@@ -9,6 +7,7 @@ import ProfileCurrent from '@/components/profileCurrent'
 import React from 'react'
 import axios from 'axios'
 import { Usered } from '@/lib/validator/currentUser'
+import dynamic from 'next/dynamic'
 interface PageProps {
   params: {
     slug: string
@@ -74,4 +73,7 @@ else if(user.error || currentUser.error){
   
 }
 
-export default Page
+
+
+export default dynamic (() => Promise.resolve(Page), {ssr: false})
+

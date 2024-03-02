@@ -19,6 +19,7 @@ import { useUploadThing } from "@/lib/uploadthing";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
+import dynamic from "next/dynamic";
 interface Props {
     children: ReactNode;
   }
@@ -239,4 +240,6 @@ interface Props {
   );
 };
 
-export default AddFile;
+
+
+export default dynamic (() => Promise.resolve(AddFile), {ssr: false})

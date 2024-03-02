@@ -21,6 +21,7 @@ import axios from 'axios'
 import { useOnClickOutside } from '@/hooks/useClickOutside'
 import { useQuery } from '@tanstack/react-query'
 import { User } from '@/types'
+import dynamic from 'next/dynamic'
 
 interface Props {
     children: ReactNode;
@@ -102,4 +103,7 @@ const SharePost: React.FC<Props> = ({children}) =>  {
 )
 }
 
-export default SharePost
+
+
+export default dynamic (() => Promise.resolve(SharePost), {ssr: false})
+

@@ -2,6 +2,7 @@
 import React from 'react';
 import PhotoCard from './photoCard'; 
 import { GalleryType } from '@/lib/validator/gallery';
+import dynamic from 'next/dynamic';
 
 
 const Gallery = (props:{photos?: GalleryType[]} ) => {   
@@ -18,4 +19,7 @@ const Gallery = (props:{photos?: GalleryType[]} ) => {
     );
     }
 
-export default Gallery;
+
+
+export default dynamic (() => Promise.resolve(Gallery), {ssr: false})
+

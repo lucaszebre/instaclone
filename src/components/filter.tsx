@@ -1,3 +1,4 @@
+"use client"
 // import AnotherComponent from './AnotherComponent'; // Import AnotherComponent if needed
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Slider } from "@/components/ui/slider"
@@ -5,6 +6,7 @@ import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { modifyImageProperties } from "@/lib/modifyImage";
 import { useMutation } from "@tanstack/react-query";
+import dynamic from "next/dynamic";
 
 
 
@@ -276,4 +278,6 @@ const Filter = (props:{src:string,setCroppedImage: Dispatch<SetStateAction<strin
   ) 
 };
 
-export default Filter;
+
+
+export default dynamic (() => Promise.resolve(Filter), {ssr: false})

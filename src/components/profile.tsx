@@ -1,4 +1,4 @@
-
+"use client"
 import React, {  useEffect, useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from './ui/button'
@@ -14,6 +14,7 @@ import ModalFollower from './modalFollower'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import {  Usered } from '@/lib/validator/currentUser'
 import toast from 'react-hot-toast'
+import dynamic from 'next/dynamic'
 
 const Profile = (props:{profile:Usered}) => {
 
@@ -220,4 +221,6 @@ const Profile = (props:{profile:Usered}) => {
     )
 }
 
-export default Profile
+
+
+export default dynamic (() => Promise.resolve(Profile), {ssr: false})

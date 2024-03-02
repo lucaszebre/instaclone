@@ -17,6 +17,7 @@ import { pusherClient } from '@/lib/pusher'
 import { toPusherKey } from '@/lib/utils'
 import CommentCard from './commentCard'
 import toast, { Toaster } from 'react-hot-toast'
+import dynamic from 'next/dynamic'
 
 const Post = (props:{
   image:string,
@@ -239,4 +240,6 @@ const Post = (props:{
   )
 }
 
-export default Post
+
+
+export default dynamic (() => Promise.resolve(Post), {ssr: false})

@@ -8,6 +8,8 @@ import {
     DialogTrigger,
   } from "@/components/ui/dialog"
 import { DialogHeader } from './ui/dialogInbox'
+import dynamic from "next/dynamic";
+
   interface ModalPostProps {
     name: string;
     children: ReactNode;
@@ -16,7 +18,7 @@ import { DialogHeader } from './ui/dialogInbox'
     date:string;
   }
 
-  export default function AboutThisAccount(props: ModalPostProps) {
+   function AboutThisAccount(props: ModalPostProps) {
   return (
         <Dialog>
             <DialogTrigger className='w-full'>{props.children}</DialogTrigger>
@@ -48,3 +50,7 @@ import { DialogHeader } from './ui/dialogInbox'
         
   )
 }
+
+
+export default dynamic (() => Promise.resolve(AboutThisAccount), {ssr: false})
+

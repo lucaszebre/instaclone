@@ -1,10 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
+"use client"
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
+import dynamic from "next/dynamic";
 import { ReactNode } from "react";
 interface Props {
     children: ReactNode;
@@ -26,4 +28,6 @@ return (
 );
 };
 
-export default Tool;
+
+
+export default dynamic (() => Promise.resolve(Tool), {ssr: false})

@@ -18,6 +18,7 @@ import debounce from 'lodash.debounce'
 import { useOnClickOutside } from '@/hooks/useClickOutside'
 import { CardProfileLoader } from "./loader/cardProfile";
 import CardSideProfile from "./cardSideProfile";
+import dynamic from "next/dynamic";
 
 
 interface Props {
@@ -88,4 +89,5 @@ interface Props {
   );
 };
 
-export default Search;
+
+export default dynamic (() => Promise.resolve(Search), {ssr: false})

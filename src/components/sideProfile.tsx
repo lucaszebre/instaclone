@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { CardProfileFeedLoader } from './loader/cardFeedProfile'
 import axios from 'axios'
 import { z } from 'zod'
+import dynamic from 'next/dynamic'
 
 const SideProfile = () => {
 
@@ -78,4 +79,7 @@ const SideProfile = () => {
   )
 }
 
-export default SideProfile
+
+
+export default dynamic (() => Promise.resolve(SideProfile), {ssr: false})
+

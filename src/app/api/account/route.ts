@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic'
 export const revalidate = 0;
-export const dynamicParams = true
-
+export const dynamicParams = true 
+export const runtime = 'nodejs'
 
 import prisma from '@/lib/db';
 import { cookies } from 'next/headers'

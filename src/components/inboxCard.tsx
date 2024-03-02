@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import dynamic from 'next/dynamic'
 
 const InboxCard = (props:{username:string,last:string,avatar:string}) => {
   return (
@@ -18,4 +19,7 @@ const InboxCard = (props:{username:string,last:string,avatar:string}) => {
   )
 }
 
-export default InboxCard
+
+
+export default dynamic (() => Promise.resolve(InboxCard), {ssr: false})
+

@@ -1,3 +1,4 @@
+"use client"
 import React, { ReactNode } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { Button } from './ui/button';
@@ -6,6 +7,7 @@ import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import dynamic from 'next/dynamic';
 interface Props {
     children: ReactNode;
     url:string,
@@ -76,4 +78,6 @@ const AvatarOption: React.FC<Props> = ({children,url,username,avatarkey}) => {
   )
 }
 
-export default AvatarOption
+
+
+export default dynamic (() => Promise.resolve(AvatarOption), {ssr: false})

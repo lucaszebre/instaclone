@@ -1,8 +1,4 @@
 "use client"
-export const dynamic = 'force-dynamic'
-export const revalidate = 0;
-export const dynamicParams = true
-
 import Chat from '@/components/chat'
 import { Conversation } from '@/lib/validator/convertation'
 import { Usered } from '@/lib/validator/currentUser'
@@ -12,6 +8,7 @@ import React from 'react'
 import CardSideProfile from '@/components/cardSideProfile';
 import NewMessage from '@/components/newMessage';
 import { useState } from 'react';
+import dynamic from 'next/dynamic'
 
 interface PageProps {
     params: {
@@ -163,7 +160,10 @@ const Page = ({ params }: PageProps) => {
     
 }
 
-export default Page
+
+
+export default dynamic (() => Promise.resolve(Page), {ssr: false})
+
 
 
 

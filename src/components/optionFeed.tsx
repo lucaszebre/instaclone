@@ -1,3 +1,4 @@
+"use client"
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
 import { Button } from './ui/button'
 import React, { ReactNode, useState } from 'react'
@@ -7,6 +8,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Usered } from '@/types';
 import axios from 'axios';
 import toast, {  Toaster } from 'react-hot-toast';
+import dynamic from 'next/dynamic';
 
 interface Props {
     children: ReactNode;
@@ -153,4 +155,6 @@ const FeedOption: React.FC<Props> = ({  id,userId,  children,follow,post,filekey
     )
 }
 
-export default FeedOption
+
+export default dynamic (() => Promise.resolve(FeedOption), {ssr: false})
+

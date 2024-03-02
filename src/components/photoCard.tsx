@@ -4,6 +4,7 @@ import Image from 'next/image';
 import React from 'react';
 import ModalPost from './modalPost';
 import { Like,Comment } from '@/types';
+import dynamic from 'next/dynamic';
 
 const PhotoCard = (props: { id:string,comment:Comment[],filekey:string, userId:string,image: string; likes:Like[], like: string; imgdescription: string ,avatar:string,username:string}) => {
   return (
@@ -27,5 +28,8 @@ const PhotoCard = (props: { id:string,comment:Comment[],filekey:string, userId:s
   );
 }
 
-export default PhotoCard;
+
+
+export default dynamic (() => Promise.resolve(PhotoCard), {ssr: false})
+
 

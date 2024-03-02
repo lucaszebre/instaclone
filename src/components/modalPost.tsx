@@ -19,6 +19,7 @@ import { toPusherKey } from '@/lib/utils'
 import CommentCard from './commentCard'
 import FeedOption from './optionFeed'
 import toast from 'react-hot-toast'
+import dynamic from 'next/dynamic'
 
   interface ModalPostProps {
     id:string
@@ -39,7 +40,7 @@ import toast from 'react-hot-toast'
     filekey?:string
   }
 
-  export default function ModalPost(props: ModalPostProps) {
+function ModalPost(props: ModalPostProps) {
     const [comment,setComment]=useState(props.comment)
     useEffect(() => {
         pusherClient.subscribe(
@@ -247,3 +248,6 @@ import toast from 'react-hot-toast'
         
   )
 }
+
+
+export default dynamic (() => Promise.resolve(ModalPost), {ssr: false})

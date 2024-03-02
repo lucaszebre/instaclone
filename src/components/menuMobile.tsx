@@ -1,6 +1,8 @@
+"use client"
 import React from 'react'
 import { Input } from './ui/input'
 import Search from './search'
+import dynamic from 'next/dynamic'
 
 const MenuMobile = (props:{profile?:boolean,username?:string}) => {
 
@@ -28,4 +30,6 @@ const MenuMobile = (props:{profile?:boolean,username?:string}) => {
   
 }
 
-export default MenuMobile
+
+
+export default dynamic (() => Promise.resolve(MenuMobile), {ssr: false})

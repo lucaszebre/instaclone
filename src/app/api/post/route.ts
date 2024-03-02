@@ -1,8 +1,3 @@
-export const dynamic = 'force-dynamic'
-export const revalidate = 0;
-export const dynamicParams = true
-
-
 import { Database } from "@/lib/database.type";
 import prisma from "@/lib/db";
 import { pusherServer } from "@/lib/pusher";
@@ -101,6 +96,56 @@ export async function DELETE(req:Request){
 
 
         return new Response('Sucessfully delete a post', { status: 200 })
+    } catch (error) {
+        return new Response('Server error', { status: 500 })
+
+    }
+}
+
+export async function GET(req: Request) {
+        try {
+  
+        const url = new URL(req.url)
+        const slug = url.searchParams.get('q')
+        console.log(slug)
+        if(!slug){
+            return new Response('Unthaurized', { status: 400 })
+
+        }
+        const cookieStore = cookies()
+
+        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
+        
+        const data = await supabase.auth.getSession()
+
+        if(!data.data.session?.user.id){
+            return new Response('Unthaurized', { status: 400 })
+
+        } 
+
+        // get the post  
+        
+        const post = await prisma.post.findUnique({
+            where: { id: slug },
+            include: {
+            comments:{
+                include:{
+                user:true
+                }
+            },
+            likes:true,
+            tags:true,
+            taggedUsers:true,
+            user:true
+            }
+            },
+        )
+      
+
+        
+            console.log(post,"here")
+
+        return new Response(JSON.stringify(post),{status: 200 })
     } catch (error) {
         return new Response('Server error', { status: 500 })
 

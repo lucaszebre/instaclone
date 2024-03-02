@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import {  Button } from './ui/button'
 import CardSideProfile from './cardSideProfile'
 import NewMessage from './newMessage'
+import dynamic from 'next/dynamic'
 
 const Inbox = (props:{
     username:string,
@@ -47,4 +48,5 @@ const Inbox = (props:{
   )
 }
 
-export default Inbox
+
+export default dynamic (() => Promise.resolve(Inbox), {ssr: false})

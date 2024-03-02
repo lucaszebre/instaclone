@@ -8,6 +8,7 @@ import { Toaster } from 'react-hot-toast';
 import FeedPost from './feedPost';
 import MenuMobile from './menuMobile';
 import { Posted } from '@/types';
+import dynamic from 'next/dynamic';
 
 const Feed = ({ userId }: { userId: string }) => {
 
@@ -110,4 +111,6 @@ const Feed = ({ userId }: { userId: string }) => {
     );
 };
 
-export default Feed;
+
+
+export default dynamic (() => Promise.resolve(Feed), {ssr: false})

@@ -27,6 +27,7 @@ import type { Database } from '@/lib/database.type'
 import { useRouter } from 'next/navigation'
 import toast from "react-hot-toast"
 import { QueryClient } from "@tanstack/react-query"
+import dynamic from "next/dynamic"
 
 export function Login() {
   const [isLoading,setIsLoading] = useState(false)
@@ -120,3 +121,6 @@ export function Login() {
     
   )
 }
+
+
+export default dynamic (() => Promise.resolve(Login), {ssr: false})

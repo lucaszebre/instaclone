@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-
+"use client"
 
 import {
     DropdownMenu,
@@ -14,6 +14,7 @@ import { useTheme } from "next-themes";
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import type { Database } from '@/lib/database.type'
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 
 interface Props {
     children: ReactNode;
@@ -57,4 +58,6 @@ interface Props {
   );
 };
 
-export default Plus;
+
+
+export default dynamic (() => Promise.resolve(Plus), {ssr: false})

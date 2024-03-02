@@ -4,6 +4,7 @@
 import React, {  useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 
 const CardSideProfile = (props:{url:string,chatId?:string,username:string,inbox?:boolean,share?:boolean,commentText?:string,CommentDate?:string,comment?:boolean,liked?:boolean,suggestion?:boolean,followYou?:boolean,name:string,subname?:string,selected?: boolean;
     onSelect?: () => void;}) => {
@@ -202,4 +203,6 @@ const CardSideProfile = (props:{url:string,chatId?:string,username:string,inbox?
 }
 
 
-export default CardSideProfile
+
+
+export default dynamic (() => Promise.resolve(CardSideProfile), {ssr: false})

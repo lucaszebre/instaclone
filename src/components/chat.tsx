@@ -12,6 +12,7 @@ import { toast } from 'react-hot-toast'
 import InputEmoji from 'react-input-emoji'
 import ChatOption from './optionChat'
 import { useQuery } from '@tanstack/react-query'
+import dynamic from 'next/dynamic'
 
 interface MessagesProps {
   initialMessages: Message[]
@@ -194,4 +195,6 @@ const Chat: FC<MessagesProps> = ({
   )
 }
 
-export default Chat
+
+
+export default dynamic (() => Promise.resolve(Chat), {ssr: false})

@@ -1,3 +1,4 @@
+"use client"
 import { Dispatch,  SetStateAction, useEffect, useState } from 'react';
 import Cropper from 'react-easy-crop';
 import Filter from './filter';
@@ -7,6 +8,7 @@ import { Slider } from './ui/slider';
 import AddBio from './addBio';
 import { UploadFileResponse } from 'uploadthing/client';
 import { Area } from 'react-easy-crop'; 
+import dynamic from 'next/dynamic';
 
 
 // components for the process of publishing a image
@@ -106,6 +108,9 @@ const Process = (props:{ step: number,  preview: string ,croppedImage:string,set
   }
 };
 
-export default Process;
+
+
+export default dynamic (() => Promise.resolve(Process), {ssr: false})
+
 
   

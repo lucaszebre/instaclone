@@ -1,3 +1,4 @@
+"use client"
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar'
 import { Dialog, DialogTrigger, DialogContent } from './ui/dialog'
 import { ScrollArea } from './ui/scroll-area'
@@ -8,6 +9,7 @@ import Image from 'next/image'
 import FeedOption from './optionFeed'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import axios from 'axios'
+import dynamic from 'next/dynamic'
 
 const fetchPostLikeStatus = async (postId:string) => {
     const { data } = await axios.get(`/api/like?p=${postId}`);
@@ -128,6 +130,6 @@ const DialogPost: React.FC<Props> = ({children,id,likes,avatarurl,username,image
   )
 }
 
-export default DialogPost
 
+export default dynamic (() => Promise.resolve(DialogPost), {ssr: false})
 

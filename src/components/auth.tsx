@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Login } from './login'
-import { Register } from './register';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import dynamic from 'next/dynamic';
+import Register from './register';
 
 function Auth() {
 
@@ -41,4 +42,6 @@ function Auth() {
   )
 }
 
-export default Auth
+
+
+export default dynamic (() => Promise.resolve(Auth), {ssr: false})
