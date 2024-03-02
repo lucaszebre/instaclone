@@ -29,8 +29,8 @@ const path = new RegExp(
 );
 
   return (
-  <html suppressHydrationWarning lang="en">
-    <head />
+  <html lang="en">
+    {/* <head /> */}
     <ThemeProvider
           attribute="class"
           defaultTheme="system"

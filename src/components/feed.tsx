@@ -12,7 +12,6 @@ import dynamic from 'next/dynamic';
 
 const Feed = ({ userId }: { userId: string }) => {
 
-    console.log(userId)
     const {
         data,
         fetchNextPage,

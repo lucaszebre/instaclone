@@ -58,8 +58,8 @@ const AddBio = (props:{src:string,preview:string,setBio:Dispatch<SetStateAction<
   return (
     <div className='flex flex-row h-full gap-4 justiy-between w-full '>
         <div className="w-[50%] h-full relative">
-        <Image fill={true}
-   style={{ objectFit: 'cover', ...imageStyle }} className="w-full h-full" src={props.src} alt="" />
+        <Image fill
+   style={{ ...imageStyle }} layout="responsive" className="w-full h-full" src={props.src} alt="" />
             </div>
         <div className="w-[50%]">
 
