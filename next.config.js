@@ -10,7 +10,6 @@ const nextConfig = {
   eslint: { 
     ignoreDuringBuilds: true, 
   },
-  staticPageGenerationTimeout: 100000,
 
 };
 
