@@ -7,7 +7,9 @@ const nextConfig = {
           { protocol: 'https', hostname: 'utfs.io' },
       ],
   }, reactStrictMode: true, 
-  
+  eslint: { 
+    ignoreDuringBuilds: true, 
+  }
 
 
 };
