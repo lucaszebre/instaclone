@@ -10,6 +10,7 @@ interface PageProps {
     slug: string
   }
 }
+export const dynamic = 'force-dynamic'
 
 const Page = ({ params }: PageProps) => {
   const { slug } = params

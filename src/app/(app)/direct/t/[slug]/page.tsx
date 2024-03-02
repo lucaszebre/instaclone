@@ -16,6 +16,8 @@ interface PageProps {
     }
 }
 
+export const dynamic = 'force-dynamic'
+
 
 const Page = ({ params }: PageProps) => {
 

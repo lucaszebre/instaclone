@@ -1,4 +1,5 @@
- 
+export const dynamic = 'force-dynamic'
+
 export default function NotFound() {
   return (
     <div className='flex flex-row w-full  items-center justify-start mt-6 text-center'>

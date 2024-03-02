@@ -3,7 +3,6 @@
 import '../globals.css'
 import { ThemeProvider } from 'next-themes';
 import React from 'react'
-import { useStore } from '@/store/zus'
 import { Sidebar } from '@/components/sidebar';
 import {
   QueryClient,
@@ -21,7 +20,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const queryClient = new QueryClient()
-  const {short,side} = useStore()
   
   const pathname = usePathname()
 

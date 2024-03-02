@@ -1,4 +1,5 @@
 "use client"
+export const dynamic = 'force-dynamic'
 import NewMessage from '@/components/newMessage'
 import { Button } from '@/components/ui/button'
 import CardSideProfile from '@/components/cardSideProfile';
@@ -8,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import React from 'react'
 import { useState } from 'react';
+
  const Page = () => {
     const Conv =useQuery({
       queryFn: async () => {

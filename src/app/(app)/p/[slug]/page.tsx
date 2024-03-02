@@ -1,4 +1,5 @@
-"use server"
+export const dynamic = 'force-dynamic'
+export const revalidate = 0;
 import prisma from '@/lib/db'
 import { notFound } from 'next/navigation'
 import Post from '@/components/post'
@@ -8,7 +9,6 @@ interface PageProps {
     slug: string
   }
 }
-
 const page = async ({ params }: PageProps) => {
   const { slug } = params
 

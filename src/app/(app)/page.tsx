@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-no-undef */
-'use server'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0;
 import React from 'react';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';

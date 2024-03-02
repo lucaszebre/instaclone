@@ -1,24 +1,49 @@
-import Edit from '@/components/edit';
-import React from 'react';
-import { useQuery } from 'react-query';
-import getUserProfile from '@/lib/getUserProfile';
-import { notFound } from 'next/navigation';
-const Page = () => {
-  const { data: profile, isLoading, isError } = useQuery('userProfile', getUserProfile);
+export const dynamic = 'force-dynamic'
+export const revalidate = 0;
+import Edit from '@/components/edit'
+import React from 'react'
+import { cookies } from 'next/headers'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import prisma from '@/lib/db'
+import { notFound } from 'next/navigation'
+const Page = async () => {
+  
+  const cookieStore = cookies()
+  const supabase = createServerComponentClient({ cookies: () => cookieStore })
+        // This code runs on your server before upload
+        const {
+          data: { session },
+        } = await supabase.auth.getSession()
+  
+  const userId=session?.user.id;
+  
+  // if user not auth can't acces and get redirect 
+
+// we get the last profile status
+  const profile = await prisma.user.findUnique({
+    where: { id: userId},
+    include: {
+      posts:{include:{
+        user:true,
+        likes:true,
+        comments:true,
+        taggedUsers:true,
+        tags:true
+      }},
+      followers:true,
+      following:true,
+
+      },
+    },
+  )
 
   if (!profile) return notFound()
-
   return (
-    <div className="flex flex-row justify-center w-full h-full">
-      <Edit
-        username={profile.username}
-        gender={profile.gender || ''}
-        urlavatar={profile.profilePictureUrl || ''}
-        fullname={profile.fullName || ''}
-        bio={profile.bio || ''}
-      />
+    <div className='flex flex-row justify-center w-full h-full'>
+      <Edit username={profile.username} gender={profile.gender||""} urlavatar={profile.profilePictureUrl||""} fullname={profile.fullName||""} bio={profile.bio||""} />
     </div>
-  );
-};
+  
+  )
+}
 
-export default Page;
+export default Page
