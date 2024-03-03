@@ -22,7 +22,7 @@ export default function RootLayout({
   const queryClient = new QueryClient()
   
   const pathname = usePathname()
-
+//dds
 
 const path = new RegExp(
   '^/direct(?:\/.*|)$'
