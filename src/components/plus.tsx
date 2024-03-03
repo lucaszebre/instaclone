@@ -27,7 +27,7 @@ interface Props {
   return (
     <DropdownMenu 
             >
-                <DropdownMenuTrigger className="w-full">
+                <DropdownMenuTrigger asChild className="w-full">
                     {children}
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="ml-2 w-[250px]">

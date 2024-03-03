@@ -78,7 +78,7 @@ import dynamic from 'next/dynamic';
                       <h1>Your messages</h1>
                       <p className='text-xs'>Send privates photos and messages to a friend or a group</p>
                       <NewMessage>
-                          <Button>
+                          <Button asChild>
                           Send message
                           </Button>            
                       </NewMessage>

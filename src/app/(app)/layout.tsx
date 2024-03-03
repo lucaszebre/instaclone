@@ -31,12 +31,12 @@ const path = new RegExp(
   return (
   <html lang="en">
     {/* <head /> */}
-    <ThemeProvider
+    {/* <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
-        >
+        > */}
               <QueryClientProvider  client={queryClient} >
 
     <body suppressHydrationWarning>
@@ -67,7 +67,7 @@ const path = new RegExp(
 />
     </body>
     </QueryClientProvider>
-    </ThemeProvider>
+    {/* </ThemeProvider> */}
   </html>
   )
 }

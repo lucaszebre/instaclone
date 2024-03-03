@@ -180,7 +180,7 @@ interface Props {
 
   return (
     <Dialog open={open} onOpenChange={handleChange}>
-        <DialogTrigger className="flex w-full">
+        <DialogTrigger asChild className="flex w-full">
             {children}
         </DialogTrigger>
         <DialogContent className={`flex ${step==2? 'max-w-[1000px]':''} ${step==3? 'max-w-[900px]':''} ${step==4? 'max-w-[300px]':''}  flex-col  ${files.length==0 ? 'h-[40%]' : 'h-[80%]'} w-full justify-start items-center content-center text-center`}>
@@ -226,7 +226,7 @@ interface Props {
                 <input className="cursor-pointer" {...getInputProps()} />
                 <div>
                   { (
-                    <Button >
+                    <Button asChild >
                       Upload  
                     </Button>
                   )}

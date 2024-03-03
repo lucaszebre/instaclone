@@ -1,6 +1,7 @@
 'use client'
 
 
+import Theme from '@/components/theme';
 import '../../globals.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'next-themes';
@@ -17,21 +18,16 @@ export default function RootLayout({
   const queryClient = new QueryClient()
 
   return (
-    <html suppressHydrationWarning lang="en">
+    <html  suppressHydrationWarning lang="en">
     <head />
     <QueryClientProvider client={queryClient}>
-    <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+     {/* <Theme>  */}
     <body>
       <main>
     {children}
   </main>
     </body>
-    </ThemeProvider>
+    {/* </Theme>  */}
     </QueryClientProvider>
   </html>
   )

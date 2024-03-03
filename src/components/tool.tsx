@@ -18,7 +18,7 @@ const Tool: React.FC<Props> = ({ children , name }) => {
 return (
 <TooltipProvider >
     <Tooltip >
-        <TooltipTrigger>{children}</TooltipTrigger>
+        <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent>
             <p>{name}</p>
         </TooltipContent>

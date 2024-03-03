@@ -61,7 +61,7 @@ interface Props {
   };
   return (
     <Sheet>
-        <SheetTrigger className="flex w-full">
+        <SheetTrigger asChild className="flex w-full">
             {children}
         </SheetTrigger>
         <SheetContent ref={commandRef}>
