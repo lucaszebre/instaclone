@@ -13,8 +13,18 @@ import { useQuery } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import { Session } from "@supabase/gotrue-js/src/lib/types"
 import { DataContext } from '@/store/datacontext';
+import { Metadata } from 'next';
+
+
+// export  const metadata: Metadata = {
+//   title: 'Instagram',
+//   description: 'instagram blabla',
+// }
 
 function Page() {
+
+
+  
   const router = useRouter();
   const supabase = supabaSingleton();
 
