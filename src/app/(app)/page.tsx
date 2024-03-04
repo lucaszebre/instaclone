@@ -11,6 +11,7 @@ import Feed from '@/components/feed';
 import supabaSingleton from '@/lib/supabaSingleton';
 import { useQuery } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
+import { Session } from "@supabase/gotrue-js/src/lib/types"
 
 function Page() {
   const router = useRouter();
@@ -18,11 +19,11 @@ function Page() {
 
 
 
-  const { isLoading, data: sessionData } =useQuery({
+  const { isLoading, data: session } =useQuery({
     queryFn: async () => {
       
         const { data: { session } } = await supabase.auth.getSession();
-        return session as any;
+        return session as Session;
     },
     queryKey: [`session`]
     })
@@ -31,7 +32,7 @@ function Page() {
       return <p>Loading...</p>;
   }
 
-  if(!sessionData.user.id){
+  if(session==undefined){
     return (
       <div>
         Error feed
@@ -48,7 +49,7 @@ function Page() {
     <>
      
      <div suppressHydrationWarning={true} className='flex flex-row justify-between w-full'>
-     {sessionData.user.id && <Feed  userId={sessionData.user.id}/>}
+      <Feed  userId={session.user.id}/>
       <SideProfile />
     </div>
      
