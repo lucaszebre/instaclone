@@ -107,7 +107,6 @@ export async function GET(req: Request) {
   
         const url = new URL(req.url)
         const slug = url.searchParams.get('q')
-        console.log(slug)
         if(!slug){
             return new Response('Unthaurized', { status: 400 })
 
@@ -143,7 +142,6 @@ export async function GET(req: Request) {
       
 
         
-            console.log(post,"here")
 
         return new Response(JSON.stringify(post),{status: 200 })
     } catch (error) {

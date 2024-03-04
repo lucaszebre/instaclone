@@ -4,15 +4,14 @@ import { Conversation } from '@/lib/validator/convertation'
 import { Usered } from '@/lib/validator/currentUser'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import CardSideProfile from '@/components/cardSideProfile';
 import NewMessage from '@/components/newMessage';
 import { useState } from 'react';
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
-import supabaSingleton from '@/lib/supabaSingleton'
-import { Session } from '@supabase/supabase-js'
 import { DataContext } from '@/store/datacontext'
+import useScreenSize from '@/hooks/useScreenSize';
 
 interface PageProps {
     params: {
@@ -34,14 +33,29 @@ const Page = ({ params }: PageProps) => {
         },
         queryKey: [`conversation`]
         })
-    
-    
+        
+        
+        let screenSize = useScreenSize();
+        console.log(screenSize)
+       
+
+          
     
         const [inbox,setInbox] =useState(false)
+        useEffect(()=>{
+          console.log(screenSize.width)
+          if(screenSize.width<1024){
+            
+            setInbox(true)
+          }else{
+            setInbox(false)
+          }
+
+        },[screenSize])
+    
 
     const { slug } = params
 
-    console.log(slug)
 
     const conv = useQuery({
         queryFn: async () => {
@@ -70,7 +84,8 @@ const Page = ({ params }: PageProps) => {
         return (
             <>
     <div className='flex flex-row w-full'>
-        <div className={`flex flex-col justify-start h-screen w-full ${inbox?'max-w-full':'max-w-[400px]'}  border-r-2 border-gray-200`}>
+          {!inbox &&
+        <div className={`md:flex hidden flex-col justify-start h-screen w-full max-w-full  border-r-2 border-gray-200`}>
             <div className='flex p-4  flex-col h-[110px] justify-center w-full border-b-2 border-gray-200'>
               <div className='flex flex-row justify-between'>
              {inbox?<svg aria-label="Back" className="x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Back</title><line fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" x1="2.909" x2="22.001" y1="12.004" y2="12.004"></line><polyline fill="none" points="9.276 4.726 2.001 12.004 9.276 19.274" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></polyline></svg>:null} 
@@ -81,6 +96,7 @@ const Page = ({ params }: PageProps) => {
 
                         
               </div>
+    
             </div>
             <div className='flex flex-col gap-2 overflow-y-scroll h-full pb-[48px] overflow-x-hidden'>
 
@@ -103,7 +119,7 @@ const Page = ({ params }: PageProps) => {
 
             </div>
             
-        </div>
+        </div>}
 
         <>
             <Chat   sessionId={slug} sessionImg={conv.data?.recipient?.profilePictureUrl || "/default-profile-image.jpg"} username={conv.data?.recipient?.username || ""} initialMessages={ conv.data?.message || []} chatId={`${conv.data?.initiator?.id}--${conv.data?.recipient?.id}`||""}         chatPartner={conv.data?.initiator}/> 
@@ -120,6 +136,7 @@ const Page = ({ params }: PageProps) => {
             return (
                 <>
     <div className='flex flex-row w-full'>
+    {!inbox &&
         <div className={`flex flex-col justify-start h-screen w-full ${inbox?'max-w-full':'max-w-[400px]'}  border-r-2 border-gray-200`}>
             <div className='flex p-4  flex-col h-[110px] justify-center w-full border-b-2 border-gray-200'>
               <div className='flex flex-row justify-between'>
@@ -154,7 +171,7 @@ const Page = ({ params }: PageProps) => {
             </div>
             
         </div>
-
+        }
         <>
         <Chat  sessionId={slug} sessionImg={conv.data?.initiator?.profilePictureUrl || ""} username={conv.data?.initiator?.username || ""} initialMessages={conv.data?.message||[]} chatId={`${conv.data?.initiator?.id}--${conv.data?.recipient?.id}`||""}         chatPartner={conv.data?.recipient }/>
             </>

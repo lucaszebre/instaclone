@@ -74,7 +74,6 @@ interface NewMessageProps {
     // add a loading when newchat is starting to post on the bar
     const newChat = useMutation({
       mutationFn: async (id:string) => {
-        console.log(id);
       await axios.post(`/api/conversation?id=${id}`)
       },
       onError: () => {

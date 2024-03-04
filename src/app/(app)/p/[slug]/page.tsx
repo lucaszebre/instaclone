@@ -20,7 +20,6 @@ const Page =  ({ params }: PageProps) => {
     queryFn: async () => {
       
       const  {data}  = (await axios.get(`/api/post?q=${slug}`));
-      console.log(data.data)
     return  data
 
     },
@@ -30,7 +29,6 @@ const Page =  ({ params }: PageProps) => {
     })
   
 
-    console.log(data)
 
     if (isLoading) {
       return <p>Loading...</p>;

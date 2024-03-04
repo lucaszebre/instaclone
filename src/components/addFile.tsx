@@ -156,7 +156,6 @@ interface Props {
           if (blob) {
             // Now you have the blob object, you can upload it to the server
             let data = new File([blob], `${uuidv4()}.png`, { type: "image/png" });
-            console.log(data)
             await startUpload([data]); // here
           } else {
             console.log('Failed to fetch image as blob.');

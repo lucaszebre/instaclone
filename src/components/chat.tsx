@@ -13,6 +13,8 @@ import InputEmoji from 'react-input-emoji'
 import ChatOption from './optionChat'
 import { useQuery } from '@tanstack/react-query'
 import dynamic from 'next/dynamic'
+import useScreenSize from '@/hooks/useScreenSize'
+import Link from 'next/link'
 
 interface MessagesProps {
   initialMessages: Message[]
@@ -92,10 +94,32 @@ const Chat: FC<MessagesProps> = ({
     }
   }
 
+  let screenSize = useScreenSize();
+
+       
+  const [inbox,setInbox] =useState(false)
+  useEffect(()=>{
+    console.log(screenSize.width)
+    if(screenSize.width<1024){
+      
+      setInbox(true)
+    }else{
+      setInbox(false)
+    }
+
+  },[screenSize])
+
   
   return (
-    <div className='flex relative  flex-col w-[100%] h-[100%]'>
+    <div className='flex relative   flex-col w-[100%] h-[100%]'>
       <div className='flex flex-row  border-b-2 border-gray-200 items-center justify-between align-center w-[100%] h-[80px] p-3'>
+      {inbox?
+      <Link href={'/direct'}>
+      <svg aria-label="Back" className="x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Back</title><line fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" x1="2.909" x2="22.001" y1="12.004" y2="12.004"></line><polyline fill="none" points="9.276 4.726 2.001 12.004 9.276 19.274" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></polyline></svg>
+      </Link>
+      
+      :null} 
+
           <div className='flex flex-row gap-2 items-center'>
               <Avatar className='w-[44px] h-[44px]'>
                   <AvatarImage src={sessionImg||""} />
@@ -177,7 +201,7 @@ const Chat: FC<MessagesProps> = ({
       })}
     </div>
 
-      <div className='flex  flex-row justify-between align-center w-[100%] h-[80px] p-3'>
+      <div className='flex  flex-row justify-between mb-14 md:mb-0 align-center w-[100%] h-[80px] p-3'>
 
       <InputEmoji
       

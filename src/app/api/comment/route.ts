@@ -69,7 +69,6 @@ export async function POST(req:Request){
 
             const idcomment=randomUUID()
 
-            console.log(idcomment)
 
             const commentData =  {
               postId,
