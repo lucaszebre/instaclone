@@ -4,7 +4,7 @@ import { Conversation } from '@/lib/validator/convertation'
 import { Usered } from '@/lib/validator/currentUser'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import React from 'react'
+import React, { useContext } from 'react'
 import CardSideProfile from '@/components/cardSideProfile';
 import NewMessage from '@/components/newMessage';
 import { useState } from 'react';
@@ -12,6 +12,7 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
 import supabaSingleton from '@/lib/supabaSingleton'
 import { Session } from '@supabase/supabase-js'
+import { DataContext } from '@/store/datacontext'
 
 interface PageProps {
     params: {
@@ -23,7 +24,8 @@ interface PageProps {
 
 
 const Page = ({ params }: PageProps) => {
-  
+    const router = useRouter();
+    const {session} = useContext(DataContext)
     const Conv =useQuery({
         queryFn: async () => {
           const  data  = await axios.get('/api/conversation');
@@ -61,6 +63,9 @@ const Page = ({ params }: PageProps) => {
         queryKey: ['user'],
         enabled:true
     })
+    if(!session){
+      router.push("/auth")
+    }
     if(conv.data?.recipient?.id!==currentUser.data?.id){
         return (
             <>

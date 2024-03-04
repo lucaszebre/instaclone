@@ -1,13 +1,15 @@
 "use client"
 
+import { DataContext } from "@/store/datacontext";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
 
 
 
 export default function NotFound() {
   const router = useRouter();
 
-  const session = localStorage.getItem("session")
+  const {session} = useContext(DataContext)
 
   if(!session){
     router.push('/auth')

@@ -1,15 +1,16 @@
 "use client"
 
 import Edit from '@/components/edit'
-import React from 'react'
+import React, { useContext } from 'react'
 import {  useRouter } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Usered } from '@/types';
 import dynamic from 'next/dynamic'
+import { DataContext } from '@/store/datacontext';
 const Page = async () => {
   const router = useRouter();
-  const session = localStorage.getItem("session")  
+  const {session} = useContext(DataContext)
 //  we get the last profile status
  
 

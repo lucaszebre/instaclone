@@ -11,6 +11,7 @@ import { Next13ProgressBar } from 'next13-progressbar';
 import { usePathname } from 'next/navigation';
 import { Toaster } from 'react-hot-toast';
 import Sidebar from '@/components/sidebar';
+import { DataProvider } from '@/store/datacontext';
 
 
 
@@ -30,6 +31,10 @@ const path = new RegExp(
 
   return (
   <html lang="en">
+                  <QueryClientProvider  client={queryClient} >
+
+        <DataProvider>
+
     {/* <head /> */}
     {/* <ThemeProvider
           attribute="class"
@@ -37,7 +42,6 @@ const path = new RegExp(
           enableSystem
           disableTransitionOnChange
         > */}
-              <QueryClientProvider  client={queryClient} >
 
     <body suppressHydrationWarning>
     <Next13ProgressBar height="4px" color="linear-gradient(to right, 
@@ -66,8 +70,10 @@ const path = new RegExp(
   reverseOrder={false}
 />
     </body>
-    </QueryClientProvider>
     {/* </ThemeProvider> */}
+    </DataProvider>
+    </QueryClientProvider>
+
   </html>
   )
 }

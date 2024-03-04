@@ -4,13 +4,12 @@
 import Profile from '@/components/profile'
 import { useQuery } from '@tanstack/react-query'
 import ProfileCurrent from '@/components/profileCurrent'
-import React from 'react'
+import React, { useContext } from 'react'
 import axios from 'axios'
 import { Usered } from '@/lib/validator/currentUser'
 import dynamic from 'next/dynamic'
 import { notFound, useRouter } from 'next/navigation'
-import supabaSingleton from '@/lib/supabaSingleton'
-import { Session } from '@supabase/supabase-js'
+import { DataContext } from '@/store/datacontext'
 interface PageProps {
   params: {
     slug: string
@@ -20,7 +19,8 @@ interface PageProps {
 const Page = ({ params }: PageProps) => {
   const router = useRouter();
 
-  const session = localStorage.getItem("session");
+  const {session} = useContext(DataContext)
+
   
   const { slug } = params
 

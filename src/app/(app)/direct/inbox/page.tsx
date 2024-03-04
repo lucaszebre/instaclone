@@ -5,16 +5,16 @@ import { Conversation } from '@/lib/validator/convertation';
 import { Usered } from '@/lib/validator/currentUser';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import React from 'react'
+import React, { useContext } from 'react'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
-import supabaSingleton from '@/lib/supabaSingleton';
-import { Session } from '@supabase/supabase-js';
+import { DataContext } from '@/store/datacontext';
 
  const Page = () => {
- 
+  const router = useRouter();
+  const {session} = useContext(DataContext)
   const Conv =useQuery({
     queryFn: async () => {
       const  data  = await axios.get('/api/conversation');
@@ -36,7 +36,12 @@ import { Session } from '@supabase/supabase-js';
     })
 
     const [inbox,setInbox] =useState(false)
-
+    if(!session){
+      router.push('/auth')
+    }
+    if(!session){
+      router.push('/auth')
+    }
   return (
     <>
     <div className='flex flex-row w-full'>
