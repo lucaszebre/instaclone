@@ -40,10 +40,7 @@ function Page() {
     )
   }
 
-  // if (sessionData) {
-  //     router.push('/');
-  //     return null; // No need to render anything if redirecting
-  // }
+ 
 
   return (
     <>

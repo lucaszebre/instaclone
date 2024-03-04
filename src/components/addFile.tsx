@@ -40,7 +40,7 @@ interface Props {
     
 
 
-    // when we unmount the components we reset the state inside
+  //  when we unmount the components we reset the state inside
     useEffect(()=>{
       return(
         ()=>{

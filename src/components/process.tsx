@@ -65,7 +65,7 @@ const Process = (props:{ step: number,  preview: string ,croppedImage:string,set
       </div>
       </PopoverTrigger>
       <PopoverContent className="relative">
-        <Slider onValueChange={(e) => setValue(e[0])}  defaultValue={[value]} max={30} step={1} /> // error here
+        <Slider onValueChange={(e) => setValue(e[0])}  defaultValue={[value]} max={30} step={1} /> 
       </PopoverContent>
     </Popover>
     <Popover >

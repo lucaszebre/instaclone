@@ -29,23 +29,8 @@ const Page = async () => {
   
   // if user not auth can't acces and get redirect 
 
-// we get the last profile status
-  // const profile = await prisma.user.findUnique({
-  //   where: { id: userId},
-  //   include: {
-  //     posts:{include:{
-  //       user:true,
-  //       likes:true,
-  //       comments:true,
-  //       taggedUsers:true,
-  //       tags:true
-  //     }},
-  //     followers:true,
-  //     following:true,
-
-  //     },
-  //   },
-  // )
+//  we get the last profile status
+ 
 
   const {
     isFetching,
