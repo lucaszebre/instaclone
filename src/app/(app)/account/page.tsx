@@ -2,37 +2,14 @@
 
 import Edit from '@/components/edit'
 import React from 'react'
-import prisma from '@/lib/db'
-import { notFound, useRouter } from 'next/navigation'
-import supabaSingleton from '@/lib/supabaSingleton';
+import {  useRouter } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Usered } from '@/types';
 import dynamic from 'next/dynamic'
 const Page = async () => {
   const router = useRouter();
-  
-
-  const supabase = supabaSingleton();
-
-
-
-  const { isLoading, data: session } =useQuery({
-    queryFn: async () => {
-      
-        const { data: { session } } = await supabase.auth.getSession();
-        return session;
-    },
-    
-    queryKey: [`session`]
-    
-    })
-  
-
-  const userId=session?.user.id;
-  
-  // if user not auth can't acces and get redirect 
-
+  const session = localStorage.getItem("session")  
 //  we get the last profile status
  
 
@@ -41,6 +18,7 @@ const Page = async () => {
     data,
     refetch,
     isFetched,
+    isLoading
   } = useQuery({
     queryFn: async () => {
       const  data  = await axios.get('/api/user');
@@ -51,14 +29,29 @@ const Page = async () => {
     queryKey: ['user'],
     enabled:true
   })
-
-  if (!data) return notFound()
-  return (
+  if(!session){
+    router.push('/auth')
+  }
+  if(isLoading){
+    <p>Loading...</p>
+  }else if (!data) {
+    return (
+      <div className='flex flex-row w-full  items-center justify-start mt-6 text-center'>
+        <div className='flex w-full flex-col gap-2'>
+          <h2>Sorry, this page is not available.</h2>
+          <p>The link you followed may be broken, or the page may have been removed. Go back to Instagram.</p>
+        </div>
+      </div>
+    )
+  } else if (data){
+    return (
     <div className='flex flex-row justify-center w-full h-full'>
       <Edit username={data.username} gender={data.gender||""} urlavatar={data.profilePictureUrl||""} fullname={data.fullName||""} bio={data.bio||""} />
     </div>
   
-  )
+  ) 
+  }
+ 
 }
 
 
