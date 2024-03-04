@@ -93,7 +93,7 @@ interface NewMessageProps {
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className='flex flex-col h-full max-h-[400px] justify-start w-[500px]'>
+      <DialogContent className='flex flex-col h-full max-h-[400px] justify-start  w-full max-w-8/10 sm:w-[500px]'>
         <DialogHeader className='flex pt-2 text-center items-center justify-center'>
           <DialogTitle className='text-center'>New message</DialogTitle>
         </DialogHeader>
