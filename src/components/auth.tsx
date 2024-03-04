@@ -20,8 +20,6 @@ function Auth() {
           
           
         </div>
-      <div className="lg:p-8">
-        <div className="mx-auto flex w-full flex-row justify-center space-y-6 sm:w-[350px]">
         
         <Tabs defaultValue="register" className="max-w-[400px]">
   <TabsList>
@@ -34,8 +32,6 @@ function Auth() {
           
         </div>
       </div>
-    </div>
-    </div>
 
     
     

@@ -32,6 +32,8 @@ const Feed = ({ userId }: { userId: string }) => {
         initialPageParam: 1,
     });
 
+   
+
 
     const articles = data?.pages.reduce((acc: any, page: any) => {
         return [...acc, ...page.posts];
