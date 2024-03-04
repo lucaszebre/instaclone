@@ -9,9 +9,12 @@ import React from 'react'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
+import supabaSingleton from '@/lib/supabaSingleton';
+import { Session } from '@supabase/supabase-js';
 
  const Page = () => {
-
+ 
   const Conv =useQuery({
     queryFn: async () => {
       const  data  = await axios.get('/api/conversation');

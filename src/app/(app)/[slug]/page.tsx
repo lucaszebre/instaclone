@@ -8,6 +8,9 @@ import React from 'react'
 import axios from 'axios'
 import { Usered } from '@/lib/validator/currentUser'
 import dynamic from 'next/dynamic'
+import { notFound, useRouter } from 'next/navigation'
+import supabaSingleton from '@/lib/supabaSingleton'
+import { Session } from '@supabase/supabase-js'
 interface PageProps {
   params: {
     slug: string
@@ -15,6 +18,10 @@ interface PageProps {
 }
 
 const Page = ({ params }: PageProps) => {
+  const router = useRouter();
+
+  const session = localStorage.getItem("session");
+  
   const { slug } = params
 
   const currentUser =useQuery({
@@ -38,6 +45,11 @@ const Page = ({ params }: PageProps) => {
   queryKey: [`${slug}`],
   })
 
+
+ if(!session){
+    router.push('/auth')
+   }
+  else
 if(slug===currentUser.data?.username){
   return (
     <div className='flex flex-row justify-center w-full'>
@@ -68,8 +80,12 @@ else if(user.error || currentUser.error){
       Is Loading ...
     </p>
   )
+ }else if(
+  !user.data 
+ ){
+  return notFound()
  }
-
+ 
   
 }
 

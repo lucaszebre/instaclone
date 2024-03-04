@@ -7,6 +7,7 @@ import supabaSingleton from '@/lib/supabaSingleton';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
+import { cookies } from 'next/headers';
 
  function Home() {
     const router = useRouter();
@@ -14,7 +15,7 @@ import dynamic from 'next/dynamic';
 
 
 
-    const { isLoading, data: sessionData } =useQuery({
+    const { isLoading, data: session } =useQuery({
       queryFn: async () => {
         
           const { data: { session } } = await supabase.auth.getSession();
@@ -31,7 +32,7 @@ import dynamic from 'next/dynamic';
 
     
 
-    if (sessionData) {
+    if (session) {
       router.push('/');
   }
 

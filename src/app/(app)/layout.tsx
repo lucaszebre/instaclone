@@ -27,6 +27,7 @@ const path = new RegExp(
   '^/direct(?:\/.*|)$'
 );
 
+
   return (
   <html lang="en">
     {/* <head /> */}

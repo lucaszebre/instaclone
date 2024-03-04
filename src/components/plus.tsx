@@ -49,6 +49,7 @@ interface Props {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={async ()=>{
                             await supabase.auth.signOut()
+                            localStorage.setItem("session","");
                             router.push('/auth')
                             router.refresh()
 

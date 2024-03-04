@@ -9,6 +9,9 @@ import CardSideProfile from '@/components/cardSideProfile';
 import NewMessage from '@/components/newMessage';
 import { useState } from 'react';
 import dynamic from 'next/dynamic'
+import { useRouter } from 'next/navigation'
+import supabaSingleton from '@/lib/supabaSingleton'
+import { Session } from '@supabase/supabase-js'
 
 interface PageProps {
     params: {
@@ -20,7 +23,7 @@ interface PageProps {
 
 
 const Page = ({ params }: PageProps) => {
-
+  
     const Conv =useQuery({
         queryFn: async () => {
           const  data  = await axios.get('/api/conversation');

@@ -1,9 +1,11 @@
 "use client"
-import { notFound } from 'next/navigation'
+import { notFound, useRouter } from 'next/navigation'
 import Post from '@/components/post'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import dynamic from 'next/dynamic'
+import supabaSingleton from '@/lib/supabaSingleton'
+import { Session } from '@supabase/supabase-js'
 
 interface PageProps {
   params: {
@@ -11,6 +13,7 @@ interface PageProps {
   }
 }
 const Page =  ({ params }: PageProps) => {
+
   const { slug } = params
 
   const { isLoading, data, isError } =useQuery({

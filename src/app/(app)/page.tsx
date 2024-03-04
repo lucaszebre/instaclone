@@ -23,6 +23,7 @@ function Page() {
     queryFn: async () => {
       
         const { data: { session } } = await supabase.auth.getSession();
+        localStorage.setItem("session",JSON.stringify(session))
         return session as Session;
     },
     queryKey: [`session`]
@@ -30,7 +31,11 @@ function Page() {
 
   if (isLoading) {
       return <p>Loading...</p>;
+  }else if(!session ){
+    router.push('/auth')
   }
+
+
 
 
 
