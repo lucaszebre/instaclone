@@ -32,13 +32,7 @@ function Page() {
       return <p>Loading...</p>;
   }
 
-  if(session==undefined){
-    return (
-      <div>
-        Error feed
-      </div>
-    )
-  }
+
 
  
 
@@ -46,7 +40,7 @@ function Page() {
     <>
      
      <div suppressHydrationWarning={true} className='flex flex-row justify-between w-full'>
-      <Feed  userId={session.user.id}/>
+     {session &&  <Feed  userId={session.user.id}/>}
       <SideProfile />
     </div>
      
