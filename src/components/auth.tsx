@@ -12,9 +12,8 @@ function Auth() {
     
    
 
-    <div className=" relative  w-full h-screen flex col content-center items-center justify-center ">
+    <div className=" relative mt-5 mb-5 w-full h-screen flex col content-center items-center justify-center ">
       
-      <div className="relative w-full   h-full flex-col  p-10 text-white dark:border-r  ">
        
       <div className="relative z-20 hidden items-center text-lg font-medium md:flex">
           
@@ -31,7 +30,6 @@ function Auth() {
 </Tabs>
           
         </div>
-      </div>
 
     
     
