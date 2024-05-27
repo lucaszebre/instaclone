@@ -59,7 +59,7 @@ const Edit = (props:{
         {/* Edit avatar */}
         <div className='flex flex-row justify-start gap-3'>
           <Avatar className={`  w-48px] h-[50px]`} >
-                <AvatarImage src={props.urlavatar||''} />
+                <AvatarImage src={props.urlavatar||'./icon_profile.png'} />
                 <AvatarFallback>{props.fullname}</AvatarFallback>
           </Avatar>
           <div className='flex flex-row justify-between '>

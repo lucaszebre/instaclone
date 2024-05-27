@@ -130,7 +130,7 @@ import toast from 'react-hot-toast'
                 <Link href={`/${props.username}`}>
                     <div className='flex flex-row justify-start content-center gap-2'>
                             <Avatar>
-                            <AvatarImage src={props.avatarurl} />
+                            <AvatarImage src={props.avatarurl||"./icon_profile.png"} />
                             <AvatarFallback>{props.username}</AvatarFallback>
                         </Avatar>
                         <div className='flex gap-3 text-4xlbold flex-row '>

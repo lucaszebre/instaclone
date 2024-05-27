@@ -39,7 +39,7 @@ const CommentCard = (props:{
   return (
     <div className='flex relative w-full items-start  flex-row justify-start gap-3 p-2'  key={props.index}>
                                 <Avatar className={`  w-[24px] h-[24px]`} >
-                                    <AvatarImage src={props.avatarUrl||''} />
+                                    <AvatarImage src={props.avatarUrl||'./icon_profile.png'} />
                                     <AvatarFallback>{props.username}</AvatarFallback>
                                 </Avatar>
                                 <div className='flex flex-col gap-1'>

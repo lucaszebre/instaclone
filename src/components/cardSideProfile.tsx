@@ -13,7 +13,7 @@ const CardSideProfile = (props:{url:string,chatId?:string,username:string,inbox?
             <div className='flex flex-row h-[50px] justify-center'>
                 <div>
                     <Avatar>
-                        <AvatarImage src={props.url} />
+                        <AvatarImage src={props.url||"./icon_profile.png"} />
                         <AvatarFallback>{props.username}</AvatarFallback>
                     </Avatar>
                 </div>

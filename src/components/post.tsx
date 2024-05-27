@@ -179,7 +179,7 @@ const Post = (props:{
                             <div className='flex flex-row items-center gap-4'>
                                 <Link href={`/${props.username}`}>
                                   <Avatar>
-                                      <AvatarImage src={props.avatar} />
+                                      <AvatarImage src={props.avatar||"./icon_profile.png"} />
                                       <AvatarFallback>{props.username}</AvatarFallback>
                                   </Avatar>
                                 </Link>

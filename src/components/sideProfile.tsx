@@ -64,7 +64,7 @@ const SideProfile = () => {
             key={index}
             name={side.username || ''} 
             subname={side.fullName || ''} 
-            url={side.profilePictureUrl || ''} 
+            url={side.profilePictureUrl || './icon_profile.png'} 
             username={side.username || ''}
         />
     ))

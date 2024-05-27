@@ -185,7 +185,7 @@ function ModalPost(props: ModalPostProps) {
                         <div className='flex flex-row items-center h-[50px] justify-between'>
                             <div className='flex flex-row items-center gap-4'>
                                 <Avatar>
-                                    <AvatarImage src={props.avatar} />
+                                    <AvatarImage src={props.avatar||"./icon_profile.png"} />
                                     <AvatarFallback>{props.username}</AvatarFallback>
                                 </Avatar>
                                 <div className='flex flex-col justify-between h-full'>

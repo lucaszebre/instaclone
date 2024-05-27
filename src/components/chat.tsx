@@ -122,7 +122,7 @@ const Chat: FC<MessagesProps> = ({
 
           <div className='flex flex-row gap-2 items-center'>
               <Avatar className='w-[44px] h-[44px]'>
-                  <AvatarImage src={sessionImg||""} />
+                  <AvatarImage src={sessionImg||"./icon_profile.png"} />
                   <AvatarFallback>{username}</AvatarFallback>
               </Avatar>
               <span>{username}</span>

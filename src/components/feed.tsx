@@ -88,7 +88,7 @@ const Feed = ({ userId }: { userId: string }) => {
                                     date={timeSince(post.postedAt)}
                                     likes={post.likes?.length || 0}
                                     comment={post.comments?.length.toString() || "0"}
-                                    avatarurl={post.user?.profilePictureUrl || ''}
+                                    avatarurl={post.user?.profilePictureUrl || './icon_profile.png'}
                                     like={post.likes || []}
                                     bio={post.bio || ""}
                                 />

@@ -118,7 +118,7 @@ const Profile = (props:{profile:Usered}) => {
                 <div className='w-[290px] h-full flex justify-center content-center items-center md:mr-7'>
                 <OptionProfile  url={props.profile.profilePictureUrl||""} username={props.profile.username} avatarkey={props.profile.avatarkey||""}>
                     <Avatar className='md:w-[150px] md:h-[150px] w-[77px] h-[77px]'>
-                        <AvatarImage  className='md:w-[150px] md:h-[150px] w-[77px] h-[77px]' src={props.profile.profilePictureUrl||''} />
+                        <AvatarImage  className='md:w-[150px] md:h-[150px] w-[77px] h-[77px]' src={props.profile.profilePictureUrl||'./icon_profile.png'} />
                         <AvatarFallback className='md:w-[150px] md:h-[150px] w-[77px] h-[77px]'>{props.profile.username}</AvatarFallback>
                     </Avatar>
                 </OptionProfile>

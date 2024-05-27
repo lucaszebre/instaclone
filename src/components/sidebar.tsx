@@ -120,7 +120,7 @@ const path = new RegExp(
                   <Link href={`/${data?.username}`}>
                     <Tool name="Profile blabla">
                       <Avatar className={`${pathname===`/${data?.username}`?'border-2 ':''} hover:w-[26px] hover:h-[26px] w-[24px] h-[24px]`} >
-                          <AvatarImage src={data?.profilePictureUrl||''} />
+                          <AvatarImage src={data?.profilePictureUrl||'./icon_profile.png'} />
                           <AvatarFallback>{data?.username}</AvatarFallback>
                       </Avatar>
                     </Tool>

@@ -68,7 +68,7 @@ const AddBio = (props:{src:string,preview:string,setBio:Dispatch<SetStateAction<
      
         <div className='flex flex-row mb-4 justify-start gap-2'>
                                     <Avatar className='max-w-[200px] max-h-[200px]'>
-                                        <AvatarImage className='w-[200px] h-[200px]' src={data?.profilePictureUrl?data.profilePictureUrl:""} />
+                                        <AvatarImage className='w-[200px] h-[200px]' src={data?.profilePictureUrl?data.profilePictureUrl:"./icon_profile.png"} />
                                         <AvatarFallback className='h-[200px] w-[200px'>{data?.fullName}</AvatarFallback>
                                     </Avatar>
                                     <span>{data?.username}</span>

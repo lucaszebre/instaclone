@@ -47,7 +47,7 @@ const Page = async () => {
   } else if (data){
     return (
     <div className='flex flex-row justify-center w-full h-full'>
-      <Edit username={data.username} gender={data.gender||""} urlavatar={data.profilePictureUrl||""} fullname={data.fullName||""} bio={data.bio||""} />
+      <Edit username={data.username} gender={data.gender||""} urlavatar={data.profilePictureUrl||"./icon_profile.png"} fullname={data.fullName||""} bio={data.bio||""} />
     </div>
   
   ) 

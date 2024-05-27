@@ -88,7 +88,7 @@ const DialogPost: React.FC<Props> = ({children,id,likes,avatarurl,username,image
                                         <header className='flex flex-row justify-between content-center h-[32px]'>
             <div className='flex flex-row justify-start content-center gap-2'>
                 <Avatar>
-                    <AvatarImage src={avatarurl} />
+                    <AvatarImage src={avatarurl||"./icon_profile.png"} />
                     <AvatarFallback>{username}</AvatarFallback>
                 </Avatar>
                 <span>

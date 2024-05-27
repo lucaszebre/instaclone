@@ -41,9 +41,9 @@ function Page() {
   //   queryKey: [`session`]
   //   })
 
- if(!session ){
-    router.push('/auth')
-  }
+//  if(!session ){
+//     router.push('/auth')
+//   }
 
 
 
@@ -55,7 +55,7 @@ function Page() {
     <>
      
      <div suppressHydrationWarning={true} className='flex flex-row justify-between w-full'>
-     {session &&  <Feed  userId={session.user.id}/>}
+     {session ?  <Feed  userId={session.user.id}/> : <></>}
       <SideProfile />
     </div>
      

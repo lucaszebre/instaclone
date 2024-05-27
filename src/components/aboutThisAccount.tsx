@@ -27,7 +27,7 @@ import { DialogHeader } from './ui/dialogInbox'
                                 <div className='flex flex-col justify-start gap-2'>
                                     <Avatar className='max-w-[200px] max-h-[200px]'>
                                         <AvatarImage className='w-[200px] h-[200px]' src={props.avatar} />
-                                        <AvatarFallback className='h-[200px] w-[200px'>{props.username}</AvatarFallback>
+                                        <AvatarFallback className='h-[200px] w-[200px'>{props.username||"./icon_profile.png"}</AvatarFallback>
                                     </Avatar>
                                     <span>{props.name}</span>
                                 </div>
