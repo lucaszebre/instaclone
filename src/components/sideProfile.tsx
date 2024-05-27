@@ -40,7 +40,7 @@ const SideProfile = () => {
   return (
     <div className='lg:flex hidden max-w-[320px] p-6 w-full gap-2  h-screen justify-center flex-col'>
         <div>
-          {isFetching ?    <CardProfileFeedLoader/> :            <CardSideProfile name={data?.currentUser?.username||''} subname={data?.currentUser?.fullName||''} url={data?.currentUser?.profilePictureUrl||''} username={data?.currentUser?.username||''}  />
+          {isFetching ?    <CardProfileFeedLoader/> :            <CardSideProfile name={data?.currentUser?.username||''} subname={data?.currentUser?.fullName||''} url={data?.currentUser?.profilePictureUrl||"./icon_profile.png"} username={data?.currentUser?.username||''}  />
 
 }
         </div>

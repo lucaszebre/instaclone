@@ -38,7 +38,7 @@ const CardSideProfile = (props:{url:string,chatId?:string,username:string,inbox?
             <div className='flex flex-row '>
                 <div>
                     <Avatar>
-                        <AvatarImage src={props.url} />
+                        <AvatarImage src={props.url||"./icon_profile.png"} />
                         <AvatarFallback>{props.username}</AvatarFallback>
                     </Avatar>
                 </div>
@@ -63,7 +63,7 @@ const CardSideProfile = (props:{url:string,chatId?:string,username:string,inbox?
             <div className='flex flex-row '>
                 <div>
                     <Avatar className='w-[32px] h-[32px]'>
-                        <AvatarImage src={props.url} />
+                        <AvatarImage src={props.url||"./icon_profile.png"} />
                         <AvatarFallback>{props.username}</AvatarFallback>
                     </Avatar>
                 </div>
@@ -91,7 +91,7 @@ const CardSideProfile = (props:{url:string,chatId?:string,username:string,inbox?
             <div className='flex flex-row '>
                 <div>
                     <Avatar className='w-[32px] h-[32px]'>
-                        <AvatarImage src={props.url} />
+                        <AvatarImage src={props.url||"./icon_profile.png"} />
                         <AvatarFallback>{props.username}</AvatarFallback>
                     </Avatar>
                 </div>
@@ -120,7 +120,7 @@ const CardSideProfile = (props:{url:string,chatId?:string,username:string,inbox?
                         className='flex flex-row cursor-pointer  w-full justify-between content-center items-center'>
                 <div className='flex flex-row gap-4 content-center items-center'>
                     <Avatar className='w-[44px] h-[44px]'>
-                                <AvatarImage src={props.url} />
+                                <AvatarImage src={props.url||"./icon_profile.png"} />
                                 <AvatarFallback>{props.username}</AvatarFallback>
                     </Avatar>
                     <div className='flex flex-col justify-between h-full'>
@@ -153,7 +153,7 @@ const CardSideProfile = (props:{url:string,chatId?:string,username:string,inbox?
            <div className='flex flex-row px-5 py-2 hover:bg-slate-100 cursor-pointer  w-full justify-between content-center items-center'>
            <div className='flex flex-row gap-4 content-center items-center'>
                <Avatar className='w-[56px] h-[56px]'>
-                        <AvatarImage src={props.url} />
+                        <AvatarImage src={props.url||"./icon_profile.png"} />
                         <AvatarFallback>{props.username}</AvatarFallback>
                </Avatar>
                <div className='flex flex-col justify-between h-full'>
@@ -178,7 +178,7 @@ const CardSideProfile = (props:{url:string,chatId?:string,username:string,inbox?
             <Link href={`/${props.username}`}>
                 <div className='flex flex-row gap-4 content-center items-center'>
                     <Avatar className='w-[44px] h-[44px]'>
-                            <AvatarImage src={props.url} />
+                            <AvatarImage src={props.url||"./icon_profile.png"} />
                             <AvatarFallback>{props.username}</AvatarFallback>
                     </Avatar>
                     <div className='flex flex-col justify-between h-full'>
