@@ -19,8 +19,10 @@ export async function GET(req:Request){
 
         const currentUserId = data.data.session?.user.id;
 
-        if(!currentUserId){
-            throw new Error("You need to be auth");        }
+        if (!currentUserId) {
+            return new Response("User is not authenticated", { status: 406 })
+
+        }
 
         
         const url = new URL(req.url)

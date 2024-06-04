@@ -45,7 +45,18 @@ const DialogPost: React.FC<Props> = ({children,id,likes,avatarurl,username,image
     const [likeCount, setLikeCount] = useState<number>(likes);
     const Like = useMutation({
         mutationFn: async (id:string) => {
-        await axios.post(`/api/like?p=${id}`)
+       try {
+               const result= await axios.post(`/api/like?p=${id}`)
+   
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            if (error.response.status == 406) {
+                alert('need to be login to execute this action');
+            }
+        } else {
+            console.log('An unexpected error occurred:', error);
+        }
+    }
         },
         onError: () => {
         setLike(false)
@@ -60,7 +71,19 @@ const DialogPost: React.FC<Props> = ({children,id,likes,avatarurl,username,image
     })
     const Unlike = useMutation({
         mutationFn: async (id:string) => {
-        await axios.delete(`/api/like?p=${id}`)
+
+      try {
+        const result=  await axios.delete(`/api/like?p=${id}`)
+
+        } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            if (error.response.status == 406) {
+                alert('need to be login to execute this action');
+            }
+        } else {
+            console.log('An unexpected error occurred:', error);
+        }
+        }
         },
         onError: () => {
         setLike(true)

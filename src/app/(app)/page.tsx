@@ -55,7 +55,7 @@ function Page() {
     <>
      
      <div suppressHydrationWarning={true} className='flex flex-row justify-between w-full'>
-     {session ?  <Feed  userId={session.user.id}/> : <></>}
+     <Feed  userId={session  ? session?.user.id : ""}/> 
       <SideProfile />
     </div>
      

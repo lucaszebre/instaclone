@@ -32,11 +32,23 @@ const AvatarOption: React.FC<Props> = ({children,url,username,avatarkey}) => {
                   endpoint="imageUploader"
                   onClientUploadComplete={async (res) => {
                   if(res){
-                    await axios.post('/api/avatar',{
-                      url:res[0].url,
-                      Avatarkey:res[0].key
-                    })
-                    toast.success("Upload of the image completed");
+                  
+                    try {
+                      await axios.post('/api/avatar',{
+                        url:res[0].url,
+                        Avatarkey:res[0].key
+                      })         
+                      toast.success("Upload of the image completed");
+     
+                      } catch (error) {
+                      if (axios.isAxiosError(error) && error.response) {
+                          if (error.response.status == 406) {
+                              alert('need to be login to execute this action');
+                          }
+                      } else {
+                          console.log('An unexpected error occurred:', error);
+                      }
+                      }
 
                   
                 queryClient.resetQueries({ queryKey: ['user',] })

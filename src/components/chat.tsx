@@ -84,10 +84,18 @@ const Chat: FC<MessagesProps> = ({
     if(!input) return
     setIsLoading(true)
     try {
-      await axios.post('/api/message', { text: input, chatId ,convId:sessionId})
+     const msg= await axios.post('/api/message', { text: input, chatId ,convId:sessionId})
+     
       setInput('')
       textareaRef.current?.focus()
-    } catch {
+    } catch(error) {
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status == 406) {
+            alert('need to be login to execute this action');
+        }
+    } else {
+        console.log('An unexpected error occurred:', error);
+    }
       toast.error('Something went wrong. Please try again later.')
     } finally {
       setIsLoading(false)

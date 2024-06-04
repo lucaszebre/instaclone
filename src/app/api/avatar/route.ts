@@ -34,7 +34,7 @@ export async function POST(req: Request) {
             // Get the session
             const { data: session } = await supabase.auth.getSession();
             if (!session.session?.user.id) {
-                return new Response("User is not authenticated", { status: 400 })
+                return new Response("User is not authenticated", { status: 406 })
 
             }
     

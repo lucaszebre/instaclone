@@ -31,10 +31,12 @@ export async function POST(req: Request) {
     
             // Get the session
             const { data: session } = await supabase.auth.getSession();
-            if (!session.session?.user.id) {
-                return new Response("User is not authenticated", { status: 400 })
-            }
+            
     
+            if (!session.session?.user.id) {
+                return new Response("User is not authenticated", { status: 406 })
+    
+            }
             await prisma.user.update({
                 where: {
                     id: session.session.user.id, // Assuming 'id' is the field for user ID in your database

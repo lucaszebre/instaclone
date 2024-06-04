@@ -56,7 +56,18 @@ const Profile = (props:{profile:Usered}) => {
         
         const mutateFollow = useMutation({
             mutationFn: async (id:string) => {
-            await axios.post(`/api/follow?p=${id}`)
+            try {
+                await axios.post(`/api/follow?p=${id}`)
+
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    if (error.response.status == 406) {
+                        alert('need to be login to execute this action');
+                    }
+                } else {
+                    console.log('An unexpected error occurred:', error);
+                }
+            }
             },
             onError: () => {
             setIsFollow(false)
@@ -81,7 +92,18 @@ const Profile = (props:{profile:Usered}) => {
         
         const mutateUnfollow = useMutation({
             mutationFn: async (id:string) => {
-            await axios.delete(`/api/follow?p=${id}`)
+            try {
+                await axios.delete(`/api/follow?p=${id}`)
+
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    if (error.response.status == 406) {
+                        alert('need to be login to execute this action');
+                    }
+                } else {
+                    console.log('An unexpected error occurred:', error);
+                }
+            }
             },
             onError: () => {
             setIsFollow(true)

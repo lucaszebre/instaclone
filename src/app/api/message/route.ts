@@ -24,7 +24,10 @@ export async function POST(req: Request) {
     const data = await supabase.auth.getSession()
 
     const currentUserId = data.data.session?.user.id;
-    if (!currentUserId) return new Response('Unauthorized', { status: 401 })
+    if (!currentUserId) {
+      return new Response("User is not authenticated", { status: 406 })
+
+  }
 
     const [userId1, userId2] = chatId.split('--')
 

@@ -23,7 +23,18 @@ const CommentCard = (props:{
 
     const DeleteComment = useMutation({
         mutationFn: async () => {
-        await axios.delete(`/api/comment?id=${props.id}&postid=${props.postId}`);
+    try {
+        const result=    await axios.delete(`/api/comment?id=${props.id}&postid=${props.postId}`);
+
+        } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            if (error.response.status == 406) {
+                alert('need to be login to execute this action');
+            }
+        } else {
+            console.log('An unexpected error occurred:', error);
+        }
+        }
         },
         onError: () => {
           toast.error('Error to delete the comment');

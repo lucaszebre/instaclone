@@ -17,7 +17,7 @@ export async function POST(req: Request) {
         const data = await supabase.auth.getSession()
         let userId=data.data.session?.user.id
         if(!userId){
-            return new Response('Unauthorized', { status: 401 })
+            return new Response('Unauthorized', { status: 406 })
         }
 
         const url = new URL(req.url)

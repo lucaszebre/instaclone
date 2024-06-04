@@ -7,14 +7,6 @@ import { FeedValidator } from '@/lib/validator/feed';
 
 export async function GET(req: Request) {
     try {
-        const cookieStore = cookies();
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore });
-
-        const { data: sessionData } = await supabase.auth.getSession();
-        const currentUserId = sessionData.session?.user.id;
-        if (!currentUserId) {
-            throw new Error("User is not authenticated");
-        }
 
         const url = new URL(req.url)
 

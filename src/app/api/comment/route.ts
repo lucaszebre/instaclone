@@ -38,8 +38,10 @@ export async function POST(req:Request){
 
         const currentUserId = data.data.session?.user.id;
 
-        if(!currentUserId){
-            throw new Error("You need to be auth");        }
+        if (!currentUserId) {
+          return new Response("User is not authenticated", { status: 406 })
+
+      }
 
             const CommentSchema = z.object({
               commentedAt: z.date(), // Assuming it's always a string representation of a date

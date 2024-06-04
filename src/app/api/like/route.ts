@@ -20,7 +20,8 @@ export async function POST(req: Request) {
         const supabase = createServerActionClient<Database>({ cookies: () => cookieStore });
         const { data: session } = await supabase.auth.getSession();
         if (!session.session?.user.id) {
-            throw new Error("User is not authenticated");
+            return new Response("User is not authenticated", { status: 406 })
+
         }
 
         // Get the current user's ID
@@ -65,7 +66,8 @@ export async function DELETE(req: Request) {
         const supabase = createServerActionClient<Database>({ cookies: () => cookieStore });
         const { data: session } = await supabase.auth.getSession();
         if (!session.session?.user.id) {
-            throw new Error("User is not authenticated");
+            return new Response("User is not authenticated", { status: 406 })
+
         }
 
         // Get the current user's ID

@@ -74,7 +74,18 @@ interface NewMessageProps {
     // add a loading when newchat is starting to post on the bar
     const newChat = useMutation({
       mutationFn: async (id:string) => {
-      await axios.post(`/api/conversation?id=${id}`)
+      try {
+        await axios.post(`/api/conversation?id=${id}`)
+
+                   } catch (error) {
+                       if (axios.isAxiosError(error) && error.response) {
+                           if (error.response.status == 406) {
+                               alert('need to be login to execute this action');
+                           }
+                       } else {
+                           console.log('An unexpected error occurred:', error);
+                       }
+                   }
       },
       onError: () => {
       return toast.error("Something went wrong.");

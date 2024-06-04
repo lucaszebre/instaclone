@@ -85,7 +85,19 @@ function ModalPost(props: ModalPostProps) {
     const [content, setContent] = useState("");
     const Save = useMutation({
         mutationFn: async (id:string) => {
-        await axios.post(`/api/save?id=${id}`)
+
+        try {
+            const result=   await axios.post(`/api/save?id=${id}`)
+
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                if (error.response.status == 406) {
+                    alert('need to be login to execute this action');
+                }
+            } else {
+                console.log('An unexpected error occurred:', error);
+            }
+        }
         },
         onMutate: () => {
             setSave(true)
@@ -97,7 +109,19 @@ function ModalPost(props: ModalPostProps) {
     })
     const UnSave = useMutation({
         mutationFn: async (id:string) => {
-            await axios.delete(`/api/save?id=${id}`)
+
+            try {
+                await axios.delete(`/api/save?id=${id}`)
+    
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    if (error.response.status == 406) {
+                        alert('need to be login to execute this action');
+                    }
+                } else {
+                    console.log('An unexpected error occurred:', error);
+                }
+            }
         },
         onMutate: () => {
             setSave(false)
@@ -111,7 +135,19 @@ function ModalPost(props: ModalPostProps) {
     
     const Like = useMutation({
         mutationFn: async (id:string) => {
+
+        try {
         await axios.post(`/api/like?p=${id}`)
+
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                if (error.response.status == 406) {
+                    alert('need to be login to execute this action');
+                }
+            } else {
+                console.log('An unexpected error occurred:', error);
+            }
+        }
         },
         onError: () => {
         setLike(false)
@@ -130,7 +166,18 @@ function ModalPost(props: ModalPostProps) {
 
     const Unlike = useMutation({
         mutationFn: async (id:string) => {
-        await axios.delete(`/api/like?p=${id}`)
+        try {
+            await axios.delete(`/api/like?p=${id}`)
+
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    if (error.response.status == 406) {
+                        alert('need to be login to execute this action');
+                    }
+                } else {
+                    console.log('An unexpected error occurred:', error);
+                }
+            }
         },
         onError: () => {
         setLike(true)
@@ -148,12 +195,23 @@ function ModalPost(props: ModalPostProps) {
     })
     const postedComment = useMutation({
         mutationFn: async (id:string) => {
-            await axios.post('/api/comment',
+           
+            try {
+     await axios.post('/api/comment',
             {
                 postId:id,
                 content,
                 user:user.data
             });
+                } catch (error) {
+                    if (axios.isAxiosError(error) && error.response) {
+                        if (error.response.status == 406) {
+                            alert('need to be login to execute this action');
+                        }
+                    } else {
+                        console.log('An unexpected error occurred:', error);
+                    }
+                }
         },
         // onError: () => {
         // setLike(true)

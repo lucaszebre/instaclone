@@ -35,7 +35,18 @@ const FeedOption: React.FC<Props> = ({  id,userId,  children,follow,post,filekey
 
       const Save = useMutation({
         mutationFn: async (id:string) => {
-        await axios.post(`/api/save?id=${id}`)
+        try {
+            await axios.post(`/api/save?id=${id}`)
+    
+                       } catch (error) {
+                           if (axios.isAxiosError(error) && error.response) {
+                               if (error.response.status == 406) {
+                                   alert('need to be login to execute this action');
+                               }
+                           } else {
+                               console.log('An unexpected error occurred:', error);
+                           }
+                       }
         },
         onMutate: () => {
         },
@@ -48,7 +59,19 @@ const FeedOption: React.FC<Props> = ({  id,userId,  children,follow,post,filekey
     
     const Delete = useMutation({
         mutationFn: async () => {
-            await axios.delete('/api/post', { data: { id, filekey } });
+
+            try {
+                await axios.delete('/api/post', { data: { id, filekey } });
+        
+                           } catch (error) {
+                               if (axios.isAxiosError(error) && error.response) {
+                                   if (error.response.status == 406) {
+                                       alert('need to be login to execute this action');
+                                   }
+                               } else {
+                                   console.log('An unexpected error occurred:', error);
+                               }
+                           }
         },
         onMutate: () => {
             

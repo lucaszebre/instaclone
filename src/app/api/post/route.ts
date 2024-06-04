@@ -117,10 +117,11 @@ export async function GET(req: Request) {
         
         const data = await supabase.auth.getSession()
 
-        if(!data.data.session?.user.id){
-            return new Response('Unthaurized', { status: 400 })
 
-        } 
+        if (!data.data.session?.user.id) {
+            return new Response("User is not authenticated", { status: 406 })
+
+        }
 
         // get the post  
         

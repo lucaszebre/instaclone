@@ -32,20 +32,45 @@ import toast from 'react-hot-toast'
     const [likeCount, setLikeCount] = useState(props.likes);
     const Save = useMutation({
         mutationFn: async (id:string) => {
-        await axios.post(`/api/save?id=${id}`)
+            try {
+                const save = await axios.post(`/api/save?id=${id}`);
+              
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    if (error.response.status == 406) {
+                        alert('need to be login to execute this action');
+                    }
+                } else {
+                    console.log('An unexpected error occurred:', error);
+                }
+            }
         },
         onMutate: () => {
-            setSave(true)
+            setSave(true);
         },
-        onSuccess:()=>{
-            queryClient.resetQueries({ queryKey: [`post${props.id}`] })
-            queryClient.resetQueries({ queryKey: [`user`] })
+        onSuccess: () => {
+            queryClient.resetQueries({ queryKey: [`post${props.id}`] });
+            queryClient.resetQueries({ queryKey: [`user`] });
         }
-    })
+    });
+    
     const UnSave = useMutation({
         mutationFn: async (id:string) => {
-            await axios.delete(`/api/save?id=${id}`)
-        },
+            try {
+            const result =  await axios.delete(`/api/save?id=${id}`)
+    
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    if (error.response.status == 406) {
+                        alert('need to be login to execute this action');
+                    }
+                } else {
+                    console.log('An unexpected error occurred:', error);
+                }
+            }
+            }
+        
+        ,
         onMutate: () => {
             setSave(false)
         },
@@ -59,7 +84,20 @@ import toast from 'react-hot-toast'
     
     const Like = useMutation({
         mutationFn: async (id:string) => {
-        await axios.post(`/api/like?p=${id}`)
+            try {
+                const result = await axios.post(`/api/like?p=${id}`)
+
+                } catch (error) {
+                    if (axios.isAxiosError(error) && error.response) {
+                        if (error.response.status == 406) {
+                            alert('need to be login to execute this action');
+                        }
+                    } else {
+                        console.log('An unexpected error occurred:', error);
+                    }
+                }
+
+       
         },
         onError: () => {
         setLike(false)
@@ -78,7 +116,19 @@ import toast from 'react-hot-toast'
 
     const Unlike = useMutation({
         mutationFn: async (id:string) => {
-        await axios.delete(`/api/like?p=${id}`)
+
+        try {
+            const result = await axios.delete(`/api/like?p=${id}`)
+
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    if (error.response.status == 406) {
+                        alert('need to be login to execute this action');
+                    }
+                } else {
+                    console.log('An unexpected error occurred:', error);
+                }
+            }
         },
         onError: () => {
         setLike(true)
@@ -97,13 +147,26 @@ import toast from 'react-hot-toast'
     
     const postedComment = useMutation({
         mutationFn: async (id:string) => {
-            await axios.post('/api/comment',
-            {
+           
+
+            try {
+                const result = await axios.post('/api/comment',{
                 postId:id,
                 content:text,
                 user:user.data
             });
+                } catch (error) {
+                    if (axios.isAxiosError(error) && error.response) {
+                        if (error.response.status == 406) {
+                            alert('need to be login to execute this action');
+                        }
+                    } else {
+                        console.log('An unexpected error occurred:', error);
+                    }
+                }
         },
+
+       
         // onError: () => {
         // setLike(true)
         // setLikeCount(prev=>prev+1)

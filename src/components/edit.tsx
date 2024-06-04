@@ -32,9 +32,20 @@ const Edit = (props:{
 
   const Edit = useMutation({
     mutationFn: async () => {
-      await axios.post("/api/profile",{
-        bio,gender
-      })
+ 
+      try {
+        const result=   await axios.post("/api/profile",{
+          bio,gender
+        })      
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            if (error.response.status == 406) {
+                alert('need to be login to execute this action');
+            }
+        } else {
+            console.log('An unexpected error occurred:', error);
+        }
+    }
     },
     onError: () => {
       toast.error('Error to edit the profile');

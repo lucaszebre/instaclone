@@ -8,7 +8,7 @@ export async function GET(req: Request) {
 
         // Check if userId is not provided
         if (!userId) {
-            return new Response( 'Need an id' , { status: 400 });
+            return new Response( 'Need an id' , { status: 406 });
         }
 
         // Retrieve the user and their followers

@@ -16,8 +16,9 @@ export async function POST(req: Request) {
         const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
         const data = await supabase.auth.getSession()
         let userId=data.data.session?.user.id
-        if(!userId){
-            return new Response('Unauthorized', { status: 401 })
+        if (!userId) {
+            return new Response("User is not authenticated", { status: 406 })
+
         }
 
         const url = new URL(req.url)

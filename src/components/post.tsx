@@ -79,7 +79,18 @@ const Post = (props:{
     const [likeCount, setLikeCount] = useState(props.like);
     const Save = useMutation({
         mutationFn: async (id:string) => {
-            await axios.post(`/api/save?id=${id}`)
+            try {
+                await axios.post(`/api/save?id=${id}`)
+        
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    if (error.response.status == 406) {
+                        alert('need to be login to execute this action');
+                    }
+                } else {
+                    console.log('An unexpected error occurred:', error);
+                }
+            }
         },
         onMutate: () => {
             setSave(true)
@@ -91,8 +102,18 @@ const Post = (props:{
     })
     const UnSave = useMutation({
         mutationFn: async (id:string) => {
-            await axios.delete(`/api/save?id=${id}`)
-
+            try {
+                await axios.delete(`/api/save?id=${id}`)
+        
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    if (error.response.status == 406) {
+                        alert('need to be login to execute this action');
+                    }
+                } else {
+                    console.log('An unexpected error occurred:', error);
+                }
+            }
         },
         onMutate: () => {
             setSave(false)
@@ -106,7 +127,18 @@ const Post = (props:{
     
     const Like = useMutation({
         mutationFn: async (id:string) => {
-        await axios.post(`/api/like?p=${id}`)
+        try {
+            await axios.post(`/api/like?p=${id}`)
+    
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                if (error.response.status == 406) {
+                    alert('need to be login to execute this action');
+                }
+            } else {
+                console.log('An unexpected error occurred:', error);
+            }
+        }
         },
         onError: () => {
         setLike(false)
@@ -125,7 +157,18 @@ const Post = (props:{
 
     const Unlike = useMutation({
         mutationFn: async (id:string) => {
-        await axios.delete(`/api/like?p=${id}`)
+        try {
+            await axios.delete(`/api/like?p=${id}`)
+    
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                if (error.response.status == 406) {
+                    alert('need to be login to execute this action');
+                }
+            } else {
+                console.log('An unexpected error occurred:', error);
+            }
+        }
         },
         onError: () => {
         setLike(true)
@@ -144,13 +187,24 @@ const Post = (props:{
     
     const postedComment = useMutation({
         mutationFn: async (id:string) => {
-            await axios.post('/api/comment',
-            {
-                postId:id,
-                content,
-                user:user.data
-            });
-            setContent("");
+         
+            try {
+                await axios.post('/api/comment',
+                {
+                    postId:id,
+                    content,
+                    user:user.data
+                });
+                setContent("");        
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    if (error.response.status == 406) {
+                        alert('need to be login to execute this action');
+                    }
+                } else {
+                    console.log('An unexpected error occurred:', error);
+                }
+            }
 
         },
       
