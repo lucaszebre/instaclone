@@ -21,13 +21,13 @@ export default function RootLayout({
     <html  suppressHydrationWarning lang="en">
     <head />
     <QueryClientProvider client={queryClient}>
-     {/* <Theme>  */}
+     <Theme> 
     <body>
       <main>
     {children}
   </main>
     </body>
-    {/* </Theme>  */}
+    </Theme> 
     </QueryClientProvider>
   </html>
   )

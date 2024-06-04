@@ -36,12 +36,12 @@ const path = new RegExp(
         <DataProvider>
 
     {/* <head /> */}
-    {/* <ThemeProvider
+    <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
-        > */}
+        >
 
     <body suppressHydrationWarning>
     <Next13ProgressBar height="4px" color="linear-gradient(to right, 
@@ -70,7 +70,7 @@ const path = new RegExp(
   reverseOrder={false}
 />
     </body>
-    {/* </ThemeProvider> */}
+    </ThemeProvider>
     </DataProvider>
     </QueryClientProvider>
 
