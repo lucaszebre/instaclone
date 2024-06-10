@@ -132,15 +132,7 @@ export function Login() {
         <Button  type="submit" className="w-full">{isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}Login</Button>
-                <Button className="w-full" onClick={ConnectWithGihub}>
-                  <Icons.gitHub className="mr-2 h-4 w-4 " />
-                  Github
-                </Button>
-                 <Button className="w-full" onClick={ConnectWithGoogle}>
-                  <Icons.google className="mr-2 h-4 w-4 " />
-                  Google
-                </Button>
-
+                
       </form>
     </Form>
     </Card>
