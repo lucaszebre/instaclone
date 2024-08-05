@@ -5,10 +5,10 @@ export const dynamicParams = true
 
 import prisma from '@/lib/db';
 import { cookies } from 'next/headers'
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '@/lib/database.type';
 import { z } from 'zod';
 import { utapi } from '@/lib/utapi';
+import { auth } from '@/auth';
 
  const Payload = z.object({
     url: z.string(),
@@ -28,20 +28,14 @@ export async function POST(req: Request) {
     // export async function NewAvatar(url: string,Avatarkey:string) {
         try {
             // Retrieve the cookies
-            const cookieStore = cookies();
-            const supabase = createServerActionClient<Database>({ cookies: () => cookieStore });
-    
-            // Get the session
-            const { data: session } = await supabase.auth.getSession();
-            if (!session.session?.user.id) {
-                return new Response("User is not authenticated", { status: 406 })
-
-            }
-    
+            const session = await auth()
+  
+            if (!session?.user?.email) throw new Error('Authentication failed');
+         
             // Update the user's avatar
             await prisma.user.update({
                 where: {
-                    id: session.session?.user.id, // Assuming 'id' is the field for user ID in your database
+                    id: session.user.id, // Assuming 'id' is the field for user ID in your database
                 },
                 data: {
                     profilePictureUrl: url,
@@ -84,15 +78,11 @@ export async function DELETE(req: Request) {
 
         try {
             // Retrieve the cookies
-            const cookieStore = cookies();
-            const supabase = createServerActionClient<Database>({ cookies: () => cookieStore });
+           
     
-            // Get the session
-            const { data: session } = await supabase.auth.getSession();
-            if (!session.session?.user.id) {
-                return new Response("User is not authenticated", { status: 400 })
-
-            }
+            const session = await auth()
+  
+            if (!session?.user?.email) throw new Error('Authentication failed');
     
             // Delete the file using UTApi
             await utapi.deleteFiles(fileKey);
@@ -100,7 +90,7 @@ export async function DELETE(req: Request) {
             // Update the user's avatar to null or an empty string
             await prisma.user.update({
                 where: {
-                    id: session.session.user.id, // Assuming 'id' is the field for user ID in your database
+                    id: session.user.id, // Assuming 'id' is the field for user ID in your database
                 },
                 data: {
                     

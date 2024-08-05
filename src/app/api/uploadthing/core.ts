@@ -3,9 +3,8 @@ export const revalidate = 0;
 export const dynamicParams = true
 
 
+import { auth } from "@/auth";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
-import { cookies } from 'next/headers'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 
 const f = createUploadthing();
  
@@ -18,15 +17,12 @@ export const ourFileRouter = {
   imageUploader: f({ image: { maxFileSize: "4MB" } })
     // Set permissions and file types for this FileRoute
     .middleware(async ({ req }) => {
-        const cookieStore = cookies()
-const supabase = createServerComponentClient({ cookies: () => cookieStore })
-      // This code runs on your server before upload
-      const {
-        data: { session },
-      } = await supabase.auth.getSession()
+      const session = await auth()
+  
+      if (!session?.user?.id) throw new Error('Authentication failed');
+       
  
       // If you throw, the user will not be able to upload
-      if (!session) throw new Error("Unauthorized");
  
       // Whatever is returned here is accessible in onUploadComplete as `metadata`
       return { userId: session.user.id };

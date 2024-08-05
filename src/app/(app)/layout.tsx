@@ -11,11 +11,11 @@ import { Next13ProgressBar } from 'next13-progressbar';
 import { usePathname } from 'next/navigation';
 import { Toaster } from 'react-hot-toast';
 import Sidebar from '@/components/sidebar';
-import { DataProvider } from '@/store/datacontext';
+import { useSession, SessionProvider } from 'next-auth/react';
 
 
 
-export default function RootLayout({
+export default function Layout({
   children,
 }: {
   children: React.ReactNode;
@@ -33,7 +33,6 @@ const path = new RegExp(
   <html lang="en">
                   <QueryClientProvider  client={queryClient} >
 
-        <DataProvider>
 
     {/* <head /> */}
     <ThemeProvider
@@ -44,6 +43,7 @@ const path = new RegExp(
         >
 
     <body suppressHydrationWarning>
+      <SessionProvider>
     <Next13ProgressBar height="4px" color="linear-gradient(to right, 
               red, 
               orange, 
@@ -69,9 +69,10 @@ const path = new RegExp(
   position="top-center"
   reverseOrder={false}
 />
+</SessionProvider>
+
     </body>
     </ThemeProvider>
-    </DataProvider>
     </QueryClientProvider>
 
   </html>

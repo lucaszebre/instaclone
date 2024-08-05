@@ -1,41 +1,18 @@
-"use client"
-
-
 import React from 'react';
-import Auth from '@/components/auth';
-import supabaSingleton from '@/lib/supabaSingleton';
-import { useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import dynamic from 'next/dynamic';
-import { cookies } from 'next/headers';
-
- function Home() {
-    const router = useRouter();
-    const supabase = supabaSingleton();
+import Auth from '../../../components/Auth';
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
 
 
+ async function Home() {
+   
+    const session = await auth()
 
-    const { isLoading, data: session } =useQuery({
-      queryFn: async () => {
-        
-          const { data: { session } } = await supabase.auth.getSession();
-          return session;
-      },
-      
-      queryKey: [`session`]
-      
-      })
 
-    if (isLoading) {
-        return <p>Loading...</p>;
+    if(session){
+        redirect('/')
     }
-
     
-
-    if (session) {
-      router.push('/');
-  }
-
 
     return (
         <>
@@ -45,4 +22,4 @@ import { cookies } from 'next/headers';
 }
 
 
-export default dynamic (() => Promise.resolve(Home), {ssr: false})
+export default Home

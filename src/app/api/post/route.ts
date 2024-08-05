@@ -1,10 +1,8 @@
-import { Database } from "@/lib/database.type";
+import { auth } from "@/auth";
 import prisma from "@/lib/db";
 import { pusherServer } from "@/lib/pusher";
 import { utapi } from "@/lib/utapi";
 import { toPusherKey } from "@/lib/utils";
-import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
 
 type Payload = {
     url: string;
@@ -20,13 +18,10 @@ export async function POST(req:Request){
   
         // This doesn't work
         const { url,filekey,filter,bio } = body;
-        const cookieStore = cookies()
+        const session = await auth()
+  
 
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
-        
-        const data = await supabase.auth.getSession()
-
-        if(!data.data.session?.user.id){
+        if(!session?.user.id){
             return new Response('Unthaurized', { status: 400 })
 
         }
@@ -35,7 +30,7 @@ export async function POST(req:Request){
             data: {
                 imageUrl: url,
                 filekey,
-                user: { connect: { id: data.data.session?.user.id} },
+                user: { connect: { id: session?.user.id} },
                 filter,
                 bio
             },
@@ -67,13 +62,12 @@ export async function DELETE(req:Request){
   
         // This doesn't work
         const { id,filekey } = body;
-        const cookieStore = cookies()
-
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
+        const session = await auth()
+  
+        if (!session?.user?.email) throw new Error('Authentication failed');
         
-        const data = await supabase.auth.getSession()
 
-        if(!data.data.session?.user.id){
+        if(!session?.user.id){
             return new Response('Unthaurized', { status: 400 })
 
         }
@@ -111,14 +105,13 @@ export async function GET(req: Request) {
             return new Response('Unthaurized', { status: 400 })
 
         }
-        const cookieStore = cookies()
 
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
-        
-        const data = await supabase.auth.getSession()
+        const session = await auth()
+  
+        if (!session?.user?.email) throw new Error('Authentication failed');
 
 
-        if (!data.data.session?.user.id) {
+        if (!session?.user.id) {
             return new Response("User is not authenticated", { status: 406 })
 
         }

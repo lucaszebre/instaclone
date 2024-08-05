@@ -3,10 +3,9 @@ export const revalidate = 0;
 export const dynamicParams = true
 
 
+import { auth } from '@/auth';
 import prisma from '@/lib/db';
-import { cookies } from 'next/headers'
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '@/lib/database.type';
+
 
 
 export async function POST(req: Request) {
@@ -16,12 +15,9 @@ export async function POST(req: Request) {
 
         if (!id) return new Response('Invalid query', { status: 400 });
         // Retrieve the cookies
-        const cookieStore = cookies();
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore });
-
-        // Get the session
-        const { data: session } = await supabase.auth.getSession();
-        if (!session.session?.user.id) {
+        const session = await auth()
+          
+        if (!session?.user.id) {
             return new Response("User is not authenticated", { status:406})
 
         }
@@ -40,7 +36,7 @@ export async function POST(req: Request) {
         // Check if the post is already saved by the user
         const user = await prisma.user.findUnique({
             where: {
-                id: session.session.user.id,
+                id: session.user.id,
             },
             select: {
                 savePost: true
@@ -54,7 +50,7 @@ export async function POST(req: Request) {
         // Update the user's avatar to null or an empty string
         await prisma.user.update({
             where: {
-                id: session.session.user.id, // Assuming 'id' is the field for user ID in your database
+                id: session.user.id, // Assuming 'id' is the field for user ID in your database
             },
         
             data: {
@@ -85,12 +81,12 @@ export async function DELETE(req: Request) {
         if (!id) return new Response('Invalid query', { status: 400 });
         // Retrieve the cookies
         // Retrieve the cookies
-        const cookieStore = cookies();
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore });
+        const session = await auth()
+  
+        if (!session?.user?.email) throw new Error('Authentication failed');
 
         // Get the session
-        const { data: session } = await supabase.auth.getSession();
-        if (!session.session?.user.id) {
+        if (!session?.user.id) {
             return new Response("User is not authenticated", { status: 401 });
 
         }
@@ -108,7 +104,7 @@ export async function DELETE(req: Request) {
 
         const Savepost = await prisma.user.findFirst({
             where:{
-                id:session.session.user.id
+                id:session.user.id
             },
             select:{
                 savePost:true
@@ -122,7 +118,7 @@ export async function DELETE(req: Request) {
         // set the new array 
         await prisma.user.update({
             where: {
-                id: session.session.user.id, // Assuming 'id' is the field for user ID in your database
+                id: session.user.id, // Assuming 'id' is the field for user ID in your database
             },
             data: {
                 savePost:{
@@ -147,14 +143,10 @@ export async function GET(req: Request) {
         const postId = url.searchParams.get('p');
 
         if (!postId) return new Response('Invalid query', { status: 400 });
-
-        const cookieStore = cookies()
-
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
-        
-        const data = await supabase.auth.getSession()
+        const session = await auth()
+  
       
-        let userId=data.data.session?.user.id
+        let userId=session?.user.id
 
         if(userId===undefined){
             return new Response('Unauthorized', { status: 401 })

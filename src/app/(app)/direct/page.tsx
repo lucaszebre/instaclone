@@ -13,15 +13,11 @@ import React, { useContext, useEffect } from 'react'
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
-import supabaSingleton from '@/lib/supabaSingleton';
-import { Session } from '@supabase/supabase-js';
-import { DataContext } from '@/store/datacontext';
 import useScreenSize from '@/hooks/useScreenSize';
 import Link from 'next/link';
 
  const Page = () => {
     const router = useRouter();
-    const {session} = useContext(DataContext)
     const Conv =useQuery({
       queryFn: async () => {
         const  data  = await axios.get('/api/conversation');
@@ -57,9 +53,7 @@ import Link from 'next/link';
 
         },[screenSize])
     
-      if(!session){
-        router.push('/auth')
-      }
+     
   return (
     <>
     <div className='flex flex-row w-full'>

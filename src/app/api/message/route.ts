@@ -3,26 +3,24 @@ export const revalidate = 0;
 export const dynamicParams = true
 
 
+import { auth } from '@/auth';
 import { Database } from '@/lib/database.type'
 import prisma, { db } from '@/lib/db'
 import { pusherServer } from '@/lib/pusher'
 import { toPusherKey } from '@/lib/utils'
 import { Usered } from '@/lib/validator/currentUser'
 import { Message, messageValidator } from '@/lib/validator/message'
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
 import { nanoid } from 'nanoid'
 import { cookies } from 'next/headers'
 
 export async function POST(req: Request) {
   try {
     const { text, chatId,convId }: { text: string; chatId: string,convId:string } = await req.json()
-    const cookieStore = cookies()
+    const session = await auth()
+  
+          if (!session?.user?.email) throw new Error('Authentication failed');
 
-    const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
-    
-    const data = await supabase.auth.getSession()
-
-    const currentUserId = data.data.session?.user.id;
+    const currentUserId = session?.user.id;
     if (!currentUserId) {
       return new Response("User is not authenticated", { status: 406 })
 

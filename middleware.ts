@@ -1,28 +1,11 @@
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
-import { NextResponse } from 'next/server'
+export { auth as middleware } from "@/auth"
 
-import type { NextRequest } from 'next/server'
-import type { Database } from '@/lib/database.type'
+// Or like this if you need to do something here.
+// export default auth((req) => {
+//   console.log(req.auth) //  { session: { user: { ... } } }
+// })
 
-export async function middleware(req: NextRequest,resp:NextResponse) {
-  const res = NextResponse.next()
-  const supabase = createMiddlewareClient<Database>({ req, res })
-  const { data: session } = await supabase.auth.getSession()
-
-  //  Check if the user session exists
-  if (!session) {
-    // Redirect to /auth if the user is not authenticated
-    return NextResponse.redirect('/auth');
-
-  } 
-  if(session.session?.user.id){
-    resp.headers.set('session', session.session?.user.id)
-
-  }
-
-   return res
-}
-
+// Read more: https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
 export const config = {
-  matcher: '/auth',
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 }

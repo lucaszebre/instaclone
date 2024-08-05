@@ -4,17 +4,16 @@ export const revalidate = 0;
 export const dynamicParams = true
 
 
-import { cookies } from 'next/headers';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { auth } from '@/auth';
 import prisma from '@/lib/db';
 import { notFound } from 'next/navigation';
 
 async function getUserProfile() {
   try {
-    const cookieStore = cookies();
-    const supabase = createServerComponentClient({ cookies: () => cookieStore });
+    const session = await auth()
+  
+          if (!session?.user?.id) throw new Error('Authentication failed');
     
-    const { data: { session } } = await supabase.auth.getSession();
     const userId = session?.user.id;
 
     if (!userId) {

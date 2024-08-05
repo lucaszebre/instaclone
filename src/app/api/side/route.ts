@@ -3,20 +3,18 @@ export const revalidate = 0;
 export const dynamicParams = true
 
 
-import { Database } from "@/lib/database.type";
+import { auth } from "@/auth";
 import prisma from "@/lib/db";
-import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
 
 export async function GET(req: Request) {
   
     try {
-        const cookieStore = cookies();
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore });
+        const session = await auth()
+  
+        if (!session?.user?.email) throw new Error('Authentication failed');
 
         // Get the current user's session
-        const { data: sessionData } = await supabase.auth.getSession();
-        const currentUserId = sessionData.session?.user.id;
+        const currentUserId = session?.user.id;
 
         
 

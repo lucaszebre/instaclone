@@ -1,6 +1,5 @@
 "use client"
 
-import { DataContext } from "@/store/datacontext";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 
@@ -9,13 +8,7 @@ import { useContext } from "react";
 export default function NotFound() {
   const router = useRouter();
 
-  const {session} = useContext(DataContext)
 
-  if(!session){
-    router.push('/auth')
-  }
-
-  
 
   return (
     <div className='flex flex-row w-full  items-center justify-start mt-6 text-center'>

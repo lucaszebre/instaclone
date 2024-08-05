@@ -2,8 +2,6 @@
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
 import { Button } from './ui/button'
 import React, { ReactNode } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Database } from '@/lib/database.type';
 import { useRouter } from 'next/navigation';
 import { copyCurrentURL } from '@/lib/copyLink';
 import AboutThisAccount from './aboutThisAccount';
@@ -21,7 +19,6 @@ interface Props {
     }
 const ProfileOption: React.FC<Props> = ({    children,current,username,uploadDate,avatar,name
 }) => {
-    const supabase = createClientComponentClient<Database>()
     const router = useRouter()
 
     if(current){
@@ -70,7 +67,6 @@ const ProfileOption: React.FC<Props> = ({    children,current,username,uploadDat
                     
                     <Button onClick={async ()=>{
                             router.push('/auth')
-                            await supabase.auth.signOut()
                             router.refresh()
 
                     } } variant="ghost">

@@ -3,10 +3,8 @@ export const revalidate = 0;
 export const dynamicParams = true
 
 
-import { Database } from '@/lib/database.type';
+import { auth } from '@/auth';
 import prisma from '@/lib/db';
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
 import { z } from 'zod';
 
 export async function GET(req: Request) {
@@ -47,14 +45,14 @@ export async function GET(req: Request) {
             )
     
         }else{
-            const cookieStore = cookies()
-
-            const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
-        
-            const data = await supabase.auth.getSession()
+            
+            const session = await auth()
+  
+            if (!session?.user?.email) throw new Error('Authentication failed');
+            
 
             User =  await prisma.user.findFirst({
-                where: { id:data.data.session?.user.id },
+                where: { id:session?.user.id },
                 include: {
                 posts:{include:{
                     user:true,
@@ -122,14 +120,13 @@ export async function POST(req: Request) {
                 )
     
         }else{
-            const cookieStore = cookies()
-
-            const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
+            const session = await auth()
+  
+            if (!session?.user?.email) throw new Error('Authentication failed');
         
-            const data = await supabase.auth.getSession()
 
                 User =  await prisma.user.findFirst({
-                    where: { id:data.data.session?.user.id },
+                    where: { id:session?.user.id },
                     include: {
                     posts:{include:{
                         user:true,

@@ -3,10 +3,9 @@ export const revalidate = 0;
 export const dynamicParams = true
 
 
+import { auth } from '@/auth';
 import prisma from '@/lib/db';
-import { cookies } from 'next/headers'
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '@/lib/database.type';
+
 
 
 export async function POST(req: Request) {
@@ -16,16 +15,15 @@ export async function POST(req: Request) {
         if (!postId) {
             throw new Error("Need the id ");
         }
-        const cookieStore = cookies();
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore });
-        const { data: session } = await supabase.auth.getSession();
-        if (!session.session?.user.id) {
+        const session = await auth()
+  
+        if (!session?.user.id) {
             return new Response("User is not authenticated", { status: 406 })
 
         }
 
         // Get the current user's ID
-        const currentUserId = session.session?.user.id;
+        const currentUserId = session?.user.id;
         // Check if the user has already liked the post
         const existingLike = await prisma.like.findFirst({
             where: {
@@ -62,16 +60,16 @@ export async function DELETE(req: Request) {
         if (!postId) {
             throw new Error("Need the id ");
         }
-        const cookieStore = cookies();
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore });
-        const { data: session } = await supabase.auth.getSession();
-        if (!session.session?.user.id) {
+        const session = await auth()
+  
+  
+        if (!session?.user.id) {
             return new Response("User is not authenticated", { status: 406 })
 
         }
 
         // Get the current user's ID
-        const currentUserId = session.session?.user.id;
+        const currentUserId = session?.user.id;
 
         // Check if the user has liked the post
         const existingLike = await prisma.like.findFirst({
@@ -111,13 +109,12 @@ export async function GET(req: Request) {
 
         if (!postId) return new Response('Invalid query', { status: 400 });
 
-        const cookieStore = cookies()
-
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
+        const session = await auth()
+  
+        if (!session?.user?.email) throw new Error('Authentication failed');
         
-        const data = await supabase.auth.getSession()
       
-        let userId=data.data.session?.user.id
+        let userId=session?.user.id
 
         if(userId===undefined){
             return new Response('Unauthorized', { status: 401 })

@@ -3,10 +3,8 @@ export const revalidate = 0;
 export const dynamicParams = true
 
 
+import { auth } from '@/auth';
 import prisma from '@/lib/db';
-import { cookies } from 'next/headers'
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '@/lib/database.type';
 import { z } from 'zod';
 
  const Payload = z.object({
@@ -25,21 +23,18 @@ export async function POST(req: Request) {
 
     // export async function editProfile( bio?:string,gender?:string) {
         try {
-            // Retrieve the cookies
-            const cookieStore = cookies();
-            const supabase = createServerActionClient<Database>({ cookies: () => cookieStore });
-    
-            // Get the session
-            const { data: session } = await supabase.auth.getSession();
+            const session = await auth()
+  
+            if (!session?.user?.email) throw new Error('Authentication failed');
             
     
-            if (!session.session?.user.id) {
+            if (!session?.user.id) {
                 return new Response("User is not authenticated", { status: 406 })
     
             }
             await prisma.user.update({
                 where: {
-                    id: session.session.user.id, // Assuming 'id' is the field for user ID in your database
+                    id: session.user.id, // Assuming 'id' is the field for user ID in your database
                 },
                 data: {
                     bio:bio,

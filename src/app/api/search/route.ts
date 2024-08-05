@@ -3,20 +3,15 @@ export const revalidate = 0;
 export const dynamicParams = true
 
 
-import { Database } from "@/lib/database.type"
 import prisma from "@/lib/db"
-import { createServerActionClient } from "@supabase/auth-helpers-nextjs"
-import { cookies } from "next/headers"
+
 
 
 export async function GET(req: Request) {
   const url = new URL(req.url)
   const q = url.searchParams.get('q')
-  const cookieStore = cookies()
 
-  const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
   
-  const data = await supabase.auth.getSession()
   
   if (!q) return new Response('Invalid query', { status: 400 })
     try {

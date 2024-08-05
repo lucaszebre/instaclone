@@ -4,8 +4,6 @@ import Post from '@/components/post'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import dynamic from 'next/dynamic'
-import supabaSingleton from '@/lib/supabaSingleton'
-import { Session } from '@supabase/supabase-js'
 
 interface PageProps {
   params: {

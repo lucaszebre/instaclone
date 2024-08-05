@@ -4,10 +4,6 @@ export const dynamicParams = true
 export const runtime = 'nodejs'
 
 import prisma from '@/lib/db';
-import { cookies } from 'next/headers'
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '@/lib/database.type';
-import { SchemaRegister } from '@/lib/validator/register';
 
 
 export async function POST(req: Request,res: Response) {

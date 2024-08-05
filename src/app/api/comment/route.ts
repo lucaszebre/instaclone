@@ -5,7 +5,6 @@ export const dynamicParams = true
 
 import prisma from '@/lib/db';
 import { cookies } from 'next/headers'
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '@/lib/database.type';
 import { pusherServer } from '@/lib/pusher';
 import { toPusherKey } from '@/lib/utils';
@@ -14,6 +13,7 @@ import { timeSince } from '@/lib/time';
 import { z } from 'zod';
 import { nanoid } from 'nanoid';
 import { randomUUID } from 'crypto';
+import { auth } from '@/auth';
 
 
 type Payload = {
@@ -30,13 +30,11 @@ export async function POST(req:Request){
         // This doesn't work
         const { postId,content,user} = body;
         
-        const cookieStore = cookies()
+        const session = await auth()
+  
+        if (!session?.user?.email) throw new Error('Authentication failed');
 
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
-        
-        const data = await supabase.auth.getSession()
-
-        const currentUserId = data.data.session?.user.id;
+        const currentUserId = session?.user.id;
 
         if (!currentUserId) {
           return new Response("User is not authenticated", { status: 406 })
@@ -121,13 +119,11 @@ export async function POST(req:Request){
 export async function DELETE(req:Request){
     try {
           
-        const cookieStore = cookies()
+      const session = await auth()
+  
+      if (!session?.user?.email) throw new Error('Authentication failed');
 
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
-        
-        const data = await supabase.auth.getSession()
-
-        const currentUserId = data.data.session?.user.id;
+        const currentUserId = session?.user.id;
 
         if(!currentUserId){
             throw new Error("You need to be auth");        }
