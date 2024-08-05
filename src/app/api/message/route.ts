@@ -3,7 +3,6 @@ export const revalidate = 0;
 export const dynamicParams = true
 
 
-import { fetchRedis } from '@/lib/utils'
 import { Database } from '@/lib/database.type'
 import prisma, { db } from '@/lib/db'
 import { pusherServer } from '@/lib/pusher'
