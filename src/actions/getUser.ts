@@ -17,11 +17,14 @@ export async function getUser(email?:string) {
 
     return user
   }
+
+
+  
+  try {
   const session = await auth()
 
-   if (!session?.user?.email) redirect('/auth');
+   if (!session?.user?.email) throw Error('Need to be auth');
 
-  try {
     // Check if the history entry exists
  
 

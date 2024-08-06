@@ -34,7 +34,7 @@ export default function Auth() {
 
           
 
-        <SignIn provider="linkedin" />
+          <SignIn provider="linkedin" />
           <SignIn provider="google" />
           <SignIn provider="github" />
     </Card>

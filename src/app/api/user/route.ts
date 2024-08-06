@@ -52,7 +52,7 @@ export async function GET(req: Request) {
             
 
             User =  await prisma.user.findFirst({
-                where: { id:session?.user.id },
+                where: { email:session?.user.email },
                 include: {
                 posts:{include:{
                     user:true,
@@ -126,7 +126,7 @@ export async function POST(req: Request) {
         
 
                 User =  await prisma.user.findFirst({
-                    where: { id:session?.user.id },
+                    where: { email:session?.user.email },
                     include: {
                     posts:{include:{
                         user:true,

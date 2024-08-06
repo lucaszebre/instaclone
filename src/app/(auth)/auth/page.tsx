@@ -6,12 +6,12 @@ import { redirect } from 'next/navigation';
 
  async function Home() {
    
-    const session = await auth()
+    // const session = await auth()
 
 
-    if(session){
-        redirect('/')
-    }
+    // if(session){
+    //     redirect('/')
+    // }
     
 
     return (

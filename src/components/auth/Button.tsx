@@ -12,7 +12,7 @@ export function SignIn({
               <form
                 action={async () => {
                   "use server"
-                  await signIn(provider)
+                  await signIn(provider,{ callbackUrl: 'http://localhost:3000/' })
                 }}
               >
                 {/* <Button {...props}>Sign In</Button> */}
@@ -45,7 +45,7 @@ export function SignIn({
               <form
                 action={async () => {
                   "use server"
-                  await signIn(provider)
+                  await signIn(provider ,{ callbackUrl: '/' })
                 }}
               >
                 {/* <Button {...props}>Sign In</Button> */}

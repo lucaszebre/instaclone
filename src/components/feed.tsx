@@ -9,7 +9,7 @@ import FeedPost from './feedPost';
 import MenuMobile from './menuMobile';
 import { Posted } from '@/types';
 
-const Feed = ({ userId }: { userId?: string }) => {
+const Feed = (props:{email:string}) => {
 
     const {
         data,
@@ -82,7 +82,7 @@ const Feed = ({ userId }: { userId?: string }) => {
                             <div className='w-full flex flex-row justify-center ' key={post.id} ref={index === articles.length - 1 ? lastPostRef : null}>
                                 <FeedPost
                                     filekey={post.filekey || ""}
-                                    userId={userId||""}
+                                    email={props.email||""}
                                     id={post.id}
                                     image={post.imageUrl}
                                     username={post.user?.username || ""}

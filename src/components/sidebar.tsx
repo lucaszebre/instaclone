@@ -39,6 +39,8 @@ import dynamic from "next/dynamic"
     enabled:true
   })
 
+  
+
 
   const handleSidebarToggle = (newSide:string) => {
     if(newSide==='search'){

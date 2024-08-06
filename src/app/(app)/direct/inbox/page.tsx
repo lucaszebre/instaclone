@@ -10,11 +10,9 @@ import { Button } from '@/components/ui/button'
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
-import { DataContext } from '@/store/datacontext';
 
  const Page = () => {
   const router = useRouter();
-  const {session} = useContext(DataContext)
   const Conv =useQuery({
     queryFn: async () => {
       const  data  = await axios.get('/api/conversation');
@@ -36,12 +34,7 @@ import { DataContext } from '@/store/datacontext';
     })
 
     const [inbox,setInbox] =useState(false)
-    if(!session){
-      router.push('/auth')
-    }
-    if(!session){
-      router.push('/auth')
-    }
+ 
   return (
     <>
     <div className='flex flex-row w-full'>
