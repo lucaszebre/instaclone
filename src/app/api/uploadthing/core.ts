@@ -18,18 +18,20 @@ export const ourFileRouter = {
     // Set permissions and file types for this FileRoute
     .middleware(async ({ req }) => {
       const session = await auth()
+
+      console.log(session,"inside the auth")
   
-      if (!session?.user?.id) throw new Error('Authentication failed');
+      if (!session?.user?.email) throw new Error('Authentication failed');
        
  
       // If you throw, the user will not be able to upload
  
       // Whatever is returned here is accessible in onUploadComplete as `metadata`
-      return { userId: session.user.id };
+      return { email: session.user.email };
     })
     .onUploadComplete(async ({ metadata, file }) => {
       // This code RUNS ON YOUR SERVER after upload
-      console.log("Upload complete for userId:", metadata.userId);
+      console.log("Upload complete for userId:", metadata.email);
  
       console.log("file url", file.url);
       

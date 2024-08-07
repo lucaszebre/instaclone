@@ -15,8 +15,9 @@ import Link from "next/link"
 import axios from "axios"
 import {  Usered } from "@/lib/validator/currentUser"
 import dynamic from "next/dynamic"
+import { Session } from "next-auth"
 
- function Sidebar() {
+ function Sidebar(props:{session?:Session}) {
   
   const { setSide, side,short,setShort } = useStore()
   const [search,setSearch]=useState(false)
@@ -132,7 +133,7 @@ const path = new RegExp(
                 </div>
             
             <div className="md:flex hidden">
-                <Plus>
+                <Plus session={props.session!}>
                   <Button onClick={() => handleSidebarToggle('plus')} variant="ghost" className="w-full h-full md:h-[50px] justify-start gap-5">
                       <Tool name="More">
                         {side==='plus'? <svg aria-label="Paramètres" className="hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Paramètres</title><path d="M3.5 6.5h17a1.5 1.5 0 0 0 0-3h-17a1.5 1.5 0 0 0 0 3Zm17 4h-17a1.5 1.5 0 0 0 0 3h17a1.5 1.5 0 0 0 0-3Zm0 7h-17a1.5 1.5 0 0 0 0 3h17a1.5 1.5 0 0 0 0-3Z"></path></svg> :<svg aria-label="Paramètres" className="hover:w-[26px] hover:h-[26px] x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Paramètres</title><line fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" x1="3" x2="21" y1="4" y2="4"></line><line fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" x1="3" x2="21" y1="12" y2="12"></line><line fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" x1="3" x2="21" y1="20" y2="20"></line></svg>}

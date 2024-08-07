@@ -7,26 +7,36 @@ import LinkedIn from "next-auth/providers/linkedin"
 import prisma from "./lib/db"
 import { getUser } from "./actions/getUser"
 import { random } from "nanoid"
+import type { Provider } from "next-auth/providers"
+
+const providers: Provider[] = [
+  GitHub,
+  Google,
+  LinkedIn
+]
+
+export const providerMap = providers.map((provider) => {
+  if (typeof provider === "function") {
+    const providerData = provider()
+    return { id: providerData.id, name: providerData.name }
+  } else {
+    return { id: provider.id, name: provider.name }
+  }
+})
 
 const config = {
   theme: { logo: "https://authjs.dev/img/logo-sm.png" },
-  providers: [
- 
-   
-    GitHub,
-    Google,
-    LinkedIn
-  
- 
-  ],
-  basePath: "/auth"
+  providers: providers,
+  basePath: "/api/auth"
   ,
   pages: {
-    signIn: '/auth',
+    signIn: '/signin',
   }
   ,
   callbacks: {async signIn({ user, account, profile }) {
-    // Check if the user exists in your database
+    // Check if the user exists in your databaseThe base path of the Auth.js API endpoints.
+    
+    
     if(!user.email){
       return false
     }
@@ -49,8 +59,8 @@ const config = {
   },
     authorized({ request, auth }) {
       const { pathname } = request.nextUrl
-       if (pathname === "/auth" || pathname === "/"){
-        return false   // if false mean we not auth should be redirected
+       if (pathname === "/signin" || pathname === "/" || pathname==="/auth"){
+        return true   // if false mean we not auth should be redirected
        }
 
       return !!auth?.user
@@ -74,6 +84,11 @@ const config = {
   },
   debug: process.env.NODE_ENV == "production" ? true : false,
 } satisfies NextAuthConfig
+
+
+
+
+
 
 export const { handlers, auth, signIn, signOut } = NextAuth(config)
 

@@ -40,7 +40,7 @@ const Edit = (props:{
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             if (error.response.status == 406) {
-                alert('need to be login to execute this action');
+                toast.error('need to be login to execute this action');
             }
         } else {
             console.log('An unexpected error occurred:', error);

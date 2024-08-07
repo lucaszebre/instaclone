@@ -15,27 +15,21 @@ import { auth } from '@/auth';
     Avatarkey: z.string(),
 
 });
-export async function POST(req: Request) {
+
+export const POST = auth(async (req) => {
+
+    let datad = await req.json();
+
+    const validatedData = Payload.parse(datad);
+
+    const {url,Avatarkey}=validatedData;
+
+  if (req.auth?.user.email) {
     
-   
-        let datad = await req.json();
-
-        const validatedData = Payload.parse(datad);
-
-        const {url,Avatarkey}=validatedData;
-
-
-    // export async function NewAvatar(url: string,Avatarkey:string) {
-        try {
-            // Retrieve the cookies
-            const session = await auth()
-  
-            if (!session?.user?.email) throw new Error('Authentication failed');
-         
             // Update the user's avatar
             await prisma.user.update({
                 where: {
-                    id: session.user.id, // Assuming 'id' is the field for user ID in your database
+                    email: req.auth.user.email, // Assuming 'id' is the field for user ID in your database
                 },
                 data: {
                     profilePictureUrl: url,
@@ -44,67 +38,48 @@ export async function POST(req: Request) {
             });
     
             return new Response('Avatar successfully uploaded', { status: 200 })
+  }
 
-        } catch (error) {
-            if (error instanceof Error) {
-                return new Response(error.message, { status: 400 })
+  return Response.json({ message: "Not authenticated" }, { status: 401 })
+}) as any 
 
-            }        
-        }
-    // }
+
+export const DELETE = auth(async (req) => {
+
   
-}
-
-
-
-const Payload2 = z.object({
-    fileKey: z.string(),
-
-});
-export async function DELETE(req: Request) {
-    
-   
-
-
-
-        const url = new URL(req.url)
+    const url = new URL(req.url)
         
-        const fileKey  = url.searchParams.get('fileKey') 
+    const fileKey  = url.searchParams.get('fileKey') 
 
-        if(!fileKey){
-            return new Response("File key is not defined", { status: 400 });
+    if(!fileKey){
+        return new Response("File key is not defined", { status: 400 });
 
-        }
+    }
 
-        try {
-            // Retrieve the cookies
-           
+  if (req.auth?.user.email) {
     
-            const session = await auth()
-  
-            if (!session?.user?.email) throw new Error('Authentication failed');
+             // Delete the file using UTApi
+             await utapi.deleteFiles(fileKey);
     
-            // Delete the file using UTApi
-            await utapi.deleteFiles(fileKey);
-    
-            // Update the user's avatar to null or an empty string
-            await prisma.user.update({
-                where: {
-                    id: session.user.id, // Assuming 'id' is the field for user ID in your database
-                },
-                data: {
-                    
-                    profilePictureUrl: null, // Or an empty string if preferred
-                },
-            });
-    
-            return new Response('Avatar successfully deleted', { status: 200 })
+             // Update the user's avatar to null or an empty string
+             await prisma.user.update({
+                 where: {
+                     email: req.auth.user.email, // Assuming 'id' is the field for user ID in your database
+                 },
+                 data: {
+                     
+                     profilePictureUrl: null, // Or an empty string if preferred
+                 },
+             });
+     
+             return new Response('Avatar successfully deleted', { status: 200 })
+ 
+  }
 
-        } catch (error) {
-            if (error instanceof Error) {
-                return new Response(error.message, { status: 400 })
+  return Response.json({ message: "Not authenticated" }, { status: 401 })
+}) as any 
 
-            }
-        }
-  
-}
+
+
+
+

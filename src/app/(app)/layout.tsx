@@ -11,7 +11,8 @@ import { Next13ProgressBar } from 'next13-progressbar';
 import { usePathname } from 'next/navigation';
 import { Toaster } from 'react-hot-toast';
 import Sidebar from '@/components/sidebar';
-import { useSession, SessionProvider } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
+import { Session } from 'next-auth';
 
 
 
@@ -27,7 +28,9 @@ export default function Layout({
 const path = new RegExp(
   '^/direct(?:\/.*|)$'
 );
+const session = useSession()
 
+console.log(session,"inside the layout")
 
   return (
   <html lang="en">
@@ -43,7 +46,6 @@ const path = new RegExp(
         >
 
     <body suppressHydrationWarning>
-      <SessionProvider>
     <Next13ProgressBar height="4px" color="linear-gradient(to right, 
               red, 
               orange, 
@@ -55,7 +57,7 @@ const path = new RegExp(
 
       <main>
         <div className='flex bg-background flex-row h-screen justify-center md:justify-between w-full'>
-        <Sidebar />
+        <Sidebar session={session.data!} />
         <div className={`flex overflow-x-hidden z-0 mb-[50px]
         
         ${   path.test(pathname)  && 'md:ml-[96px]' || 
@@ -69,7 +71,6 @@ const path = new RegExp(
   position="top-center"
   reverseOrder={false}
 />
-</SessionProvider>
 
     </body>
     </ThemeProvider>

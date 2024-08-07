@@ -13,18 +13,19 @@ import { Button } from "./ui/button";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { signOut } from "next-auth/react"
+import { signIn, signOut } from "next-auth/react"
 import { useSession } from "next-auth/react"
 import Link from "next/link";
+import { Session } from "next-auth";
 
 interface Props {
     children: ReactNode;
+    session:Session
   }
   
-  const Plus: React.FC<Props> = ({ children }) => {
+  const Plus: React.FC<Props> = ({ children ,session}) => {
     const { setTheme  } = useTheme()
     const router = useRouter()
-    const session = useSession()
 
 
   return (
@@ -51,26 +52,28 @@ interface Props {
                         <Button  variant="ghost" className="w-full h-full md:h-[50px] justify-start gap-5" ><svg aria-label="Icône du thème" className="x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="18" role="img" viewBox="0 0 24 24" width="18"><title>Icône du thème</title><path d="M11.502,22.99805A11.4313,11.4313,0,0,1,.49512,14.83691a.99889.99889,0,0,1,.251-.998,1.01148,1.01148,0,0,1,.99707-.249,9.43041,9.43041,0,0,0,2.75879.40821A9.5082,9.5082,0,0,0,13.5957,1.74023a1.00039,1.00039,0,0,1,1.24707-1.248A11.501,11.501,0,0,1,11.502,22.99805ZM3.08984,15.91211A9.49991,9.49991,0,0,0,21.002,11.498,9.57875,9.57875,0,0,0,15.916,3.08594,11.5083,11.5083,0,0,1,3.08984,15.91211Z"></path></svg>Changer l'apparence</Button></DropdownMenuItem>
                     <DropdownMenuSeparator />
                    {
-                    session.data?.user ? 
+                     session && session.user.email?
                     
-                    <DropdownMenuItem onClick={
-                         ()=>{
-                        signOut()
-                       
-
-                } }>
+                     <DropdownMenuItem onClick={
+                        ()=>{
+                       signOut()
                     
-                    <Button asChild variant="ghost" className="w-full justify-start gap-5" >
-                    <Link href='/auth'>
-                        Déconnexion
-                    </Link>
-                </Button>
-                </DropdownMenuItem> 
-                : <DropdownMenuItem onClick={ ()=>{
-                    router.replace('/auth')
-                    router.refresh()
-
-            } }><Button variant="ghost" className="w-full justify-start gap-5" >Connexion</Button></DropdownMenuItem>
+                       } }>
+                   
+                   <Button  variant="ghost" className="w-full h-full justify-start gap-5" >
+                   
+                       Déconnexion
+                   </Button>
+               </DropdownMenuItem> 
+                :
+               
+            <DropdownMenuItem onClick={ ()=>{
+                signIn()} }>
+                 <Button  variant="ghost" className="w-full h-full justify-start gap-5" >
+                     Connexion
+                 </Button>
+             </DropdownMenuItem>
+            
                    } 
                 </DropdownMenuContent>
             </DropdownMenu>
