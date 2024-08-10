@@ -98,7 +98,7 @@ export const CommentSchema = z.object({
 
 export const LikeSchema = z.object({
   postId: z.string(),
-  email: z.string(),
+  userId: z.string(),
   likedAt: z.date(),
 });
 

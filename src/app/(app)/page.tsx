@@ -24,7 +24,7 @@ async function Page() {
     <>
      
      <div suppressHydrationWarning={true} className='flex flex-row justify-between w-full'>
-     <Feed  email={session?.user.email  ? session.user.email : ""}/> 
+     <Feed  userId={session?.user.id  ? session.user.id : ""}/> 
       <SideProfile />
     </div>
      
