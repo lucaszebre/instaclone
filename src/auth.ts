@@ -47,9 +47,12 @@ const config = {
 
 
       await prisma.user.create({data:{
+        id:user.id,
         email:user.email,
         username:user.name + random(2).toString().slice(0,6),  // randowzine the username  because he should be unique 
-        profilePictureUrl:user.image
+        profilePictureUrl:user.image,
+        bio:"Write magestic bio come guys",
+        avatarkey:"123456"
 
       }})
     }
@@ -76,6 +79,12 @@ const config = {
       if (token?.accessToken) {
         session.accessToken = token.accessToken
       }
+
+      if(token.sub){
+        session.user.id=token.sub
+      }
+
+
       return session
     },
   },

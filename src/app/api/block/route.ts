@@ -8,69 +8,93 @@ import { cookies } from 'next/headers'
 import { Database } from '@/lib/database.type';
 import { auth } from '@/auth';
 
+export const POST = auth(async (req) => {
 
-export async function POST(req: Request) {
-    try {
-        
-        const session = await auth()
   
-        if (!session?.user?.email) throw new Error('Authentication failed');
+    let userId=req.auth?.user.id;
 
-        let userId=session.user.id
-        if (!userId) {
-            return new Response("User is not authenticated", { status: 406 })
-
-        }
-
-        const url = new URL(req.url)
-        
-        const usertoblock = url.searchParams.get('p')
-
-        if (!usertoblock) return new Response('Invalid query', { status: 400 })
+  if (userId) {
     
-        // const alreadyfollower = await prisma.followerList.findFirst({
-        //     where:{
-        //         userId:usertosub,
-        //         followerId:userId 
-        //     }
-        // })
-
-        // if(alreadyfollower){
-        //     return new Response('user already following', { status: 400 })
-        // }
-        // Transaction to ensure both operations (follow and following) are successful
-        const transaction = await prisma.$transaction([
-            prisma.user.update({
-                where:{
-                    id:userId
-                },
-                data: {
-                    userBlock:[usertoblock]
-                }
-            }),
-            prisma.user.update({
-                where:{
-                    id:usertoblock
-                },
-                data:{
-                    userBLockme:[userId]
-                }
-            })
-        ]);
-
-
-
-
+    const url = new URL(req.url)
         
-        return new Response('Block work', { status: 200 })
+    const usertoblock = url.searchParams.get('p')
 
+    if (!usertoblock) return new Response('Invalid query', { status: 400 })
+
+   
+    const transaction = await prisma.$transaction([
+        prisma.user.update({
+            where:{
+                id:userId
+            },
+            data: {
+                userBlock:[usertoblock]
+            }
+        }),
+        prisma.user.update({
+            where:{
+                id:usertoblock
+            },
+            data:{
+                userBLockme:[userId]
+            }
+        })
+    ]);
+    
+    return new Response('Block work', { status: 200 })
+ 
+  }
+
+  return Response.json({ message: "Not authenticated" }, { status: 401 })
+}) as any
+
+export const DELETE = auth(async (req) => {
+
+  
+    let userId=req.auth?.user.id;
+
+    try {
+        if (userId) {
+    
+            const url = new URL(req.url)
+                
+            const usertosub = url.searchParams.get('p')
+        
+            if (!usertosub) return new Response('Invalid query', { status: 400 })
+        
+            // Transaction to ensure both operations (follow and following) are successful
+            const transaction = await prisma.$transaction([
+                prisma.followerList.deleteMany({
+                    where: {
+                        userId: usertosub,   // The user being followed
+                        followerId: userId,  // The current user (follower)
+                    }
+                }),
+                prisma.followingList.deleteMany({
+                    where: {
+                        userId: userId,      // The current user
+                        followingId: usertosub, // The user they are following
+                    }
+                })
+            ]);
+        
+            return new Response('unFollow worked', { status: 200 })
+        
+         
+          }
+        
+          return Response.json({ message: "Not authenticated" }, { status: 401 })
+        
     } catch (error) {
+        
         return new Response('Server error', { status: 500 })
 
     }
 
-  
-}
+ 
+}) as any 
+
+
 
 
 export async function GET(req: Request) {
@@ -104,46 +128,3 @@ export async function GET(req: Request) {
 
 
 
-export async function DELETE(req: Request) {
-    try {
-        
-     
-        const session = await auth()
-  
-        if (!session?.user?.email) throw new Error('Authentication failed');
-        let userId=session.user.id
-        if(!userId){
-            return new Response('Unauthorized', { status: 401 })
-        }
-
-        const url = new URL(req.url)
-        
-        const usertosub = url.searchParams.get('p')
-
-        if (!usertosub) return new Response('Invalid query', { status: 400 })
-    
-        // Transaction to ensure both operations (follow and following) are successful
-        const transaction = await prisma.$transaction([
-            prisma.followerList.deleteMany({
-                where: {
-                    userId: usertosub,   // The user being followed
-                    followerId: userId,  // The current user (follower)
-                }
-            }),
-            prisma.followingList.deleteMany({
-                where: {
-                    userId: userId,      // The current user
-                    followingId: usertosub, // The user they are following
-                }
-            })
-        ]);
-
-        return new Response('unFollow worked', { status: 200 })
-
-    } catch (error) {
-        return new Response('Server error', { status: 500 })
-
-    }
-
-  
-}

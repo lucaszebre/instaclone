@@ -25,6 +25,9 @@ type Payload2 = {
 
 export const POST = auth(async (req) => {
     const body: Payload = await req.json();
+
+
+    console.log('auht',req.auth?.user.id)
   
     // This doesn't work
     const { url,filekey,filter,bio } = body;
