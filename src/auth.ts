@@ -8,6 +8,7 @@ import prisma from "./lib/db"
 import { getUser } from "./actions/getUser"
 import { random } from "nanoid"
 import type { Provider } from "next-auth/providers"
+import { generateUniqueUsername } from "./lib/utils"
 
 const providers: Provider[] = [
   GitHub,
@@ -42,14 +43,13 @@ const config = {
     }
     const existingUser = await getUser(user.email)
     
-    if (!existingUser) {
+    if (!existingUser && user.name) {
       // If the user doesn't exist, create a new user in your database
-
 
       await prisma.user.create({data:{
         id:user.id,
         email:user.email,
-        username:user.name + random(2).toString().slice(0,6),  // randowzine the username  because he should be unique 
+        username:generateUniqueUsername(user.name),  // randowzine the username  because he should be unique 
         profilePictureUrl:user.image,
         bio:"Write magestic bio come guys",
         avatarkey:"123456"

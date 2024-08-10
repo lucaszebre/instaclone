@@ -12,6 +12,7 @@ export async function GET(req: Request) {
         
         const url = new URL(req.url)
 
+
         const { username } = z.object({
             username: z.string().nullable().optional(),
         })
@@ -19,6 +20,8 @@ export async function GET(req: Request) {
             username: url.searchParams.get('username'),
         })
 
+
+        console.log(username,"username")
 
 
         let User;
