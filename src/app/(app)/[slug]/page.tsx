@@ -8,7 +8,7 @@ import React, { useContext } from 'react'
 import axios from 'axios'
 import { Usered } from '@/lib/validator/currentUser'
 import dynamic from 'next/dynamic'
-import { notFound, useRouter } from 'next/navigation'
+import { notFound, redirect, useRouter } from 'next/navigation'
 interface PageProps {
   params: {
     slug: string
@@ -58,14 +58,7 @@ if(slug===currentUser.data?.username){
 }
 else if(user.error || currentUser.error){
 
-  return (
-    <div className='flex flex-row w-full  items-center justify-start mt-6 text-center'>
-      <div className='flex w-full flex-col gap-2'>
-        <h2>Sorry, this page is not available.</h2>
-        <p>The link you followed may be broken, or the page may have been removed. Go back to Instagram.</p>
-      </div>
-    </div>
-  )
+  return redirect('/signin')
 }
 
  else if(user.isLoading || currentUser.isLoading){
