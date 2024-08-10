@@ -82,51 +82,53 @@ export async function GET(req: Request) {
 
 }
 
-export async function POST(req: Request) {
-    try {
-        
-        const url = new URL(req.url)
 
-        const { username } = z.object({
-            username: z.string().nullable().optional(),
-        })
-        .parse({
-            username: url.searchParams.get('username'),
-        })
+export const POST = auth(async (req) => {
+
+    const url = new URL(req.url)
+
+    const { username } = z.object({
+        username: z.string().nullable().optional(),
+    })
+    .parse({
+        username: url.searchParams.get('username'),
+    })
 
 
 
-        let User;
-        if(username){
-                User =  await prisma.user.findFirst({
-                    where: { username },
-                    include: {
-                    posts:{include:{
-                        user:true,
-                        likes:true,
-                        comments:{
-                            include:{
-                            user:true
-                            }
-                        },
-                        taggedUsers:true,
-                        tags:true
-                    }},
-                    followers:true,
-                    following:true,
-                
+    let User;
+    if(username){
+            User =  await prisma.user.findFirst({
+                where: { username },
+                include: {
+                posts:{include:{
+                    user:true,
+                    likes:true,
+                    comments:{
+                        include:{
+                        user:true
+                        }
                     },
-                    },
-                )
-    
+                    taggedUsers:true,
+                    tags:true
+                }},
+                followers:true,
+                following:true,
+            
+                },
+                },
+            )
+
+            return new Response(JSON.stringify({User}))
+
         }else{
-            const session = await auth()
-  
-            if (!session?.user?.email) throw new Error('Authentication failed');
-        
 
+
+            let userId=req.auth?.user.id;
+
+            if (req.auth?.user.id) {
                 User =  await prisma.user.findFirst({
-                    where: { email:session?.user.email },
+                    where: { id:userId },
                     include: {
                     posts:{include:{
                         user:true,
@@ -144,15 +146,18 @@ export async function POST(req: Request) {
                 )
             }
 
-    
-    return new Response(JSON.stringify({User}))
-        
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message);
         }
-    }
 
 
-}
+            
+
+   
+
+  return Response.json({ message: "Not authenticated" }, { status: 401 })
+}) as any
+
+
+
+
+
 

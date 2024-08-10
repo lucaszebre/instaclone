@@ -60,54 +60,62 @@ export const POST = auth(async (req) => {
 
 
 
-export async function DELETE(req: Request) {
+export const DELETE = auth(async (req) => {
+
+  
+    let userId=req.auth?.user.id;
+
     try {
-        const url = new URL(req.url)
-        const postId = url.searchParams.get('p');
-        if (!postId) {
-            throw new Error("Need the id ");
-        }
-        const session = await auth()
-  
-  
-        if (!session?.user.id) {
-            return new Response("User is not authenticated", { status: 406 })
-
-        }
-
-        // Get the current user's ID
-        const currentUserId = session?.user.id;
-
-        // Check if the user has liked the post
-        const existingLike = await prisma.like.findFirst({
-            where: {
-                postId: postId,
-                userId: currentUserId,
-            },
-        });
-
-        if (!existingLike) {
-            // User has not liked the post, so you can decide whether to handle this case or return an error
-            return new Response('Was not liked at first', { status: 200 });
-
-        }
-
-          // Delete the like to unlike the post using both postId and userId
-        await prisma.like.deleteMany({
-            where: {
-                postId: postId,
-                userId: currentUserId,
-            },
-        });
+        if (userId) {
+    
+            const url = new URL(req.url)
+            const postId = url.searchParams.get('p');
+            if (!postId) {
+                throw new Error("Need the id ");
+            }
+      
+      
+    
+            // Get the current user's ID
+    
+            // Check if the user has liked the post
+            const existingLike = await prisma.like.findFirst({
+                where: {
+                    postId: postId,
+                    userId
+                },
+            });
+    
+            if (!existingLike) {
+                // User has not liked the post, so you can decide whether to handle this case or return an error
+                return new Response('Was not liked at first', { status: 200 });
+    
+            }
+    
+              // Delete the like to unlike the post using both postId and userId
+            await prisma.like.deleteMany({
+                where: {
+                    postId: postId,
+                    userId,
+                },
+            });
+            
+            return new Response('Unlike sucessfully', { status: 200 });
+          }
         
-        return new Response('Unlike sucessfully', { status: 200 });
-
+          return Response.json({ message: "Not authenticated" }, { status: 401 })
+        
     } catch (error) {
-        return new Response('Server error', { status: 500 });
+        
+        return new Response('Server error', { status: 500 })
+
     }
 
-  
-}
+ 
+}) as any 
+
+
+
 
 export async function GET(req: Request) {
     try {

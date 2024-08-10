@@ -38,27 +38,3 @@ export const POST = auth(async (req) => {
 }) as any 
 
 
-// export async function POST(req: Request) {
-    
-   
-      
-
-//     // export async function editProfile( bio?:string,gender?:string) {
-//         try {
-//             const session = await auth()
-  
-//             if (!session?.user?.email) throw new Error('Authentication failed');
-            
-    
-//             if (!session?.user.id) {
-//                 return new Response("User is not authenticated", { status: 406 })
-    
-//             }
-       
-//         } catch (error) {
-//             if (error instanceof Error) {
-//                 return new Response(error.message, { status: 400 })
-//             }
-//         }
-//     // }
-// }
