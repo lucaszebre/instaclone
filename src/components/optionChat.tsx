@@ -2,12 +2,7 @@
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
 import { Button } from './ui/button'
 import React, { ReactNode } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Database } from '@/lib/database.type';
-import { useRouter } from 'next/navigation';
-import { copyCurrentURL } from '@/lib/copyLink';
-import Link from 'next/link';
-import dynamic from 'next/dynamic';
+
 
 interface Props {
     children: ReactNode;

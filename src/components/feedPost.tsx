@@ -13,7 +13,7 @@ import {  Usered } from '@/lib/validator/currentUser'
 import InputEmoji from 'react-input-emoji'
 import toast from 'react-hot-toast'
 
- const FeedPost = (props:{id:string,bio:string,userId:string,filekey:string,image:string,username:string,date:string , likes:number,comment:string,avatarurl:string,like:Like[]}) => {
+ const FeedPost = (props:{id:string,bio:string,email:string,filekey:string,image:string,username:string,date:string , likes:number,comment:string,avatarurl:string,like:Like[]}) => {
     const queryClient = useQueryClient()
     const [ text, setText ] = useState('')
 
@@ -78,7 +78,7 @@ import toast from 'react-hot-toast'
             
             queryClient.resetQueries({ queryKey: [`post${props.id}`] })
             queryClient.resetQueries({ queryKey: [`user`] })
-            queryClient.resetQueries({ queryKey: [`userSavePost${props.userId}`] })
+            queryClient.resetQueries({ queryKey: [`userSavePost${props.email}`] })
         }
     })
     
@@ -184,7 +184,7 @@ import toast from 'react-hot-toast'
     
     
 
-    const [like, setLike] = useState(props.like.some((i)=>i.userId==props.userId));
+    const [like, setLike] = useState(props.like.some((i)=>i.email==props.email));
 
     return (
 

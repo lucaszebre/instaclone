@@ -10,7 +10,6 @@ import NewMessage from '@/components/newMessage';
 import { useState } from 'react';
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
-import { DataContext } from '@/store/datacontext'
 import useScreenSize from '@/hooks/useScreenSize';
 
 interface PageProps {
@@ -23,8 +22,6 @@ interface PageProps {
 
 
 const Page = ({ params }: PageProps) => {
-    const router = useRouter();
-    const {session} = useContext(DataContext)
     const Conv =useQuery({
         queryFn: async () => {
           const  data  = await axios.get('/api/conversation');
@@ -77,9 +74,7 @@ const Page = ({ params }: PageProps) => {
         queryKey: ['user'],
         enabled:true
     })
-    if(!session){
-      router.push("/auth")
-    }
+  
     if(conv.data?.recipient?.id!==currentUser.data?.id){
         return (
             <>

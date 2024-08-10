@@ -50,3 +50,8 @@
     --ring: 240 4.9% 83.9%;
   }
 }
+
+
+html, body {
+  min-height: 100%;
+}

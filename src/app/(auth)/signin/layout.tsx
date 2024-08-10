@@ -1,6 +1,6 @@
 'use client'
 
-import '../globals.css'
+import '../../globals.css'
 import { ThemeProvider } from 'next-themes';
 import React from 'react'
 import {
@@ -8,29 +8,18 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import { Next13ProgressBar } from 'next13-progressbar';
-import { usePathname } from 'next/navigation';
 import { Toaster } from 'react-hot-toast';
-import Sidebar from '@/components/sidebar';
-import { useSession } from 'next-auth/react';
-import { Session } from 'next-auth';
 
 
 
-export default function Layout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const queryClient = new QueryClient()
   
-  const pathname = usePathname()
-
-const path = new RegExp(
-  '^/direct(?:\/.*|)$'
-);
-const session = useSession()
-
-console.log(session,"inside the layout")
+ 
 
   return (
   <html lang="en">
@@ -56,22 +45,13 @@ console.log(session,"inside the layout")
               violet);" options={{ showSpinner: false  }} showOnShallow />
 
       <main>
-        <div className='flex bg-background flex-row h-screen justify-center md:justify-between w-full'>
-        <Sidebar session={session.data!} />
-        <div className={`flex overflow-x-hidden z-0 mb-[50px]
         
-        ${   path.test(pathname)  && 'md:ml-[96px]' || 
-        '  flex-row  xl:ml-[250px] md:ml-[96px] ml-[0px]'}
-        h-screen w-full  justify-start`}>
           {children}
-        </div>
-        </div>
     </main>
     <Toaster
   position="top-center"
   reverseOrder={false}
 />
-
     </body>
     </ThemeProvider>
     </QueryClientProvider>
@@ -79,5 +59,3 @@ console.log(session,"inside the layout")
   </html>
   )
 }
-
-

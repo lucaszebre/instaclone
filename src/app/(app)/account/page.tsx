@@ -7,12 +7,8 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Usered } from '@/types';
 import dynamic from 'next/dynamic'
-import { DataContext } from '@/store/datacontext';
-const Page = async () => {
-  const router = useRouter();
-  const {session} = useContext(DataContext)
-//  we get the last profile status
- 
+const Page =  () => {
+
 
   const {
     isFetching,
@@ -30,9 +26,7 @@ const Page = async () => {
     queryKey: ['user'],
     enabled:true
   })
-  if(!session){
-    router.push('/auth')
-  }
+ 
   if(isLoading){
     <p>Loading...</p>
   }else if (!data) {

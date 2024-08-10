@@ -1,8 +1,5 @@
-import { cookies } from 'next/headers';
 import prisma from '@/lib/db';
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
-import { Database } from '@/lib/database.type';
-import { FeedValidator } from '@/lib/validator/feed';
+
 
 
 export async function GET(req: Request) {

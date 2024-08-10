@@ -1,10 +1,8 @@
-import { Database } from "@/lib/database.type";
+import { auth } from "@/auth";
 import prisma from "@/lib/db";
 import { pusherServer } from "@/lib/pusher";
 import { utapi } from "@/lib/utapi";
 import { toPusherKey } from "@/lib/utils";
-import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
 
 type Payload = {
     url: string;
@@ -14,46 +12,7 @@ type Payload = {
   }
 
 
-export async function POST(req:Request){
-    try {
-        const body: Payload = await req.json();
-  
-        // This doesn't work
-        const { url,filekey,filter,bio } = body;
-        const cookieStore = cookies()
 
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
-        
-        const data = await supabase.auth.getSession()
-
-        if(!data.data.session?.user.id){
-            return new Response('Unthaurized', { status: 400 })
-
-        }
-
-        const newPost = await prisma.post.create({
-            data: {
-                imageUrl: url,
-                filekey,
-                user: { connect: { id: data.data.session?.user.id} },
-                filter,
-                bio
-            },
-        });
-
-        await pusherServer.trigger(toPusherKey(`feed`), 'incoming-post', {
-            feed:1
-        })
-
-        
-
-
-        return new Response('Sucessfully post a post', { status: 200 })
-    } catch (error) {
-        return new Response('Server error', { status: 500 })
-
-    }
-}
 
 
 type Payload2 = {
@@ -61,46 +20,92 @@ type Payload2 = {
     filekey:string
   }
 
-export async function DELETE(req:Request){
-    try {
-        const body: Payload2 = await req.json();
+
+
+
+export const POST = auth(async (req) => {
+    const body: Payload = await req.json();
+
+
+    console.log('auht',req.auth?.user.id)
   
-        // This doesn't work
-        const { id,filekey } = body;
-        const cookieStore = cookies()
+    // This doesn't work
+    const { url,filekey,filter,bio } = body;
+    try {
 
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
+        if (req.auth?.user.email) {
+    
+            const newPost = await prisma.post.create({
+                data: {
+                    imageUrl: url,
+                    filekey,
+                    user: { connect: { email: req.auth?.user.email} },
+                    filter,
+                    bio
+                },
+            });
+    
+            await pusherServer.trigger(toPusherKey(`feed`), 'incoming-post', {
+                feed:1
+            })
+    
+            
+    
+    
+            return new Response('Sucessfully post a post', { status: 200 })
+
+    
+
+ }
+
+ return Response.json({ message: "Not authenticated" }, { status: 401 })
         
-        const data = await supabase.auth.getSession()
-
-        if(!data.data.session?.user.id){
-            return new Response('Unthaurized', { status: 400 })
-
-        }
-
-        // Delete the post 
-        await prisma.post.delete({where:{
-            id
-        },
-    include:{
-        likes:true,
-        comments:true,
-        
-    }})
-
-       // Delete the file using UTApi
-       await utapi.deleteFiles(filekey);
-      
-
-        
-
-
-        return new Response('Sucessfully delete a post', { status: 200 })
     } catch (error) {
         return new Response('Server error', { status: 500 })
 
     }
-}
+    
+ 
+}) as any 
+
+export const DELETE = auth(async (req) => {
+
+    const body: Payload2 = await req.json();
+  
+    // This doesn't work
+    const { id,filekey } = body;
+    try {
+
+        if (req.auth?.user.email) {
+    
+      
+            await prisma.post.delete({where:{
+                id
+            },
+        include:{
+            likes:true,
+            comments:true,
+            
+        }})
+    
+           // Delete the file using UTApi
+           await utapi.deleteFiles(filekey);
+
+           return new Response('Sucessfully delete a post', { status: 200 })
+
+    
+
+ }
+
+ return Response.json({ message: "Not authenticated" }, { status: 401 })
+        
+    } catch (error) {
+        return new Response('Server error', { status: 500 })
+
+    }
+    
+ 
+}) as any 
 
 export async function GET(req: Request) {
         try {
@@ -111,17 +116,11 @@ export async function GET(req: Request) {
             return new Response('Unthaurized', { status: 400 })
 
         }
-        const cookieStore = cookies()
 
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
-        
-        const data = await supabase.auth.getSession()
+      
 
 
-        if (!data.data.session?.user.id) {
-            return new Response("User is not authenticated", { status: 406 })
-
-        }
+   
 
         // get the post  
         
@@ -150,3 +149,5 @@ export async function GET(req: Request) {
 
     }
 }
+
+

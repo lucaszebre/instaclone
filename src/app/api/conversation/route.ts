@@ -4,20 +4,16 @@ export const dynamicParams = true
 
 
 import prisma, { db } from '@/lib/db';
-import { cookies } from 'next/headers'
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '@/lib/database.type';
+import { auth } from '@/auth';
 
 
 export async function GET(req:Request){
     try {
-        const cookieStore = cookies()
+        const session = await auth()
+  
+        if (!session?.user?.email) throw new Error('Authentication failed');
 
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
-        
-        const data = await supabase.auth.getSession()
-
-        const currentUserId = data.data.session?.user.id;
+        const currentUserId = session?.user.id;
 
         if (!currentUserId) {
             return new Response("User is not authenticated", { status: 406 })
@@ -93,13 +89,11 @@ export async function POST(req:Request){
 
 
 
-        const cookieStore = cookies()
+        const session = await auth()
+  
+        if (!session?.user?.email) throw new Error('Authentication failed');
 
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
-        
-        const data = await supabase.auth.getSession()
-
-        const currentUserId = data.data.session?.user.id;
+        const currentUserId = session?.user.id;
 
         if(!currentUserId){
             return new Response("Unthaurized", { status: 400 })       }

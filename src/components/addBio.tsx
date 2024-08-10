@@ -24,6 +24,9 @@ const AddBio = (props:{src:string,preview:string,setBio:Dispatch<SetStateAction<
   }, [])
 
 
+  console.log("style",imageStyle)
+
+
   const {
     isFetching,
     data,
@@ -58,8 +61,8 @@ const AddBio = (props:{src:string,preview:string,setBio:Dispatch<SetStateAction<
   return (
     <div className='flex flex-row h-full gap-4 justiy-between w-full '>
         <div className="w-[50%] h-full relative">
-        <Image fill
-   style={{ ...imageStyle }} layout="responsive" className="w-full h-full" src={props.src} alt="" />
+        <Image fill={true} objectFit="contain"
+   style={{ ...imageStyle }}   src={props.src} alt="" />
             </div>
         <div className="w-[50%]">
 
@@ -67,9 +70,9 @@ const AddBio = (props:{src:string,preview:string,setBio:Dispatch<SetStateAction<
        
      
         <div className='flex flex-row mb-4 justify-start gap-2'>
-                                    <Avatar className='max-w-[200px] max-h-[200px]'>
-                                        <AvatarImage className='w-[200px] h-[200px]' src={data?.profilePictureUrl?data.profilePictureUrl:"./icon_profile.png"} />
-                                        <AvatarFallback className='h-[200px] w-[200px'>{data?.fullName}</AvatarFallback>
+                                    <Avatar className='max-w-[20px] max-h-[20px]'>
+                                        <AvatarImage className='w-[20px] h-[20px]' src={data?.profilePictureUrl?data.profilePictureUrl:"./icon_profile.png"} />
+                                        <AvatarFallback className='h-[20px] w-[20px'>{data?.fullName}</AvatarFallback>
                                     </Avatar>
                                     <span>{data?.username}</span>
                                 </div>

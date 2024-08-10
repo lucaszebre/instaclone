@@ -3,106 +3,119 @@ export const revalidate = 0;
 export const dynamicParams = true
 
 
+import { auth } from '@/auth';
 import prisma from '@/lib/db';
-import { cookies } from 'next/headers'
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '@/lib/database.type';
 
+export const POST = auth(async (req) => {
 
-export async function POST(req: Request) {
-    try {
-        const url = new URL(req.url)
-        const postId = url.searchParams.get('p');
-        if (!postId) {
-            throw new Error("Need the id ");
-        }
-        const cookieStore = cookies();
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore });
-        const { data: session } = await supabase.auth.getSession();
-        if (!session.session?.user.id) {
-            return new Response("User is not authenticated", { status: 406 })
-
-        }
-
-        // Get the current user's ID
-        const currentUserId = session.session?.user.id;
-        // Check if the user has already liked the post
-        const existingLike = await prisma.like.findFirst({
-            where: {
-                postId: postId,
-                userId: currentUserId,
-            },
-        });
-
-        if (existingLike) {
-            // User has already liked the post, so you can decide whether to handle this case or return an error
-            return new Response('Was already liked at first', { status: 200 });
-        }
-
-        // Create a new like for the post
-        const newLike = await prisma.like.create({
-            data: {
-                postId: postId,
-                userId: currentUserId,
-            },
-        });
-
-        return new Response('like sucessfully', { status: 200 });
-
-    } catch (error) {
-        return new Response('Server error', { status: 500 });
-    }
   
-}
+    let userId=req.auth?.user.id;
 
-export async function DELETE(req: Request) {
     try {
-        const url = new URL(req.url)
-        const postId = url.searchParams.get('p');
-        if (!postId) {
-            throw new Error("Need the id ");
-        }
-        const cookieStore = cookies();
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore });
-        const { data: session } = await supabase.auth.getSession();
-        if (!session.session?.user.id) {
-            return new Response("User is not authenticated", { status: 406 })
-
-        }
-
-        // Get the current user's ID
-        const currentUserId = session.session?.user.id;
-
-        // Check if the user has liked the post
-        const existingLike = await prisma.like.findFirst({
-            where: {
-                postId: postId,
-                userId: currentUserId,
-            },
-        });
-
-        if (!existingLike) {
-            // User has not liked the post, so you can decide whether to handle this case or return an error
-            return new Response('Was not liked at first', { status: 200 });
-
-        }
-
-          // Delete the like to unlike the post using both postId and userId
-        await prisma.like.deleteMany({
-            where: {
-                postId: postId,
-                userId: currentUserId,
-            },
-        });
+        if (userId) {
+    
+            const url = new URL(req.url)
+            const postId = url.searchParams.get('p');
+            if (!postId) {
+                throw new Error("Need the id ");
+            }
+          
+    
+            // Get the current user's ID
+            // Check if the user has already liked the post
+            const existingLike = await prisma.like.findFirst({
+                where: {
+                    postId: postId,
+                    userId
+                },
+            });
+    
+            if (existingLike) {
+                // User has already liked the post, so you can decide whether to handle this case or return an error
+                return new Response('Was already liked at first', { status: 200 });
+            }
+    
+            // Create a new like for the post
+            const newLike = await prisma.like.create({
+                data: {
+                    postId: postId,
+                    userId
+                },
+            });
+    
+            return new Response('like sucessfully', { status: 200 });
+         
+          }
         
-        return new Response('Unlike sucessfully', { status: 200 });
-
+          return Response.json({ message: "Not authenticated" }, { status: 401 })
+        
     } catch (error) {
-        return new Response('Server error', { status: 500 });
+        
+        return new Response('Server error', { status: 500 })
+
     }
 
+ 
+}) as any 
+
+
+
+export const DELETE = auth(async (req) => {
+
   
-}
+    let userId=req.auth?.user.id;
+
+    try {
+        if (userId) {
+    
+            const url = new URL(req.url)
+            const postId = url.searchParams.get('p');
+            if (!postId) {
+                throw new Error("Need the id ");
+            }
+      
+      
+    
+            // Get the current user's ID
+    
+            // Check if the user has liked the post
+            const existingLike = await prisma.like.findFirst({
+                where: {
+                    postId: postId,
+                    userId
+                },
+            });
+    
+            if (!existingLike) {
+                // User has not liked the post, so you can decide whether to handle this case or return an error
+                return new Response('Was not liked at first', { status: 200 });
+    
+            }
+    
+              // Delete the like to unlike the post using both postId and userId
+            await prisma.like.deleteMany({
+                where: {
+                    postId: postId,
+                    userId,
+                },
+            });
+            
+            return new Response('Unlike sucessfully', { status: 200 });
+          }
+        
+          return Response.json({ message: "Not authenticated" }, { status: 401 })
+        
+    } catch (error) {
+        
+        return new Response('Server error', { status: 500 })
+
+    }
+
+ 
+}) as any 
+
+
+
 
 export async function GET(req: Request) {
     try {
@@ -111,13 +124,12 @@ export async function GET(req: Request) {
 
         if (!postId) return new Response('Invalid query', { status: 400 });
 
-        const cookieStore = cookies()
-
-        const supabase = createServerActionClient<Database>({ cookies: () => cookieStore })
+        const session = await auth()
+  
+        if (!session?.user?.email) throw new Error('Authentication failed');
         
-        const data = await supabase.auth.getSession()
       
-        let userId=data.data.session?.user.id
+        let userId=session?.user.id
 
         if(userId===undefined){
             return new Response('Unauthorized', { status: 401 })

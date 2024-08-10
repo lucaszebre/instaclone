@@ -9,7 +9,6 @@ import axios from 'axios'
 import { Usered } from '@/lib/validator/currentUser'
 import dynamic from 'next/dynamic'
 import { notFound, useRouter } from 'next/navigation'
-import { DataContext } from '@/store/datacontext'
 interface PageProps {
   params: {
     slug: string
@@ -17,9 +16,7 @@ interface PageProps {
 }
 
 const Page = ({ params }: PageProps) => {
-  const router = useRouter();
 
-  const {session} = useContext(DataContext)
 
   
   const { slug } = params
@@ -46,10 +43,7 @@ const Page = ({ params }: PageProps) => {
   })
 
 
- if(!session){
-    router.push('/auth')
-   }
-  else
+
 if(slug===currentUser.data?.username){
   return (
     <div className='flex flex-row justify-center w-full'>
