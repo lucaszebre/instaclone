@@ -182,7 +182,7 @@ interface Props {
         <DialogTrigger asChild className="flex w-full">
             {children}
         </DialogTrigger>
-        <DialogContent className={`flex ${step==2? 'max-w-[1000px]':''} ${step==3? 'max-w-[900px]':''} ${step==4? 'max-w-[300px]':''}  flex-col  ${files.length==0 ? 'h-[40%]' : 'h-[80%]'} w-full justify-start items-center content-center text-center`}>
+        <DialogContent className={`flex ${step==2? 'max-w-[1000px]':''} ${step==3? 'max-w-[900px]':''} ${step==4? 'max-w-[300px]':''}  flex-col  ${files.length==0 ? '' : 'h-[80%]'} w-full justify-start items-center content-center text-center`}>
             {
               files.length>0 ? 
               <>
@@ -230,7 +230,7 @@ interface Props {
                     </Button>
                   )}
                 </div>
-                <h1>Drag photos and videos here</h1>
+                <h1 className="block">{`Tap to add photos and videos here`}</h1>
             </div></>
             }
             
