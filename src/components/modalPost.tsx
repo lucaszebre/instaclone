@@ -290,6 +290,8 @@ function ModalPost(props: ModalPostProps) {
                         </div>
                         
                         <InputEmoji
+                          shouldReturn={false}
+                          shouldConvertEmojiToImage={false}
                             inputClass=''
                             value={content}
                             onChange={setContent}

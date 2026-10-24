@@ -281,6 +281,8 @@ const Post = (props:{
                         </div>
                         
                         <InputEmoji
+                          shouldReturn={false}
+                          shouldConvertEmojiToImage={false}
                             inputClass=''
                             value={content}
                             onChange={setContent}
