@@ -238,6 +238,8 @@ import toast from 'react-hot-toast'
     </div>
     <div className='flex w-full flex-row justify-between items-center gap-8'>
     <InputEmoji
+      shouldReturn={false}
+      shouldConvertEmojiToImage={false}
             inputClass=''
             value={text}
             onChange={setText}

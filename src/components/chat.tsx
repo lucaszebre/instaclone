@@ -212,6 +212,8 @@ const Chat: FC<MessagesProps> = ({
       <div className='flex  flex-row justify-between mb-14 md:mb-0 align-center w-[100%] h-[80px] p-3'>
 
       <InputEmoji
+        shouldReturn={false}
+        shouldConvertEmojiToImage={false}
       
             inputClass=''
             value={input}
