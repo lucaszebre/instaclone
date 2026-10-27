@@ -3,12 +3,10 @@
 
 
 
-import React, { useContext } from 'react';
+import React from 'react';
 
-import {  useRouter } from 'next/navigation';
 import SideProfile from '@/components/sideProfile';
 import Feed from '@/components/feed';
-import { useQuery } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
