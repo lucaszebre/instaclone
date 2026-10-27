@@ -4,22 +4,20 @@
 import Profile from '@/components/profile'
 import { useQuery } from '@tanstack/react-query'
 import ProfileCurrent from '@/components/profileCurrent'
-import React, { useContext } from 'react'
+import React, { use, useContext } from 'react'
 import axios from 'axios'
 import { Usered } from '@/lib/validator/currentUser'
 import dynamic from 'next/dynamic'
 import { notFound, redirect, useRouter } from 'next/navigation'
 interface PageProps {
-  params: {
-    slug: string
-  }
+  params: Promise<{ slug: string }>
 }
 
 const Page = ({ params }: PageProps) => {
 
 
   
-  const { slug } = params
+  const { slug } = use(params)
 
   const currentUser =useQuery({
     queryFn: async () => {

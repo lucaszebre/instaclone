@@ -6,7 +6,7 @@ export const runtime = 'nodejs'
 import prisma from '@/lib/db';
 
 
-export async function POST(req: Request,res: Response) {
+export async function POST(req: Request) {
     
     try {
         const result = await prisma.user.updateMany({

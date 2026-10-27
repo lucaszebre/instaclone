@@ -4,15 +4,14 @@ import Post from '@/components/post'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import dynamic from 'next/dynamic'
+import { use } from 'react'
 
 interface PageProps {
-  params: {
-    slug: string
-  }
+  params: Promise<{ slug: string }>
 }
 const Page =  ({ params }: PageProps) => {
 
-  const { slug } = params
+  const { slug } = use(params)
 
   const { isLoading, data, isError } =useQuery({
     queryFn: async () => {

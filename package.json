@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "postinstall": "prisma generate"
   },
   "dependencies": {
@@ -45,15 +45,15 @@
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.424.0",
     "nanoid": "^5.0.2",
-    "next": "^14.2.5",
+    "next": "16.4.3",
     "next-auth": "^5.0.0-beta.20",
     "next-themes": "^0.2.1",
     "next13-progressbar": "^1.1.0",
     "pusher": "^5.2.0",
     "pusher-js": "^8.4.0-rc2",
     "qrcode": "^1.5.3",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
     "react-easy-crop": "^5.0.5",
     "react-hook-form": "^7.47.0",
     "react-hot-toast": "^2.4.1",
@@ -80,12 +80,12 @@
     "@types/lodash.debounce": "^4.0.9",
     "@types/node": "^20",
     "@types/qrcode": "^1.5.5",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
     "@types/uuid": "^9.0.6",
     "autoprefixer": "^10.0.1",
-    "eslint": "^8",
-    "eslint-config-next": "^14.2.35",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.4.3",
     "postcss": "^8",
     "prisma": "^5.22.0",
     "tailwindcss": "^3.3.0",
@@ -93,5 +93,19 @@
   },
   "resolutions": {
     "react-countup/countup.js": "2.5.0"
+  },
+  "overrides": {
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@uploadthing/react": {
+      "react": "$react"
+    },
+    "react-query": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    },
+    "react-top-loading-bar": {
+      "react": "$react"
+    }
   }
 }

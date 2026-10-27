@@ -4,7 +4,7 @@ import { Conversation } from '@/lib/validator/convertation'
 import { Usered } from '@/lib/validator/currentUser'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import React, { useContext, useEffect } from 'react'
+import React, { use, useContext, useEffect } from 'react'
 import CardSideProfile from '@/components/cardSideProfile';
 import NewMessage from '@/components/newMessage';
 import { useState } from 'react';
@@ -13,9 +13,7 @@ import { useRouter } from 'next/navigation'
 import useScreenSize from '@/hooks/useScreenSize';
 
 interface PageProps {
-    params: {
-        slug: string
-    }
+    params: Promise<{ slug: string }>
 }
 
 
@@ -51,7 +49,7 @@ const Page = ({ params }: PageProps) => {
         },[screenSize])
     
 
-    const { slug } = params
+    const { slug } = use(params)
 
 
     const conv = useQuery({
